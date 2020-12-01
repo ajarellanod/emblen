@@ -32,3 +32,16 @@ Nota: Verificar con el comando `dir` si en la ruta donde estas se encuentra el a
 1. `python manage.py migrate`
 2. `python manage.py createsuperuser` - Este comando crea un super usuario que puedes darle el nombre que prefieras.
 3. `python manage.py runserver` - La consola creara un servidor en http://127.0.0.1:8000/, si cierras la consola se detendra el servidor.
+
+---
+
+## Como crear Base de Datos
+
+1. Instalar PostgreSQL.
+2. Guardar la clave de dicha instalación para su posterior uso.
+3. Agregar la carpeta bin a las variables de entorno de windows.
+4. Seguir paso a paso los siguientes comandos en la cmd de windows.
+    1. `psql -U postgres` -> Ingresar clave del paso 2.
+    2. `create database emblendb;`
+    3. `create user emblen with encrypted password '3mbl3n';`
+    4. `grant all privileges on database emblendb to emblen;`
