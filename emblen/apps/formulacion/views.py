@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import View
 
 # Create your views here.
 #from django.views.generic import TemplateView
@@ -6,11 +7,10 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from .models import Partida
 
-class formulacion():
-    #template_name = "formulacion/principal.html"
+class PartidaView(View):
+    
+    template_name = "formulacion/principal.html"
 
-    def partida_lista(request):
-        partidas = Partida.objects.filter(estatus="1")
-        return render(request,
-                    'formulacion/principal.html',
-                    {'partidas': partidas})
+    def get(self, request):
+        partidas = Partida.objects.filter(estatus=True)
+        return render(request, self.template_name, {'partidas': partidas})
