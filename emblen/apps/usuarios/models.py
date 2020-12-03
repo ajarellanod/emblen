@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 
 from apps.base.models import TimeStampedModel
 
-from apps.nucleo.models import Modulo
+from apps.nucleo.models import Opcion
 
 
 class Perfil(TimeStampedModel):
     """
-    Clase para agregar nuevos atributos a la clase principal User de Django.
+    Modelo para agregar nuevos atributos a la clase principal User de Django.
     """
 
     usuario = models.OneToOneField(
@@ -24,22 +24,27 @@ class Perfil(TimeStampedModel):
     def __str__(self):
         return self.usuario.username
 
+    class Meta:
+        verbose_name_plural = "Perfiles"
+
 
 class Rol(models.Model):
     """
-    Clase para manejar los roles de cada usuario dentro del sistema.
+    Modelo para manejar los roles de cada usuario dentro del sistema.
     """
     
     nombre = models.CharField("Nombre", max_length=50)
 
     descripcion = models.CharField("Descripción", max_length=200)
 
-    modulo = models.ForeignKey(
-        Modulo,
+    opciones = models.ManyToManyField(
+        Opcion,
         related_name="roles",
-        on_delete=models.CASCADE,
-        verbose_name="Modulos",
+        verbose_name="Opciones Disponibles",
     )
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name_plural = "Roles"

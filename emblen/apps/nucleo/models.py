@@ -3,7 +3,7 @@ from django.db import models
 
 class Modulo(models.Model):
     """
-    Clase donde se registraran todos los modulos disponibles en el sistema.
+    Modelo donde se registra todos los modulos disponibles en el sistema.
     """
 
     nombre = models.CharField("Nombre", max_length=50)
@@ -12,3 +12,18 @@ class Modulo(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class Opcion(models.Model):
+    """
+    Modelo donde se registra todos las opciones de cada modulo disponibles en el sistema.
+    """
+
+    nombre = models.CharField("Nombre", max_length=200)
+
+    modulo = models.ForeignKey(
+        Modulo,
+        related_name="opciones",
+        on_delete=models.CASCADE,
+        verbose_name="Modulo",
+    )
