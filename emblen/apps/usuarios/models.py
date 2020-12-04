@@ -22,7 +22,7 @@ class Perfil(TimeStampedModel):
     )
 
     def __str__(self):
-        return self.usuario.username
+        return self.usuario.get_full_name()
 
     class Meta:
         verbose_name_plural = "Perfiles"

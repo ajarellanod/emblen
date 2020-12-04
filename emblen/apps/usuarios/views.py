@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+
+from braces.views import LoginRequiredMixin
 
 
 class LoginView(View):
@@ -24,11 +24,10 @@ class LoginView(View):
             login(request, user)
             return redirect("/exitoso/")
         else:
-            return render(request, self.template_name)
+            return render(request, self.template_name, {"error": True})
 
 
-@method_decorator(login_required, name="dispatch")
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect("usuarios:login")
