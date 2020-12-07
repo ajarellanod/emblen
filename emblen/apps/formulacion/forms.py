@@ -21,6 +21,12 @@ class PartidaForm(forms.ModelForm):
             'nivel': 'Nivel',
             'saldo': 'Saldo',
         }
+        
+        error_messages  = {
+            'cuenta': {
+                'unique': ('La cuenta ya existe, por favor verifique.')
+            }
+        }
 
         def __init__(self, *args, **kwargs):
             super(PartidaForm, self).__init__(*args, **kwargs)

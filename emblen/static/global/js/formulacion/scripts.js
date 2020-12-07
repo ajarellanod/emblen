@@ -33,6 +33,14 @@ $(document).ready(function () {
         partidaN[nivel]=dict[i]['value'];
       }
     }
+    if(nivel===7){
+      if (partidaN[7]!=0){
+        $('#id_cuenta_mensaje').html("<strong style='color:red;'>"+partida+" - PARTIDA REGISTRADA</strong>");
+      }
+      else{
+        $('#id_cuenta_mensaje').html(""); 
+      }
+    }
 
     if(partidaN[nivel]===0){
       partidaN[nivel]="<strong style='color:red;'>"+partida+" - PARTIDA NO REGISTRADA</strong>";
@@ -112,6 +120,11 @@ $(document).ready(function () {
       codigo_partida= $("#id_cuenta").val();
       digitos=codigo_partida.length;
     }
+
+    //
+    partida=codigo_partida;
+    revisa_Partida(partida,dict,7);
+
     numeroNivel=0;
     if( codigo_partida.substr(0,1)!='0' ){
       numeroNivel=1;
