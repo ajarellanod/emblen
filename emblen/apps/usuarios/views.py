@@ -1,9 +1,17 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 
+from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
+
+class HomeView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,View):
+    permissions = {
+        "all": ("formulacion.view_partida",)
+    }
+    template_name = "principal.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
 
 class LoginView(View):
 
@@ -11,7 +19,7 @@ class LoginView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/exitoso/")
+            return redirect("/home/")
         else:
             return render(request, self.template_name)
 
@@ -22,13 +30,12 @@ class LoginView(View):
 
         if user and user.is_active:
             login(request, user)
-            return redirect("/exitoso/")
+            return redirect("usuarios:home")
         else:
-            return render(request, self.template_name)
+            return render(request, self.template_name, {"error": True})
 
 
-@method_decorator(login_required, name="dispatch")
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect("usuarios:login")

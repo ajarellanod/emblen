@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="/formulacion"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item"><a href="/formulacion">Formulación</a></li>
+  <li class="breadcrumb-item"><a href="#">Eliminación de Partida</a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+<div class="row">
+  <!-- Light table -->
+  <div class="col">
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header border-0">
+        <h3 class="mb-0">Partida Presupuestaria: {{partida.cuenta}}</h3>
+      </div>
+
+      <!-- Light table -->
+      <div class="table-responsive" id="tablaPartidas">
+        <table class="table align-items-center table-flush table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class="sort" style="width: 5%;" data-sort="nivel">Nivel</th>
+              <th scope="col" class="sort" style="width: 20%;" data-sort="cuenta">Cuenta</th>
+              <th scope="col" class="sort" style="width: 45%;" data-sort="descripcion">Descripción</th>
+              <th scope="col" class="sort " style="width: 25%;" data-sort="saldo">Saldo</th>
+              <th scope="col" class="" style="width: 5%;" ></th>
+            </tr>
+          </thead>
+          <tbody id="partidaNew2">
+
+          </tbody>
+          <tbody class="list" id="partidaNew" >
+         
+            <form class="validate-form" method="POST">
+              {% csrf_token %}
+
+              <tr id="partidaNew3" class="">
+                <td class="nivel">
+                  <input type="text" name="nivel" value="{{ object.nivel }}" readonly="readonly" class="form-control form-control-alternative" required="" id="id_nivel">
+                </td>
+                <th class="cuenta">
+                  <input type="text" name="cuenta" value="{{ object.cuenta }}" maxlength="14" placeholder="Partida" class="form-control form-control-alternative" required="" id="id_cuenta" readonly="readonly">
+                </th>
+                <td class="descripcion">
+                  <input type="text" name="descripcion" value="{{ object.descripcion }}" placeholder="Descripción de Partida" class="form-control form-control-alternative" required="" id="id_descripcion" readonly="readonly">
+                </td>
+                <td class="saldo">
+                  <input type="number" name="saldo" value="{{ object.saldo }}" step="0.0001" placeholder="Saldo" class="form-control form-control-alternative" required="" id="id_saldo" readonly="readonly">
+                </td>
+                <td class="">
+                  <div class="text-center">
+                    <button type="submit" href="#" class="btn btn-sm btn-primary">Eliminar</button>
+                    <a href="../../formulacion/partidas" class="btn btn-sm btn-primary">Cancelar</a>
+                  </div>
+                </td>
+              </tr>
+
+            <tr id="tr_relacion_partidas" class="d-none">
+              <td colspan="5">
+                <div class="media align-items-center">
+                  <div class="media-body">
+                    <label>Relaciones de Partidas</label>
+                      <div id="relacion_partidas" >
+
+                      </div>
+                    </div>
+                  </div>
+              </td>
+              <select name="cuenta" maxlength="14" class="form-control form-control-alternative d-none" id="partida_N1" disabled >
+                {% for partida in partidas %}
+                  <option value="{{ partida.cuenta }}">{{partida.cuenta}} - {{partida.descripcion }}</option>
+                {% endfor %}
+              </select>
+
+            </tr>
+
+          </form>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

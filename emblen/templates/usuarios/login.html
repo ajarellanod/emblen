@@ -141,6 +141,11 @@
               <div class="text-center mb-1">
                 <strong>Inicia Sesión</strong>
               </div><br>
+              {% if error %}
+                <div class="alert alert-default" role="alert">
+                  <strong>Error en Inicio de Sesión</strong> verifica el usuario y contraseña!
+                </div>
+              {% endif %}
               <form role="form" method="POST" action="."> {% csrf_token %}
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">

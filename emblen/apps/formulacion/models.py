@@ -7,15 +7,15 @@ from apps.base.models import TimeStampedModel
 class Partida(TimeStampedModel):
     """ Almanecena las partidas presupuestarias de Recursos y Egresos """
     
-    cuenta = models.CharField(max_length=14)
+    cuenta = models.CharField(max_length=14,unique=True)
 
     descripcion = models.TextField()
 
     nivel = models.IntegerField()
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=4)
+    saldo = models.DecimalField(max_digits=22,decimal_places=4,null=True)
 
-    estatus = models.BooleanField()
+    estatus = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-creado',)
