@@ -15,7 +15,12 @@ class FormulacionView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View
         "all": ("formulacion.view_partida",)
     }
 
+
     template_name = "formulacion/principal.html"
+    
+    permissions = {
+        "all": ("formulacion.view_partida",)
+    }
 
     def get(self, request):
         return render(request, self.template_name)
@@ -78,3 +83,4 @@ class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, De
     template_name = "formulacion/partidaD.html"
 
     success_url = reverse_lazy('/formulacion/')
+

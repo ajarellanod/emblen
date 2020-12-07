@@ -13,6 +13,7 @@ class PartidaForm(forms.ModelForm):
             'nivel': forms.TextInput(attrs={'readonly': 'readonly'}),
             # 'cuenta': forms.TextInput(attrs={'pattern':'\d*','max': '14'}),
             'cuenta': forms.NumberInput(attrs={'pattern':'\d*','max': '99999999999999'}),
+
         }
 
         labels = {
@@ -27,6 +28,7 @@ class PartidaForm(forms.ModelForm):
                 'unique': ('La cuenta ya existe, por favor verifique.')
             }
         }
+
 
         def __init__(self, *args, **kwargs):
             super(PartidaForm, self).__init__(*args, **kwargs)

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 
+from braces.views import LoginRequiredMixin
+
+
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
 
 class HomeView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,View):
