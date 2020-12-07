@@ -5,13 +5,24 @@ from django.contrib.auth import login, authenticate, logout
 from braces.views import LoginRequiredMixin
 
 
+from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
+
+class HomeView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,View):
+    permissions = {
+        "all": ("formulacion.view_partida",)
+    }
+    template_name = "principal.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
 class LoginView(View):
 
     template_name = "usuarios/login.html"
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/exitoso/")
+            return redirect("/home/")
         else:
             return render(request, self.template_name)
 
@@ -22,7 +33,7 @@ class LoginView(View):
 
         if user and user.is_active:
             login(request, user)
-            return redirect("/exitoso/")
+            return redirect("usuarios:home")
         else:
             return render(request, self.template_name, {"error": True})
 

@@ -10,6 +10,8 @@ class PartidaForm(forms.ModelForm):
 
         widgets = {
             'descripcion': forms.TextInput(),
+            'nivel': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'cuenta': forms.NumberInput(attrs={'pattern':'\d*','max': '99999999999999'}),
         }
 
         labels = {
@@ -18,6 +20,13 @@ class PartidaForm(forms.ModelForm):
             'nivel': 'Nivel',
             'saldo': 'Saldo',
         }
+        
+        error_messages  = {
+            'cuenta': {
+                'unique': ('La cuenta ya existe, por favor verifique.')
+            }
+        }
+
 
         def __init__(self, *args, **kwargs):
             super(PartidaForm, self).__init__(*args, **kwargs)
