@@ -1,5 +1,16 @@
 from django.contrib import admin
 
-# Register your models here.
-from .models import Partida
-admin.site.register(Partida)
+from apps.formulacion import models
+
+
+admin.site.register(models.Sector)
+
+admin.site.register(models.Dependencia)
+
+admin.site.register(models.Departamento)
+
+admin.site.register(models.Proyecto)
+
+admin.site.register(models.AccionEspecifica)
+
+admin.site.register(models.Partida)

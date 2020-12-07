@@ -1,3 +1,6 @@
+## Project ##
+emblen/static/global/vendor/
+
 ### Django ###
 *.log
 *.pot
