@@ -3,17 +3,11 @@
 {% load widget_tweaks %}
 
 {% block menu %}
-  {% include 'formulacion/menu.html' %}  
+  {% include 'usuarios/menu.html' %}
 {% endblock menu %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'formulacion:principal' %}">
-        <i class="fas fa-home"></i>
-      </a>
-    </li>
-    
-    <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
+    <li class="breadcrumb-item"><a href="/">EMBLEN</a></li>
 {% endblock breadcrumb %}
 
 {% block info_cards %}

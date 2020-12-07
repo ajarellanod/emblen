@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
 
+{% load static %}
+
 {% load widget_tweaks %}
 
 {% block menu %}
@@ -7,8 +9,8 @@
 {% endblock menu %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'formulacion' %}"><i class="fas fa-home"></i></a></li>
-  <li class="breadcrumb-item"><a href="{% url 'formulacion' %}">Formulación</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
   <li class="breadcrumb-item"><a href="#">Partidas Presupuestarias</a></li>
 {% endblock breadcrumb %}
 
@@ -19,9 +21,13 @@
     <div class="card">
       <!-- Card header -->
       <div class="card-header border-0">
-        <h3 class="mb-0">Partidas Presupuestarias</h3>
-        <div class="offset-8 col-4 text-right">
-          <a id="btn_partidaNew" href="#" class="btn btn-sm btn-primary">Nueva</a>
+        <div class="row align-items-center">
+          <div class="col-6">
+            <h3 class="mb-0">Partidas Presupuestarias</h3>
+          </div>
+          <div class="col-6 text-right">
+            <a id="btn_partidaNew" href="#" class="btn btn-sm btn-primary">Nueva</a>
+          </div>
         </div>
       </div>
 
@@ -115,8 +121,12 @@
                       <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="{% url 'formulacion:actualizar_partida' %}">Modificar</a>
-                      <a class="dropdown-item" href="{% url 'formulacion:eliminar_partida' %}">Eliminar</a>
+                      <a class="dropdown-item" href="{% url 'formulacion:actualizar_partida' partida.id %}">
+                        Modificar
+                      </a>
+                      <a class="dropdown-item" href="{% url 'formulacion:eliminar_partida' partida.id %}">
+                        Eliminar
+                      </a>
                     </div>
                   </div>
                 </td>
@@ -170,5 +180,8 @@
     </div>
   </div>
 </div>
-
 {% endblock body %}
+
+{% block script %}
+  <script src="{% static 'formulacion/js/scripts.js' %}"></script>
+{% endblock script %}

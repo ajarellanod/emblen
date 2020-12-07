@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic.edit import UpdateView,DeleteView
 from django.urls import reverse_lazy 
@@ -10,11 +10,7 @@ from apps.formulacion.models import Partida
 from apps.formulacion.forms import PartidaForm
 
 
-class FormulacionView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
-    
-    permissions = {
-        "all": ("formulacion.view_partida",)
-    }
+class PrincipalView(LoginRequiredMixin, View):
 
     template_name = "formulacion/principal.html"
 

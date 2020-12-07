@@ -2,19 +2,16 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, authenticate, logout
 
-from braces.views import LoginRequiredMixin
-
-
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
 
-class HomeView(LoginRequiredMixin, MultiplePermissionsRequiredMixin,View):
-    permissions = {
-        "all": ("formulacion.view_partida",)
-    }
-    template_name = "principal.html"
+
+class PrincipalView(LoginRequiredMixin, View):
+
+    template_name = "usuarios/principal.html"
 
     def get(self, request):
         return render(request, self.template_name)
+
 
 class LoginView(View):
 
@@ -22,7 +19,7 @@ class LoginView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/home/")
+            return redirect("usuarios:principal")
         else:
             return render(request, self.template_name)
 
@@ -33,7 +30,7 @@ class LoginView(View):
 
         if user and user.is_active:
             login(request, user)
-            return redirect("usuarios:home")
+            return redirect("usuarios:principal")
         else:
             return render(request, self.template_name, {"error": True})
 
