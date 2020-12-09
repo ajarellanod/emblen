@@ -107,28 +107,21 @@
                   </div>
                 </td>
 
-                <td class="descripcion">
+                <td class="descripcion text-center">
                   {{ partida.descripcion }}
                 </td>
 
-                <td class="saldo text-right"> 
+                <td class="saldo text-center"> 
                   {{ partida.saldo|floatformat:2 }}
                 </td>
 
                 <td class="text-right">
-                  <div class="dropdown">
-                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="{% url 'formulacion:actualizar_partida' partida.id %}">
-                        Modificar
-                      </a>
-                      <a class="dropdown-item" href="{% url 'formulacion:eliminar_partida' partida.id %}">
-                        Eliminar
-                      </a>
-                    </div>
-                  </div>
+                  <a href="{% url 'formulacion:actualizar_partida' partida.id %}" class="btn btn-sm btn-primary">
+                    Modificar
+                  </a>
+                  <a href="{% url 'formulacion:eliminar_partida' partida.id %}" class="btn btn-sm btn-default">
+                    Eliminar
+                  </a>
                 </td>
               </tr>
             {% endfor %}

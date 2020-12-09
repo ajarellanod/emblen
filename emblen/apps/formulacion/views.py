@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic.edit import UpdateView,DeleteView
+from django.views.generic.edit import UpdateView, DeleteView, FormMixin
+from django.views.generic import ListView
 from django.urls import reverse_lazy 
 from django.core.paginator import Paginator
 
@@ -18,37 +19,34 @@ class PrincipalView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 
-class PartidaView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
-    
-    template_name = "formulacion/partida.html"
-    
+class PartidaView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, FormMixin, ListView):
+
+    # MultiplePermissionsRequiredMixin
     permissions = {
         "all": ("formulacion.view_partida",)
     }
 
-    def get(self, request):
-        partidas = Partida.objects.filter(estatus=True)
-        partida_form = PartidaForm()
-        paginator = Paginator(partidas, 5)
+    # ListView
+    queryset = Partida.objects.filter(estatus=True)
+    context_object_name = "partidas"
+    paginate_by = 5
 
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+    # FormMixin
+    form_class = PartidaForm
 
-        return render(request, self.template_name, {'partidas': partidas, 'form': partida_form,'page_obj': page_obj})
+    # ListView y FormMixin
+    template_name = "formulacion/partida.html"
+    success_url = "formulacion:partidas"
 
+    # Metodo Propio - ListView no permite metodo POST
     def post(self, request):
-        form= PartidaForm(request.POST)
+        
+        form = self.form_class(request.POST)
+
         if form.is_valid():
             form.save()
 
-        partidas = Partida.objects.filter(estatus=True)
-        partida_form = PartidaForm()
-        paginator = Paginator(partidas, 5)
-
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-        return render(request, self.template_name, {'partidas': partidas, 'form': partida_form,'page_obj': page_obj})
+        return redirect(self.success_url)
 
 
 class PartidaUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UpdateView): 
@@ -63,7 +61,7 @@ class PartidaUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, Up
 
     template_name = "formulacion/partidaU.html"
 
-    success_url = reverse_lazy('formulacion:formulacion')
+    success_url = reverse_lazy('formulacion:partidas')
 
 
 class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, DeleteView):
@@ -78,5 +76,5 @@ class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, De
 
     template_name = "formulacion/partidaD.html"
 
-    success_url = reverse_lazy('formulacion:formulacion')
+    success_url = reverse_lazy('formulacion:partidas')
 

@@ -1,5 +1,7 @@
 {% extends 'base/base.html' %}
 
+{% load static %}
+
 {% load widget_tweaks %}
 
 {% block menu %}
@@ -74,5 +76,8 @@
     </div>
   </div>
 </div>
-
 {% endblock body %}
+
+{% block script %}
+  <script src="{% static 'formulacion/js/scripts.js' %}"></script>
+{% endblock script %}
