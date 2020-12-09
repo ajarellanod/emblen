@@ -124,6 +124,16 @@ class Partida(TimeStampedModel):
     Almanecena las partidas presupuestarias de Recursos y Egresos.
     """
     
+    NIVELES = {
+        1: 0,
+        2: 3,
+        3: 5,
+        4: 7,
+        5: 9,
+        6: 11,
+        7: 14
+    }
+    
     cuenta = models.CharField(max_length=14,unique=True)
 
     descripcion = models.TextField()
@@ -134,10 +144,24 @@ class Partida(TimeStampedModel):
 
     estatus = models.BooleanField(default=True)
 
+    @staticmethod
+    def obten_hijos(pk):
+        
+        # First query
+        principal_object = Partida.objects.filter(pk=pk).first()
+        
+        # Resolving the information
+        must_start = principal_object.cuenta[0:Partida.NIVELES[principal_object.nivel]]
+        nivel = principal_object.nivel + 1
+        
+        # Getting the correct info
+        related_objects = Partida.objects.filter(nivel=nivel, cuenta__startswith=must_start)
+        
+        return related_objects
+        
 
     class Meta:
         ordering = ('-creado',)
-
 
     def __str__(self):
         return self.descripcion
