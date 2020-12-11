@@ -11,7 +11,7 @@ class AltModelChoiceField(forms.ModelChoiceField):
 
 class PartidaForm(forms.ModelForm):
     
-    codigo_uno = AltModelChoiceField(queryset=Partida.objects.filter(estatus=True, nivel=1).annotate(nueva_cuenta=Substr('cuenta', 1, 2)));
+    codigo_uno = AltModelChoiceField(queryset=Partida.objects.filter(estatus=True, nivel=1).annotate(nueva_cuenta=Substr('cuenta', 1, 1)));
     
     class Meta:
         model = Partida

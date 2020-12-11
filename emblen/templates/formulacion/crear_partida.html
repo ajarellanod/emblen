@@ -30,55 +30,39 @@
           <div class="row">
             <div class="col-lg-1">
                 <div class="form-group">
-                  <label class="form-control-label" for="input-username">Nivel 1</label>
-                  {% render_field form.codigo_uno class="form-control" %}
+                  <label class="form-control-label " for="input-username">Nivel 1</label>
+                  {% render_field form.codigo_uno class="form-control selects_partidas" %}
                 </div>
               </div>
             <div class="col-lg-1">
                 <div class="form-group">
                     <label class="form-control-label" for="input-country">Nivel 2</label>
-                    <select class="form-control">
+                    <select class="form-control selects_partidas" id="id_codigo_dos">
                         <option class="form-control">-------</option>
-                        <option class="form-control">1</option>
-                        <option class="form-control">2</option>
-                        <option class="form-control">3</option>
-                        <option class="form-control">4</option>
                     </select>
                 </div>
             </div>
             <div class="col-lg-1">
                 <div class="form-group">
                     <label class="form-control-label" for="input-country">Nivel 3</label>
-                    <select class="form-control">
+                    <select class="form-control  selects_partidas" id="id_codigo_tres">
                         <option class="form-control">-------</option>
-                        <option class="form-control">1</option>
-                        <option class="form-control">2</option>
-                        <option class="form-control">3</option>
-                        <option class="form-control">4</option>
                     </select>
                 </div>
             </div>
             <div class="col-lg-1">
                 <div class="form-group">
                     <label class="form-control-label" for="input-country">Nivel 4</label>
-                    <select class="form-control">
+                    <select class="form-control selects_partidas" id="id_codigo_cuatro">
                         <option class="form-control">-------</option>
-                        <option class="form-control">1</option>
-                        <option class="form-control">2</option>
-                        <option class="form-control">3</option>
-                        <option class="form-control">4</option>
                     </select>
                 </div>
             </div>
             <div class="col-lg-1">
                 <div class="form-group">
                     <label class="form-control-label" for="input-country">Nivel 5</label>
-                    <select class="form-control">
+                    <select class="form-control selects_partidas" id="id_codigo_cinco">
                         <option class="form-control">-------</option>
-                        <option class="form-control">1</option>
-                        <option class="form-control">2</option>
-                        <option class="form-control">3</option>
-                        <option class="form-control">4</option>
                     </select>
                 </div>
             </div>
@@ -132,17 +116,76 @@
 {% block script %}
   <script>
 
-    function updateSelect(data){
-        
-        data.forEach(function(object){
-            
-            console.log(object);
+    function updateSelect(data,id){
+      // console.log(typeof data);
+      // console.log("id:  "+id);
+      Fdata=JSON.parse(data);
+      let id_siguiente='';
+      let inicio,fin;
+      switch (id){
+        case 'id_codigo_uno':
+          id_siguiente='id_codigo_dos';
+          inicio=1;
+          fin=3;
+          break;
+        case 'id_codigo_dos':
+          id_siguiente='id_codigo_tres';
+          inicio=3;
+          fin=5;              
+          break;
+        case 'id_codigo_tres':
+          id_siguiente='id_codigo_cuatro';
+          inicio=5;
+          fin=7;              
+          break;          
+        case 'id_codigo_cuatro':
+          id_siguiente='id_codigo_cinco';
+          inicio=7;
+          fin=9;              
+          break;          
+        default:
+          id_siguiente='id_codigo_uno';
+          inicio=1;
+          fin=3;
+      }
 
-        });
+      function reset_Select(select){
+        $('#'+select).empty();
+        $('#'+select).html($('<option/>', {
+          text: '------',
+          value: '',
+        }));
+      }
+      reset_Select(id_siguiente);
+      if(id==='id_codigo_uno'){
+        $('#id_codigo_uno option')[0].disabled = true;
+      }
+      if(id_siguiente==='id_codigo_dos'){
+        reset_Select('id_codigo_dos');
+        reset_Select('id_codigo_tres');
+        reset_Select('id_codigo_cuatro');
+        reset_Select('id_codigo_cinco');
+      }
+
+
+      
+      
+      $('#'+id_siguiente+' option')[0].disabled = true;
+
+      Fdata.forEach(function(object){
+        console.log(object);
+        let $lider_list = $('#'+id_siguiente+' option');
+
+        $('#'+id_siguiente).append($('<option />', {
+          text: object['fields'].cuenta.slice(inicio,fin),
+          value: object['pk'],
+        }));
+
+      });
         
     }
 
-    function postQuery(url, data, callback=false){
+    function postQuery(url, data, callback=false,id){
         $.ajax({
           type: "POST",
           url: url,
@@ -153,7 +196,7 @@
           },
           success: function(data){
             if(callback){
-                callback(data);
+                callback(data,id);
             }else{
                 return data
             }
@@ -165,11 +208,21 @@
     }
 
     $(document).ready(function(){
+      
+      $('.selects_partidas').on('change', function() {
+        let id=$(this).attr("id");
 
-        $('#id_codigo_uno').on('change', function() {
-            let pk = $("#id_codigo_uno").val();
-            data = postQuery("{% url 'formulacion:crear_partida' %}", pk, updateSelect);
-        });
+        if (id != 'id_codigo_cinco'){
+          let pk = $("#"+id).val();
+          data = postQuery("{% url 'formulacion:crear_partida' %}", pk, updateSelect,id);
+        }
+
+      });
+
+        // $('#id_codigo_uno').on('change', function() {
+        //     let pk = $("#id_codigo_uno").val();
+        //     data = postQuery("{% url 'formulacion:crear_partida' %}", pk, updateSelect);
+        // });
 
     });
   </script>
