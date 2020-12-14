@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% load widget_tweaks %}
+{% load static %}
 
 {% block menu %}
   {% include 'formulacion/menu.html' %}  
@@ -8,6 +8,8 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:partidas' %}">Lista de Partidas</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Creación de Partida</i></a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -28,82 +30,78 @@
         <h6 class="heading-small text-muted mb-4">Crear Partida Presupuestaria</h6>
         <div class="pl-lg-4">
           <div class="row">
-            <div class="col-lg-1">
+            <div class="col">
                 <div class="form-group">
-                  <label class="form-control-label " for="input-username">Nivel 1</label>
-                  {% render_field form.codigo_uno class="form-control selects_partidas" %}
+                  <label class="form-control-label" for="id_codigo_uno">Partida</label>
+                  <select class="form-control selectsPartidas" id="id_codigo_uno" step="0">
+                    <option class="form-control">-------</option>
+                    {% for partida in partidas %}
+                      <option class="form-control" value="{{ partida.id }}">
+                        {{ partida.option }}
+                      </option>
+                    {% endfor %}
+                  </select>
                 </div>
               </div>
-            <div class="col-lg-1">
+            <div class="col">
                 <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 2</label>
-                    <select class="form-control selects_partidas" id="id_codigo_dos">
-                        <option class="form-control">-------</option>
+                    <label class="form-control-label" for="id_codigo_dos">Ramo</label>
+                    <select class="form-control selectsPartidas" id="id_codigo_dos" step="1">
+                      <option class="form-control">-------</option>
                     </select>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 3</label>
-                    <select class="form-control  selects_partidas" id="id_codigo_tres">
-                        <option class="form-control">-------</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 4</label>
-                    <select class="form-control selects_partidas" id="id_codigo_cuatro">
-                        <option class="form-control">-------</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 5</label>
-                    <select class="form-control selects_partidas" id="id_codigo_cinco">
-                        <option class="form-control">-------</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 6</label>
-                    <input type="text" id="input-country" class="form-control" maxlength="2" placeholder="Nivel 2">
-                </div>
-            </div>
-            <div class="col-lg-1">
-                <div class="form-group">
-                    <label class="form-control-label" for="input-country">Nivel 7</label>
-                    <input type="text" id="input-country" class="form-control" maxlength="3" placeholder="Nivel 3">
                 </div>
             </div>
             <div class="col">
-              <div class="form-group">
-                <label class="form-control-label" for="input-email">Cuenta Completa</label>
-                {% render_field form.cuenta class="form-control" placeholder="Partida" %}
-              </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="id_codigo_tres">General</label>
+                    <select class="form-control selectsPartidas" id="id_codigo_tres" step="2">
+                      <option class="form-control">-------</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label" for="id_codigo_cuatro">Especifico</label>
+                    <select class="form-control selectsPartidas" id="id_codigo_cuatro" step="3">
+                      <option class="form-control">-------</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="form-control-label" for="id_codigo_cinco">Sub Especifico</label>
+                    <select class="form-control selectsPartidas" id="id_codigo_cinco" step="4">
+                      <option class="form-control">-------</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                  <label class="form-control-label" for="id_codigo_seis">Auxiliar</label>
+                  <input type="text" id="id_codigo_seis" class="form-control" maxlength="3" placeholder="Aux">
+                </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-1">
-                <div class="form-group">
-                  <label class="form-control-label" for="input-username">{{ form.nivel.label }}</label>
-                  {% render_field form.nivel class="form-control form-control-alternative" %}
-                </div>
-            </div>
-            <div class="col-lg-6">
+            <div class="col">
               <div class="form-group">
-                <label class="form-control-label" for="input-last-name">{{ form.saldo.label }}</label>
-                {% render_field form.saldo class="form-control" placeholder="Saldo" %}
+                <label class="form-control-label" for="id_cuenta">Visualización de Partida Completa</label>
+                <input type="text" id="id_cuenta" name="cuenta" readonly="" class="form-control">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_saldo">Saldo de la Partida</label>
+                <input type="text" name="saldo" placeholder="Ingresar Saldo" class="form-control" required="" id="id_saldo">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="form-group">
-                <label class="form-control-label" for="input-first-name">{{ form.descripcion.label }}</label>
-                {% render_field form.descripcion class="form-control" placeholder="Descripción de Partida" %}
+                <label class="form-control-label" for="id_descripcion">{{ form.descripcion.label }}</label>
+                <textarea type="text" id="id_descripcion" name="descripcion" class="form-control" placeholder="Añada Descripcion de la Partida">
+                </textarea>
               </div>
             </div>
           </div>
@@ -114,116 +112,105 @@
 {% endblock body %}
 
 {% block script %}
-  <script>
+  <script type="module">
 
-    function updateSelect(data,id){
-      // console.log(typeof data);
-      // console.log("id:  "+id);
-      Fdata=JSON.parse(data);
-      let id_siguiente='';
-      let inicio,fin;
+    import { postQuery, inputCurrency } from "{% static 'global/js/helpers.js' %}";
+
+    let url = "{% url 'formulacion:crear_partida' %}";
+    
+    let token = "{{ csrf_token }}";
+
+
+    function resetSelectById(select){
+      $("#" + select).empty();
+      $("#" + select).html($('<option/>', {text:'------', value:''}));
+    }
+
+    function main(response, params){
+
+      let parseResponse = JSON.parse(response.partidas_hijas);
+
+      let id = params.id;
+      let step = parseInt(params.step);
+
+      let currentSelect = $(`select[step=${step}]`);
+      let nextSelect = $(`select[step=${step + 1}]`);
+
+      let inicio, fin;
+
+      // Definiendo que parte mostrar de la cuenta
       switch (id){
         case 'id_codigo_uno':
-          id_siguiente='id_codigo_dos';
-          inicio=1;
-          fin=3;
+          inicio=1; fin=3;
           break;
         case 'id_codigo_dos':
-          id_siguiente='id_codigo_tres';
-          inicio=3;
-          fin=5;              
+          inicio=3; fin=5;              
           break;
         case 'id_codigo_tres':
-          id_siguiente='id_codigo_cuatro';
-          inicio=5;
-          fin=7;              
+          inicio=5; fin=7;              
           break;          
         case 'id_codigo_cuatro':
-          id_siguiente='id_codigo_cinco';
-          inicio=7;
-          fin=9;              
+          inicio=7; fin=9;              
           break;          
         default:
-          id_siguiente='id_codigo_uno';
-          inicio=1;
-          fin=3;
+          inicio=1; fin=3;
       }
 
-      function reset_Select(select){
-        $('#'+select).empty();
-        $('#'+select).html($('<option/>', {
-          text: '------',
-          value: '',
-        }));
-      }
-      reset_Select(id_siguiente);
-      if(id==='id_codigo_uno'){
-        $('#id_codigo_uno option')[0].disabled = true;
-      }
-      if(id_siguiente==='id_codigo_dos'){
-        reset_Select('id_codigo_dos');
-        reset_Select('id_codigo_tres');
-        reset_Select('id_codigo_cuatro');
-        reset_Select('id_codigo_cinco');
-      }
+      // Reseteando todos los selects mayores al actual.
+      $('.selectsPartidas').filter(`:gt(${step})`).each(function(){
+        resetSelectById($(this).attr("id"));
+      });
 
+      // Desabilitando primera opcion del select
+      $('#' + currentSelect.attr("id") + ' option')[0].disabled = true;
 
-      
-      
-      $('#'+id_siguiente+' option')[0].disabled = true;
+      // Mostrando todos los nuevos options
+      parseResponse.forEach(function(object){
 
-      Fdata.forEach(function(object){
-        console.log(object);
-        let $lider_list = $('#'+id_siguiente+' option');
-
-        $('#'+id_siguiente).append($('<option />', {
-          text: object['fields'].cuenta.slice(inicio,fin),
-          value: object['pk'],
-        }));
+        nextSelect.append(
+          $('<option />', 
+          {
+            text: object['fields'].cuenta.slice(inicio, fin),
+            value: object['pk'],
+          }
+        ));
 
       });
+
+      // Añadiendo cuenta completa
+      $("#id_cuenta").val(response.partida_madre.cuenta);
         
     }
 
-    function postQuery(url, data, callback=false,id){
-        $.ajax({
-          type: "POST",
-          url: url,
-          dataType: "json", 
-          data: {
-            data: data,
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-          },
-          success: function(data){
-            if(callback){
-                callback(data,id);
-            }else{
-                return data
-            }
-          },
-          error: function(error){
-            return error;
-          }
-      });
-    }
 
     $(document).ready(function(){
-      
-      $('.selects_partidas').on('change', function() {
-        let id=$(this).attr("id");
 
-        if (id != 'id_codigo_cinco'){
-          let pk = $("#"+id).val();
-          data = postQuery("{% url 'formulacion:crear_partida' %}", pk, updateSelect,id);
+      inputCurrency("#id_saldo");
+
+      //<Disparadores Principales>
+
+      $('.selectsPartidas').on('change', function() {
+
+        let id = $(this).attr("id");
+        let step = $(this).attr("step");
+        let pk = $(this).val();
+
+        data = postQuery(url, token, pk, main, {"id": id, "step": step});
+
+      });
+
+      $('#id_codigo_seis').on('change', function() {
+        
+        if ($('#id_codigo_cinco').val()){
+          
+          let sinAux = $("#id_cuenta").val().slice(0, 9);
+          $("#id_cuenta").val(sinAux + $(this).val());
+
         }
 
       });
 
-        // $('#id_codigo_uno').on('change', function() {
-        //     let pk = $("#id_codigo_uno").val();
-        //     data = postQuery("{% url 'formulacion:crear_partida' %}", pk, updateSelect);
-        // });
-
     });
+
   </script>
 {% endblock script %}

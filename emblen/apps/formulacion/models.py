@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.functions import Substr
 
 from apps.base.models import TimeStampedModel
 from django.core.exceptions import NON_FIELD_ERRORS
@@ -125,16 +126,15 @@ class Partida(TimeStampedModel):
     """
     
     NIVELES = {
-        1: 0,
+        1: 1,
         2: 3,
         3: 5,
         4: 7,
         5: 9,
-        6: 11,
-        7: 14
+        6: 12
     }
     
-    cuenta = models.CharField(max_length=14,unique=True)
+    cuenta = models.CharField(max_length=12,unique=True)
 
     descripcion = models.TextField()
 
@@ -144,24 +144,29 @@ class Partida(TimeStampedModel):
 
     estatus = models.BooleanField(default=True)
 
-    @staticmethod
-    def obten_hijos(pk):
-        
-        # First query
-        principal_object = Partida.objects.filter(pk=pk).first()
-        
-        # Resolving the information
-        must_start = principal_object.cuenta[0:Partida.NIVELES[principal_object.nivel]]
-        nivel = principal_object.nivel + 1
-        
-        # Getting the correct info
-        related_objects = Partida.objects.filter(nivel=nivel, cuenta__startswith=must_start)
-        
-        return related_objects
+
+    def sin_ceros(self):
+        """Retorna la cuenta sin ceros a la derecha"""
+        return self.cuenta[0:self.NIVELES[self.nivel]]
+
+
+    def siguientes(self):
+        """
+        Devuelve queryset de las partidas hijas del nivel siguiente
+        """
+
+        debe_comenzar = self.sin_ceros() 
+
+        siguiente_nivel = self.nivel + 1
+
+        return Partida.objects.filter(
+            nivel=siguiente_nivel, cuenta__startswith=debe_comenzar
+        )
         
 
     class Meta:
         ordering = ('-creado',)
 
+
     def __str__(self):
-        return self.descripcion
+        return self.cuenta
