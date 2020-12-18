@@ -144,26 +144,20 @@ class Partida(TimeStampedModel):
 
     estatus = models.BooleanField(default=True)
 
-
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
         return self.cuenta[0:self.NIVELES[self.nivel]]
 
-
     def siguientes(self):
-        """
-        Devuelve queryset de las partidas hijas del nivel siguiente
-        """
-
+        """Devuelve queryset de las partidas hijas del nivel siguiente"""
         debe_comenzar = self.sin_ceros() 
-
         siguiente_nivel = self.nivel + 1
 
         return Partida.objects.filter(
-            nivel=siguiente_nivel, cuenta__startswith=debe_comenzar
+            nivel=siguiente_nivel, 
+            cuenta__startswith=debe_comenzar
         )
         
-
     class Meta:
         ordering = ('-creado',)
 

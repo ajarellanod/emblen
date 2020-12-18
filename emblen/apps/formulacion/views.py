@@ -1,13 +1,9 @@
-import json
-
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic.edit import UpdateView, DeleteView, FormMixin
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic import ListView
 from django.urls import reverse_lazy 
-from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.core.serializers import serialize
 from django.db.models.functions import Substr
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
@@ -25,63 +21,33 @@ class PrincipalView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 
-class PartidaView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, FormMixin, ListView):
+class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, ListView):
 
     # MultiplePermissionsRequiredMixin
-    permissions = {
-        "all": ("formulacion.view_partida",)
-    }
+    permissions = {"all": ("formulacion.view_partida",)}
 
     # ListView
     queryset = Partida.objects.filter(estatus=True)
-    context_object_name = "partidas"
     paginate_by = 5
-
-    # FormMixin
-    form_class = PartidaForm
-
-    # ListView y FormMixin
-    template_name = "formulacion/partida.html"
+    template_name = "formulacion/partidas.html"
     success_url = "formulacion:partidas"
-
-    # Metodo Propio - ListView no permite metodo POST
-    def post(self, request):
-        
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            form.save()
-
-        return redirect(self.success_url)
 
 
 class PartidaUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UpdateView): 
     
-    permissions = {
-        "all": ("formulacion.view_partida",)
-    }
+    permissions = {"all": ("formulacion.view_partida",)}
 
     model = Partida 
-
     form_class = PartidaForm
-
     template_name = "formulacion/partidaU.html"
-
     success_url = reverse_lazy('formulacion:partidas')
 
 
 class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, DeleteView):
    
-    permissions = {
-        "all": ("formulacion.view_partida",)
-    }
+    permissions = {"all": ("formulacion.view_partida",)}
 
     model = Partida
-
-    form_class = PartidaForm()
-
-    template_name = "formulacion/partidaD.html"
-
     success_url = reverse_lazy('formulacion:partidas')
 
 
@@ -90,7 +56,6 @@ class PartidaCreateView(LoginRequiredMixin, View):
     template_name = "formulacion/crear_partida.html"
     
     def get(self, request):
-        
         partidas_principales = Partida.objects.filter(
             estatus=True, nivel=1
         ).annotate(option=Substr('cuenta', 1, 1))
@@ -98,17 +63,21 @@ class PartidaCreateView(LoginRequiredMixin, View):
         return render(request, self.template_name, {'partidas': partidas_principales})
     
     def post(self, request):
+        # Filtro de Partidas
         if request.POST.get("data") is not None:
-            try:
-                id_partida = json.loads(request.POST.get("data"))
-                partida = Partida.objects.filter(pk=id_partida).first()
+            id_partida = request.POST.get("data")
+            partida = Partida.objects.filter(pk=id_partida).first()
+            output = {
+                "partida_madre": PartidaSerializer(partida).data,
+                "partidas_hijas": PartidaSerializer(partida.siguientes(), many=True).data,
+            }
+            return JsonResponse(output, safe=False)
 
-                output = {
-                    "partida_madre": PartidaSerializer(partida),
-                    "partidas_hijas": PartidaSerializer(partida.siguentes(), many=True),
-                }
-
-                return JsonResponse(output, safe=False)
-
-            except Exception:
+        # Guardando la nueva partida
+        elif request.POST.get("saldo") is not None:
+            partida = PartidaForm(data=request.POST)
+            if partida.is_valid():
+                partida.save()
+                return redirect('formulacion:partidas')
+            else:
                 pass

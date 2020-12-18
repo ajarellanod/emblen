@@ -26,7 +26,9 @@
             <h3 class="mb-0">Partidas Presupuestarias</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="#" class="btn btn-sm btn-primary">Nueva</a>
+            <a id="btn_partidaNew" href="{% url 'formulacion:crear_partida' %}" class="btn btn-sm btn-primary">
+              Nueva
+            </a>
           </div>
         </div>
       </div>
@@ -43,55 +45,6 @@
               <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
             </tr>
           </thead>
-          <tbody id="partidaNew2">
-
-          </tbody>
-          <tbody class="list" id="partidaNew" >
-          
-            <form class="validate-form" method="POST">
-              {% csrf_token %}
-
-              <tr id="partidaNew3" class="d-none">
-                <td class="nivel">
-                  {% render_field form.nivel class="form-control form-control-alternative" %}
-                </td>
-                <th class="cuenta">
-                    {% render_field form.cuenta class="form-control form-control-alternative" placeholder="Partida" %}
-                    <span id="id_cuenta_mensaje"></span>
-                <td class="descripcion">
-                    {% render_field form.descripcion class="form-control form-control-alternative" placeholder="Descripción de Partida" %}
-                </td>
-                <td class="saldo">
-                    {% render_field form.saldo class="form-control form-control-alternative" placeholder="Saldo" %}
-                </td>
-                <td class="text-right">
-                  <button type="submit" href="#" class="btn btn-sm btn-primary">Guardar</button>
-                </td>
-              </tr>
-
-            <tr id="tr_relacion_partidas" class="d-none">
-              <td colspan="5">
-                <div class="media align-items-center">
-                  <div class="media-body">
-                    <label><h3>Relaciones de Partidas</h3></label>
-                      <div id="relacion_partidas" >
-
-                      </div>
-                    </div>
-                  </div>
-              </td>
-              <select name="cuenta" maxlength="14" class="form-control form-control-alternative d-none" id="partida_N1" disabled >
-                {% for partida in partidas %}
-                  <option value="{{ partida.cuenta }}">{{partida.cuenta}} - {{partida.descripcion }}</option>
-                {% endfor %}
-              </select>
-
-            </tr>
-
-          </form>
-
-          </tbody>
-
           <tbody>
             {% for partida in page_obj %}
               <tr>
@@ -174,7 +127,3 @@
   </div>
 </div>
 {% endblock body %}
-
-{% block script %}
-  <script src="{% static 'formulacion/js/scripts.js' %}"></script>
-{% endblock script %}
