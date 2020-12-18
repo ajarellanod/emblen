@@ -48,6 +48,12 @@ class Departamento(TimeStampedModel):
         related_name="departamentos",
         on_delete=models.CASCADE
     )
+    
+    unidad_ejecutora = models.ForeignKey(
+        "UnidadEjecutora",
+        related_name="departamentos",
+        on_delete=models.CASCADE,
+    )
 
     codigo = models.CharField(max_length=14)
 
@@ -143,6 +149,12 @@ class UnidadEjecutora(TimeStampedModel):
         Dependencia,
         related_name="unidadejecutoras",
         on_delete=models.CASCADE
+    )
+    
+    adscrito = models.ForeignKey(
+        "UnidadEjecutora",
+        on_delete=models.CASCADE,
+        null=True,
     )
 
     codigo = models.CharField(max_length=10)
@@ -264,24 +276,12 @@ class Programa(TimeStampedModel):
     # =======================================================
 
     # Responsables
-    
-    ente_responsable = models.ForeignKey(
-        UnidadEjecutora,
-        related_name="programas",
-        on_delete=models.CASCADE
-    )
-
-    adscrito = models.ForeignKey(
-        UnidadEjecutora,
-        related_name="programas",
-        on_delete=models.CASCADE
-    )    
 
     responsable = models.ForeignKey(
         Departamento,
         related_name="programas",
         on_delete=models.CASCADE
-    ) 
+    )
 
     # =======================================================
 
@@ -370,9 +370,9 @@ class Programa(TimeStampedModel):
 
     # Porcentaje Avance
 
-    ejecucion_fisica = models.DecimalField(max_digits=22,decimal_places=4)
+    ejecucion_fisica = models.FloatField()
 
-    ejecucion_financiera = models.DecimalField(max_digits=22,decimal_places=4)
+    ejecucion_financiera = models.FloatField()
 
     # =======================================================
 
@@ -530,12 +530,6 @@ class AccionEspecifica(TimeStampedModel):
 
     especifico = models.TextField()
 
-    # sectordesarrollador = models.ForeignKey(
-    #     SectorDesarrollador,
-    #     related_name="sectordesarrollador_accion_especificas",
-    #     on_delete=models.CASCADE
-    # )
-
     inicio = models.DateTimeField()
 
     fin = models.DateTimeField()
@@ -581,18 +575,6 @@ class AccionEspecifica(TimeStampedModel):
     # =======================================================
 
     # Responsables
-    
-    # enteresponsable = models.ForeignKey(
-    #     UnidadEjecutora,
-    #     related_name="enteresponsable_accion_especificas",
-    #     on_delete=models.CASCADE
-    # )
-
-    # adscrito = models.ForeignKey(
-    #     UnidadEjecutora,
-    #     related_name="adscrito_accion_especificas",
-    #     on_delete=models.CASCADE
-    # )    
 
     responsable = models.ForeignKey(
         Departamento,
@@ -636,20 +618,6 @@ class AccionEspecifica(TimeStampedModel):
 
     # =======================================================
 
-    # Estimacion Financiera por partida
-
-    estimado_401 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_402 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_403 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_404 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_405 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_407 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_408 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_411 = models.DecimalField(max_digits=22,decimal_places=4)
-    estimado_498 = models.DecimalField(max_digits=22,decimal_places=4)
-
-    # =======================================================
-
     # Fuente Financimiento Externo
 
     estatus_financiamiento_externo = models.ForeignKey(
@@ -657,18 +625,6 @@ class AccionEspecifica(TimeStampedModel):
         related_name="acciones_especificas",
         on_delete=models.CASCADE
     )
-
-    # areainversion = models.ForeignKey(
-    #     AreaInversion,
-    #     related_name="areainversion_acciones_especificas",
-    #     on_delete=models.CASCADE
-    # )
-
-    # catareainv = models.ForeignKey(
-    #     CategoriaAreaInversion,
-    #     related_name="catareainv_acciones_especificas",
-    #     on_delete=models.CASCADE
-    # )
 
     tipo_area_inversion = models.ForeignKey(
         TipoAreaInversion,
@@ -686,9 +642,9 @@ class AccionEspecifica(TimeStampedModel):
 
     inicio_ejecucion_fisica_f_e = models.DateTimeField()
  
-    ejecucion_fisica = models.DecimalField(max_digits=22,decimal_places=4)
+    ejecucion_fisica = models.FloatField()
 
-    ejecucion_financiera = models.DecimalField(max_digits=22,decimal_places=4)
+    ejecucion_financiera = models.FloatField()
 
     ejecutado_anio_anterior = models.DecimalField(max_digits=22,decimal_places=4)
     
@@ -736,13 +692,14 @@ class Partida(TimeStampedModel):
         siguiente_nivel = self.nivel + 1
 
         return Partida.objects.filter(
-            nivel=siguiente_nivel, 
-            cuenta__startswith=debe_comenzar
+            nivel=siguiente_nivel,
+            cuenta__startswith=debe_comenzar,
+            estatus=True
         )
         
     class Meta:
-        ordering = ('-creado',),
-        verbose_name_plural = "Programas"
+        ordering = ('-creado',)
+        verbose_name_plural = "Partidas"
 
     def __str__(self):
         return self.cuenta
@@ -757,7 +714,6 @@ class Estimacion(TimeStampedModel):
     )
     
     # Sólo partidas Nivel 2
-
     partida = models.ForeignKey(
         Partida,
         related_name="estimaciones",
@@ -767,9 +723,18 @@ class Estimacion(TimeStampedModel):
     monto = models.DecimalField(max_digits=22,decimal_places=4)
 
     estatus = models.BooleanField(default=True)
+    
+    anio = models.CharField(max_length=4)
 
     class Meta:
         verbose_name_plural = "Estimaciones por Partidas"
+        unique_together = (("accion_especifica", "partida", "anio"),)
+        
+    def save(self, *args, **kwargs):
+        if self.partida.nivel > 1:
+            super(Estimacion, self).save(*args, **kwargs)
+        else:
+            raise ValueError("La Partida no puede ser de nivel 1")
 
 
 class TipoGasto(TimeStampedModel):
@@ -799,8 +764,6 @@ class TipoOrganismo(TimeStampedModel):
 class AccionInterna(TimeStampedModel):
 
     codigo = models.CharField(max_length=11)
-
-    # anio = models.CharField(max_length=4)
     
     descripcion = models.TextField()
 
@@ -884,6 +847,5 @@ class CtasCCostoAInt(TimeStampedModel):
     estatus = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name_plural = "Cuentas - Centros de Costos - Acciones Internas",
+        verbose_name_plural = "Cuentas - Centros de Costos - Acciones Internas"
         unique_together = (("ccosto_accint", "partida", "anio"),)
->>>>>>> e5739afc86d30ed3fab46e9e4bd1d887ca5b28fe

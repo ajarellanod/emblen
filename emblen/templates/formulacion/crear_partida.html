@@ -28,6 +28,13 @@
     <div class="card-body">
       <h6 class="heading-small text-muted mb-4">Crear Partida Presupuestaria</h6>
       <div class="pl-lg-4">
+        {% if form.errors %}
+          <div class="alert alert-default" role="alert">
+            {% for key,value in form.errors.items %}
+              <strong>Error en {{ key|escape }}:</strong>{{ value|escape }}
+            {% endfor %}
+          </div>
+      {% endif %}
         <div class="row">
           <div class="col">
               <div class="form-group">
@@ -107,7 +114,7 @@
           </div>
         </div>
         <input type="number" id="saldoSinPuntos" name="saldo" value="0" hidden="true">
-        <input type="number" name="nivel" value="5" hidden="true">
+        <input type="number" name="nivel" value="6" hidden="true">
       </form>
     </div>
   </div>
@@ -117,11 +124,8 @@
   <script type="module">
 
     import { postQuery, inputCurrency } from "{% static 'global/js/helpers.js' %}";
-
     let url = "{% url 'formulacion:crear_partida' %}";
-    
     let token = "{{ csrf_token }}";
-
 
     function resetSelectById(select){
       $("#" + select).empty();

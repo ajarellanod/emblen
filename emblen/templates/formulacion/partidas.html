@@ -4,6 +4,8 @@
 
 {% load widget_tweaks %}
 
+{% load humanize %}
+
 {% block menu %}
   {% include 'formulacion/menu.html' %}  
 {% endblock menu %}
@@ -65,7 +67,7 @@
                 </td>
 
                 <td class="saldo text-center"> 
-                  {{ partida.saldo|floatformat:2 }}
+                  {{ partida.saldo|floatformat:2|intcomma }}
                 </td>
 
                 <td class="text-right">

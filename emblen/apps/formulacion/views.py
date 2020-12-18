@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic import ListView
@@ -43,41 +43,47 @@ class PartidaUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, Up
     success_url = reverse_lazy('formulacion:partidas')
 
 
-class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, DeleteView):
-   
+class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
     permissions = {"all": ("formulacion.view_partida",)}
-
-    model = Partida
-    success_url = reverse_lazy('formulacion:partidas')
+    
+    def get(self, request, pk):
+        partida = get_object_or_404(Partida, pk=pk)
+        partida.estatus = False
+        partida.save()
+        return redirect('formulacion:partidas')
 
 
 class PartidaCreateView(LoginRequiredMixin, View):
     
     template_name = "formulacion/crear_partida.html"
+    partidas = Partida.objects.filter(estatus=True, nivel=1).annotate(option=Substr('cuenta', 1, 1))
     
     def get(self, request):
-        partidas_principales = Partida.objects.filter(
-            estatus=True, nivel=1
-        ).annotate(option=Substr('cuenta', 1, 1))
-
-        return render(request, self.template_name, {'partidas': partidas_principales})
+        return render(request, self.template_name, {'partidas': self.partidas})
     
     def post(self, request):
-        # Filtro de Partidas
-        if request.POST.get("data") is not None:
-            id_partida = request.POST.get("data")
-            partida = Partida.objects.filter(pk=id_partida).first()
-            output = {
-                "partida_madre": PartidaSerializer(partida).data,
-                "partidas_hijas": PartidaSerializer(partida.siguientes(), many=True).data,
-            }
-            return JsonResponse(output, safe=False)
-
-        # Guardando la nueva partida
-        elif request.POST.get("saldo") is not None:
+         # Guardando la nueva partida
+        if request.POST.get("saldo") is not None:
             partida = PartidaForm(data=request.POST)
             if partida.is_valid():
+                partida = partida.save(commit=False)
+                partida.nivel = 6
                 partida.save()
                 return redirect('formulacion:partidas')
             else:
-                pass
+                return render(request, self.template_name, {'partidas': self.partidas, 'form': partida})
+        
+        # Filtro de Partidas
+        try:
+            id_partida = int(request.POST.get("data"))
+            
+            if id_partida is not None:
+                partida = Partida.objects.filter(pk=id_partida).first()
+                output = {
+                    "partida_madre": PartidaSerializer(partida).data,
+                    "partidas_hijas": PartidaSerializer(partida.siguientes(), many=True).data,
+                }
+                return JsonResponse(output, safe=False)
+        except TypeError:
+            output = {"partida_madre": "Partida Inexistente","partidas_hijas":[]}
+            return JsonResponse(output, safe=False)

@@ -7,4 +7,4 @@ from apps.formulacion.models import Partida
 class PartidaForm(forms.ModelForm):
     class Meta:
         model = Partida
-        fields = ("cuenta","descripcion","nivel", "saldo")
+        fields = ("cuenta","descripcion", "saldo")
