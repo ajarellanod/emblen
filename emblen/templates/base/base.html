@@ -47,9 +47,9 @@
   <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
     <div class="scrollbar-inner">
       <!-- Brand -->
-      <div class="sidenav-header  d-flex  align-items-center">
-        <a class="navbar-brand" href="../../../index.html">
-          <img src="{% static 'global/images/logo.png' %}" class="navbar-brand-img">
+      <div class="sidenav-header d-flex  align-items-center">
+        <a class="navbar-brand" href="{% url 'usuarios:principal' %}">
+          <img src="{% static 'global/images/invialca.png' %}" class="navbar-brand-img">
         </a>
         <div class=" ml-auto ">
           <!-- Sidenav toggler -->
@@ -79,6 +79,7 @@
     <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
           <!-- Search form -->
           <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
             <div class="form-group mb-0">
@@ -164,7 +165,7 @@
                     <img alt="Image placeholder" src="{% static 'global/images/user.jpg' %}">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">Linus Torvalds</span>
+                    <span class="mb-0 text-sm  font-weight-bold"> {{ request.user.get_full_name }} </span>
                   </div>
                 </div>
               </a>
@@ -174,24 +175,24 @@
                 </div>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-single-02"></i>
-                  <span>My profile</span>
+                  <span>Perfíl</span>
                 </a>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-settings-gear-65"></i>
-                  <span>Settings</span>
+                  <span>Configuraciones</span>
                 </a>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-calendar-grid-58"></i>
-                  <span>Activity</span>
+                  <span>Actividad</span>
                 </a>
                 <a href="#!" class="dropdown-item">
                   <i class="ni ni-support-16"></i>
-                  <span>Support</span>
+                  <span>Soporte</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#!" class="dropdown-item">
+                <a href="{% url 'usuarios:logout' %}" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
-                  <span>Logout</span>
+                  <span>Salir</span>
                 </a>
               </div>
             </li>
@@ -228,7 +229,7 @@
       {% block body %}{% endblock body %}
 
       <!-- Footer -->
-      <!-- <footer class="footer pt-0">
+      <footer class="footer pt-0">
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-6">
             <div class="copyright text-center  text-lg-left  text-muted">
@@ -252,7 +253,8 @@
             </ul>
           </div>
         </div>
-      </footer> -->
+      </footer>
+      
     </div>
   </div>
 

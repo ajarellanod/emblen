@@ -16,6 +16,8 @@ from apps.base.views import EmblenView
 
 class PrincipalView(EmblenView):
 
+    permissions = {"all": ("formulacion.view_partida",)}
+
     template_name = "formulacion/principal.html"
 
     def get(self, request):
