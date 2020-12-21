@@ -5,7 +5,8 @@ export function postQuery(url, token, data, callback=false, params=false){
     dataType: "json", 
     data: {
       data: data,
-      csrfmiddlewaretoken: token
+      csrfmiddlewaretoken: token,
+      json: true
     },
     success: function(response){
       if (callback){

@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic import ListView
-from django.urls import reverse_lazy 
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.db.models.functions import Substr
 
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
@@ -12,8 +11,10 @@ from apps.formulacion.models import Partida
 from apps.formulacion.forms import PartidaForm
 from apps.formulacion.serializers import PartidaSerializer
 
+from apps.base.views import EmblenView
 
-class PrincipalView(LoginRequiredMixin, View):
+
+class PrincipalView(EmblenView):
 
     template_name = "formulacion/principal.html"
 
@@ -27,63 +28,76 @@ class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, List
     permissions = {"all": ("formulacion.view_partida",)}
 
     # ListView
-    queryset = Partida.objects.filter(estatus=True)
+    queryset = Partida.objects.all()
     paginate_by = 5
     template_name = "formulacion/partidas.html"
     success_url = "formulacion:partidas"
 
 
-class PartidaUpdateView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, UpdateView): 
-    
+class PartidaUpdateView(EmblenView): 
     permissions = {"all": ("formulacion.view_partida",)}
-
-    model = Partida 
-    form_class = PartidaForm
     template_name = "formulacion/partidaU.html"
-    success_url = reverse_lazy('formulacion:partidas')
-
-
-class PartidaDeleteView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
-    permissions = {"all": ("formulacion.view_partida",)}
     
-    def get(self, request, pk):
+    
+class PartidaDeleteView(EmblenView):
+    """Vista para borrar las partidas"""
+
+    permissions = {"all": ("formulacion.delete_partida",)}
+    
+    def altget(self, request, pk):
         partida = get_object_or_404(Partida, pk=pk)
-        partida.estatus = False
-        partida.save()
+        partida.eliminar()
         return redirect('formulacion:partidas')
 
 
-class PartidaCreateView(LoginRequiredMixin, View):
-    
+class PartidaCreateView(EmblenView):
+    """
+    Se crean las partidas de nivel 6 por medio de los auxiliares
+    """
+
+    # Variables Necesarias
+    permissions = {"all": ("formulacion.view_partida",)}
     template_name = "formulacion/crear_partida.html"
-    partidas = Partida.objects.filter(estatus=True, nivel=1).annotate(option=Substr('cuenta', 1, 1))
+    json_post = True
+
+    # Variables de Ayuda
+    partidas = Partida.objects.filter(nivel=1).annotate(option=Substr('cuenta', 1, 1))
     
-    def get(self, request):
-        return render(request, self.template_name, {'partidas': self.partidas})
-    
-    def post(self, request):
-         # Guardando la nueva partida
+    def altget(self, request):
+        return {'partidas': self.partidas}
+
+    def altpost(self, request):
+        # Se reciben los formularios para guardar una nueva partida
+
+        # Comprobando que hayan enviado el saldo
         if request.POST.get("saldo") is not None:
-            partida = PartidaForm(data=request.POST)
-            if partida.is_valid():
-                partida = partida.save(commit=False)
+
+            #Creando el formulario y validandolo
+            partida_form = PartidaForm(data=request.POST)
+            if partida_form.is_valid():
+                partida = partida_form.save(commit=False)
                 partida.nivel = 6
                 partida.save()
                 return redirect('formulacion:partidas')
             else:
-                return render(request, self.template_name, {'partidas': self.partidas, 'form': partida})
-        
-        # Filtro de Partidas
+                return {'partidas': self.partidas,'form': partida_form}
+
+        else:
+            return Http404()
+
+    def jsonpost(self, request):
+        # Se manda un json con las partidas serializadas
+
         try:
+            # Obteniendo la partida
             id_partida = int(request.POST.get("data"))
+            partida = get_object_or_404(Partida, pk=id_partida)
             
-            if id_partida is not None:
-                partida = Partida.objects.filter(pk=id_partida).first()
-                output = {
-                    "partida_madre": PartidaSerializer(partida).data,
-                    "partidas_hijas": PartidaSerializer(partida.siguientes(), many=True).data,
-                }
-                return JsonResponse(output, safe=False)
+            # Salida
+            partida_madre = PartidaSerializer(partida).data
+            partidas_hijas = PartidaSerializer(partida.siguientes(), many=True).data
+            return {"partida_madre": partida_madre,"partidas_hijas": partidas_hijas}
+
+        # Si existe error transformando el request
         except TypeError:
-            output = {"partida_madre": "Partida Inexistente","partidas_hijas":[]}
-            return JsonResponse(output, safe=False)
+            return {"partida_madre": "Partida Inexistente","partidas_hijas":[]}

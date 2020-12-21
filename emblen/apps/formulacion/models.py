@@ -3,30 +3,28 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.functions import Substr
 
-from apps.base.models import TimeStampedModel
+from apps.base.models import EmblenBaseModel
 from django.core.exceptions import NON_FIELD_ERRORS
 
 
-class Sector(TimeStampedModel):
+class Sector(EmblenBaseModel):
 
     codigo = models.CharField(max_length=14)
 
     nombre = models.CharField(max_length=100)
 
     descripcion = models.TextField()
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Sectores"
 
 
-class Dependencia(TimeStampedModel):
+class Dependencia(EmblenBaseModel):
 
     sector = models.ForeignKey(
         Sector,
         related_name="dependencias",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     codigo = models.CharField(max_length=14)
@@ -35,85 +33,75 @@ class Dependencia(TimeStampedModel):
 
     descripcion = models.TextField()
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Dependencias"
 
 
-class Departamento(TimeStampedModel):
+class Departamento(EmblenBaseModel):
 
     dependencia = models.ForeignKey(
         Dependencia,
         related_name="departamentos",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
     
     unidad_ejecutora = models.ForeignKey(
         "UnidadEjecutora",
         related_name="departamentos",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
     )
 
     codigo = models.CharField(max_length=14)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Departamentos"
 
 
-class Estado(TimeStampedModel):
+class Estado(EmblenBaseModel):
     
     codigo = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Estados"
 
 
-class Municipio(TimeStampedModel):
+class Municipio(EmblenBaseModel):
 
     estado = models.ForeignKey(
         Estado,
         related_name="municipios",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     codigo = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Municipios"
 
 
-class Parroquia(TimeStampedModel):
+class Parroquia(EmblenBaseModel):
 
     municipio = models.ForeignKey(
         Municipio,
         related_name="parroquias",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     codigo = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Parroquias"
 
 
-class FuenteFinanciamiento(TimeStampedModel):
+class FuenteFinanciamiento(EmblenBaseModel):
 
     codigo = models.CharField(max_length=10)
 
@@ -123,13 +111,11 @@ class FuenteFinanciamiento(TimeStampedModel):
 
     externo=models.BooleanField(default=False)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Fuentes de Financiamientos"
 
 
-class CentroCosto(TimeStampedModel):
+class CentroCosto(EmblenBaseModel):
 
     codigo = models.CharField(max_length=10)
 
@@ -137,23 +123,21 @@ class CentroCosto(TimeStampedModel):
 
     nivel = models.IntegerField()
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Centros de Costos"
 
 
-class UnidadEjecutora(TimeStampedModel):
+class UnidadEjecutora(EmblenBaseModel):
 
     dependencia = models.ForeignKey(
         Dependencia,
         related_name="unidadejecutoras",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
     
     adscrito = models.ForeignKey(
         "UnidadEjecutora",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         null=True,
     )
 
@@ -161,25 +145,21 @@ class UnidadEjecutora(TimeStampedModel):
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Unidades Ejecutoras"
 
 
-class SectorDesarrollador(TimeStampedModel):
+class SectorDesarrollador(EmblenBaseModel):
     
     codigo = models.CharField(max_length=3)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Sectores Desarrolladores"
 
 
-class UnidadMedida(TimeStampedModel):
+class UnidadMedida(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
@@ -187,60 +167,52 @@ class UnidadMedida(TimeStampedModel):
 
     dimension = models.IntegerField()
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Unidades de Medidas"
 
 
-class TipoBeneficiario(TimeStampedModel):
+class TipoBeneficiario(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Tipos de Beneficiarios"
 
 
-class PeriodoActualizacion(TimeStampedModel):
+class PeriodoActualizacion(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Periodos de Actualizacion"
 
 
-class CondicionPrograma(TimeStampedModel):
+class CondicionPrograma(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)  #Formulado - Banco de Proyectos
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Condiciones de los Programas"
 
 
-class Programa(TimeStampedModel):
+class Programa(EmblenBaseModel):
 
     dependencia = models.ForeignKey(
         Dependencia,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     periodo_actualizacion = models.ForeignKey(
         PeriodoActualizacion,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     # Información Básica
@@ -256,7 +228,7 @@ class Programa(TimeStampedModel):
     condicion = models.ForeignKey(
         CondicionPrograma,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     estado = models.CharField(max_length=3) #INI -
@@ -264,7 +236,7 @@ class Programa(TimeStampedModel):
     sector_desarrollador = models.ForeignKey(
         SectorDesarrollador,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     plan_inversion_social = models.BooleanField(default=False)
@@ -280,7 +252,7 @@ class Programa(TimeStampedModel):
     responsable = models.ForeignKey(
         Departamento,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     # =======================================================
@@ -292,7 +264,7 @@ class Programa(TimeStampedModel):
     parroquia = models.ForeignKey(
         Parroquia,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     # =======================================================
@@ -318,7 +290,7 @@ class Programa(TimeStampedModel):
     unidad_medida = models.ForeignKey(
         UnidadMedida,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     indicador_situacion = models.TextField()
@@ -344,7 +316,7 @@ class Programa(TimeStampedModel):
     tipo_beneficiario = models.ForeignKey(
         TipoBeneficiario,
         related_name="programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     distincion_genero = models.BooleanField(default=True)
@@ -380,7 +352,7 @@ class Programa(TimeStampedModel):
         verbose_name_plural = "Programas"
 
 
-class LineaPlan(TimeStampedModel):
+class LineaPlan(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
@@ -388,26 +360,24 @@ class LineaPlan(TimeStampedModel):
 
     tipo = models.CharField(max_length=1) #N = Nacional - E = Estadal 
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Lineas del Plan"
 
 
-class LineaPrograma(TimeStampedModel):
+class LineaPrograma(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     programa = models.ForeignKey(
         Programa,
         related_name="lineas_programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     historico = models.ForeignKey(
         LineaPlan,
         related_name="lineas_programas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     nacional = models.TextField()
@@ -416,26 +386,24 @@ class LineaPrograma(TimeStampedModel):
     
     general = models.TextField()
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Lineas del Programa"
 
 
-class PlanDesarrollo(TimeStampedModel):
+class PlanDesarrollo(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     programa = models.ForeignKey(
         Programa,
         related_name="plan_desarrollos",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     dimension = models.ForeignKey(
         LineaPlan,
         related_name="plan_desarrollos",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     plan_metas = models.TextField()
@@ -444,25 +412,21 @@ class PlanDesarrollo(TimeStampedModel):
     
     solucion = models.TextField()
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Planes de Desarrollo"
 
 
-class AreaInversion(TimeStampedModel):
+class AreaInversion(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Areas de Inversion"
 
 
-class CategoriaAreaInversion(TimeStampedModel):
+class CategoriaAreaInversion(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
@@ -471,28 +435,24 @@ class CategoriaAreaInversion(TimeStampedModel):
     area_inversion = models.ForeignKey(
         AreaInversion,
         related_name="categoria_area_inversion",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Categorias de las Areas de Inversion"
 
 
-class EstatusFinanciamientoExterno(TimeStampedModel):
+class EstatusFinanciamientoExterno(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Estatus de Financiamientos Externos"
 
 
-class TipoAreaInversion(TimeStampedModel):
+class TipoAreaInversion(EmblenBaseModel):
     
     codigo = models.CharField(max_length=5)
 
@@ -501,21 +461,19 @@ class TipoAreaInversion(TimeStampedModel):
     categoria = models.ForeignKey(
         CategoriaAreaInversion,
         related_name="tipo_area_inversion",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Tipos de Areas de Inversion"
         
 
-class AccionEspecifica(TimeStampedModel):
+class AccionEspecifica(EmblenBaseModel):
 
     programa = models.ForeignKey(
         Programa,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
    # Información Básica
@@ -551,7 +509,7 @@ class AccionEspecifica(TimeStampedModel):
     tipo_beneficiario = models.ForeignKey(
         TipoBeneficiario,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     distincion_genero = models.BooleanField(default=True)
@@ -579,7 +537,7 @@ class AccionEspecifica(TimeStampedModel):
     responsable = models.ForeignKey(
         Departamento,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     ) 
 
     # =======================================================
@@ -591,13 +549,13 @@ class AccionEspecifica(TimeStampedModel):
     parroquia = models.ForeignKey(
         Parroquia,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     sector = models.ForeignKey(
         SectorDesarrollador,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     plazo_ejecucion = models.IntegerField()
@@ -605,7 +563,7 @@ class AccionEspecifica(TimeStampedModel):
     unidad_medida = models.ForeignKey(
         UnidadMedida,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     # =======================================================
@@ -623,13 +581,13 @@ class AccionEspecifica(TimeStampedModel):
     estatus_financiamiento_externo = models.ForeignKey(
         EstatusFinanciamientoExterno,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     tipo_area_inversion = models.ForeignKey(
         TipoAreaInversion,
         related_name="acciones_especificas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     fase = models.CharField(max_length=100)
@@ -658,7 +616,7 @@ class AccionEspecifica(TimeStampedModel):
         verbose_name_plural = "Acciones Especificas"
 
 
-class Partida(TimeStampedModel):
+class Partida(EmblenBaseModel):
     """ 
     Almanecena las partidas presupuestarias de Recursos y Egresos.
     """
@@ -680,22 +638,22 @@ class Partida(TimeStampedModel):
 
     saldo = models.DecimalField(max_digits=22,decimal_places=4,null=True)
 
-    estatus = models.BooleanField(default=True)
-
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
         return self.cuenta[0:self.NIVELES[self.nivel]]
 
     def siguientes(self):
         """Devuelve queryset de las partidas hijas del nivel siguiente"""
+        
         debe_comenzar = self.sin_ceros() 
         siguiente_nivel = self.nivel + 1
 
-        return Partida.objects.filter(
+        queryset = Partida.objects.filter(
             nivel=siguiente_nivel,
             cuenta__startswith=debe_comenzar,
-            estatus=True
         )
+
+        return queryset
         
     class Meta:
         ordering = ('-creado',)
@@ -705,24 +663,22 @@ class Partida(TimeStampedModel):
         return self.cuenta
        
 
-class Estimacion(TimeStampedModel):
+class Estimacion(EmblenBaseModel):
 
     accion_especifica = models.ForeignKey(
         AccionEspecifica,
         related_name="estimaciones",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
     
     # Sólo partidas Nivel 2
     partida = models.ForeignKey(
         Partida,
         related_name="estimaciones",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     monto = models.DecimalField(max_digits=22,decimal_places=4)
-
-    estatus = models.BooleanField(default=True)
     
     anio = models.CharField(max_length=4)
 
@@ -737,31 +693,27 @@ class Estimacion(TimeStampedModel):
             raise ValueError("La Partida no puede ser de nivel 1")
 
 
-class TipoGasto(TimeStampedModel):
+class TipoGasto(EmblenBaseModel):
 
     codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Tipos de Gasto"
 
 
-class TipoOrganismo(TimeStampedModel):
+class TipoOrganismo(EmblenBaseModel):
 
     codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
 
-    estatus = models.BooleanField(default=True)
-
     class Meta:
         verbose_name_plural = "Tipos de Organismos"
         
 
-class AccionInterna(TimeStampedModel):
+class AccionInterna(EmblenBaseModel):
 
     codigo = models.CharField(max_length=11)
     
@@ -770,21 +722,22 @@ class AccionInterna(TimeStampedModel):
     accion_especifica = models.ForeignKey(
         AccionEspecifica,
         related_name="acciones_internas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     tipo_gasto = models.ForeignKey(
         TipoGasto,
         related_name="acciones_internas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
-    nivel = models.CharField(max_length=1) # 1 = 1000000, 2000000 - 2 = 1070000, 2070000, 2110000 - 3 = 1070001, 2070001, 2110001
+    # 1 = 1000000, 2000000 - 2 = 1070000, 2070000, 2110000 - 3 = 1070001, 2070001, 2110001
+    nivel = models.CharField(max_length=1)
 
     fuente_financiamiento = models.ForeignKey(
         FuenteFinanciamiento,
         related_name="acciones_internas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     auxiliar = models.CharField(max_length=4)
@@ -794,48 +747,44 @@ class AccionInterna(TimeStampedModel):
     tipo_organismo = models.ForeignKey(
         TipoOrganismo,
         related_name="acciones_internas",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Acciones Internas"
 
-class CCostoAccInt(TimeStampedModel):
+class CCostoAccInt(EmblenBaseModel):
 
     centro_costo = models.ForeignKey(
         CentroCosto,
         related_name="ccosto_accint",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     accion_interna = models.ForeignKey(
         AccionInterna,
         related_name="ccosto_accint",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     anio = models.CharField(max_length=4)
-
-    estatus = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Centros de Costos - Acciones Internas"
 
 
-class CtasCCostoAInt(TimeStampedModel):
+class CtasCCostoAInt(EmblenBaseModel):
 
     ccosto_accint = models.ForeignKey(
         CCostoAccInt,
         related_name="ctas_ccosto_aint",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     partida = models.ForeignKey(
         Partida,
         related_name="ctas_ccosto_aint",
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
     anio = models.CharField(max_length=4)
@@ -843,8 +792,7 @@ class CtasCCostoAInt(TimeStampedModel):
     mto_original = models.DecimalField(max_digits=22,decimal_places=4)
 
     mto_actualizado = models.DecimalField(max_digits=22,decimal_places=4)
-    
-    estatus = models.BooleanField(default=True)
+
 
     class Meta:
         verbose_name_plural = "Cuentas - Centros de Costos - Acciones Internas"
