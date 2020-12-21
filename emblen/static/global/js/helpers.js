@@ -1,13 +1,14 @@
 export function postQuery(url, token, data, callback=false, params=false){
+  
+  // Joining data response with token and json
+  data["csrfmiddlewaretoken"] = token;
+  data["json"] = true;
+  
   $.ajax({
     type: "POST",
     url: url,
     dataType: "json", 
-    data: {
-      data: data,
-      csrfmiddlewaretoken: token,
-      json: true
-    },
+    data: data,
     success: function(response){
       if (callback){
         if (params){

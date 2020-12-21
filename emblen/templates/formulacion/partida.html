@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:partidas' %}">Lista de Partidas</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Partida</i></a></li>
+{% endblock breadcrumb %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white;
+    }
+  </style>
+{% endblock head %}
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Creación Cuenta Presupuestaria</h3>
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="queryButton" callback="true" url="{% url 'formulacion:ver_partida' partida.id %}" token="{{ csrf_token }}">
+            Guardar
+          </a>
+          <a href="{% url 'formulacion:partidas' %}" class="btn btn-sm btn-default">Cancelar</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Crear Partida Presupuestaria</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_cuenta">Partida Completa</label>
+                <input type="text" id="id_cuenta" name="cuenta" value="{{partida.cuenta}}" readonly="" class="form-control queryInput">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_saldo">Saldo de la Partida</label>
+                <input type="text" placeholder="Ingresar Saldo" value="{{partida.saldo}}" readonly class="form-control inputCurrency" name="saldo" id="id_saldo">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="form-control-label" for="id_descripcion">Descripción de la Partida</label>
+                <input type="text" id="id_descripcion" maxlength="100" name="descripcion"
+                class="form-control queryInput" value="{{partida.descripcion}}" placeholder="Añada Descripcion de la Partida">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script>
+    function callbackFunction(response){
+      Swal.fire(
+        'Partida Editada!',
+        '',
+        'success'
+      ).then((result) => {
+        window.location.replace("{% url 'formulacion:partidas' %}");
+      })
+    }
+  </script>
+{% endblock script %}
