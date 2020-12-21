@@ -256,22 +256,22 @@
     </div>
   </div>
 
-
-
   <!-- Argon Scripts -->
   <!-- Core -->
   <script src="{% static 'global/vendor/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static 'global/vendor/jquery/jquery.inputmask.js' %}"></script>
-  <script src="{% static 'global/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- <script src="{% static 'global/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script> -->
   <script src="{% static 'global/vendor/js-cookie/js.cookie.js' %}"></script>
   <script src="{% static 'global/vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
   <script src="{% static 'global/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
+  <script src="{% static 'global/vendor/sweetalert2/dist/sweetalert2.all.min.js' %}"></script>
   <!-- Optional JS -->
   <script src="{% static 'global/vendor/chart.js/dist/Chart.min.js' %}"></script>
   <script src="{% static 'global/vendor/chart.js/dist/Chart.extension.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'global/js/dashboard.js' %}"></script>
   {% block script %}{% endblock script %}
+  <script type="module" src="{% static 'global/js/autoQuery.js' %}"></script>
 </body>
 
 </html>

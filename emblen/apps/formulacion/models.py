@@ -632,7 +632,7 @@ class Partida(EmblenBaseModel):
     
     cuenta = models.CharField(max_length=12,unique=True)
 
-    descripcion = models.TextField()
+    descripcion = models.TextField(max_length=100)
 
     nivel = models.IntegerField()
 

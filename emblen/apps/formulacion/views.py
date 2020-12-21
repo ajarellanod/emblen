@@ -14,12 +14,28 @@ from apps.formulacion.serializers import PartidaSerializer
 from apps.base.views import EmblenView
 
 
-class PrincipalView(EmblenView):
+class PrincipalView(LoginRequiredMixin, View):
 
     template_name = "formulacion/principal.html"
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class PartidaView(EmblenView):
+    permissions = {"all": ("formulacion.view_partida",)}
+    template_name = "formulacion/partida.html"
+    json_post = True
+    
+    def altget(self, request, pk):
+        partida = get_object_or_404(Partida, pk=pk)
+        return {"partida": partida}
+    
+    def jsonpost(self, request, pk):
+        partida = get_object_or_404(Partida, pk=pk)
+        partida.descripcion = request.POST.get("descripcion")
+        partida.save()
+        return {"msg": "Partida Guardada Exitosamente"}
 
 
 class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, ListView):
@@ -29,7 +45,7 @@ class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, List
 
     # ListView
     queryset = Partida.objects.all()
-    paginate_by = 5
+    paginate_by = 8
     template_name = "formulacion/partidas.html"
     success_url = "formulacion:partidas"
 

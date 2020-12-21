@@ -34,7 +34,7 @@
               <strong>Error en {{ key|escape }}:</strong>{{ value|escape }}
             {% endfor %}
           </div>
-      {% endif %}
+        {% endif %}
         <div class="row">
           <div class="col">
               <div class="form-group">
@@ -108,7 +108,7 @@
             <div class="col-lg-12">
               <div class="form-group">
                 <label class="form-control-label" for="id_descripcion">{{ form.descripcion.label }}</label>
-                <textarea type="text" id="id_descripcion" rows="5" name="descripcion" class="form-control" placeholder="Añada Descripcion de la Partida"></textarea>
+                <input type="text" id="id_descripcion" max="100" name="descripcion" class="form-control" placeholder="Añada Descripcion de la Partida">
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@
         let id = $(this).attr("id");
         let step = $(this).attr("step");
         let pk = $(this).val();
-        postQuery(url, token, pk, main, {"id": id, "step": step});
+        postQuery(url, token, {"data": pk}, main, {"id": id, "step": step});
       });
 
       $('#id_codigo_seis').on('change', function() {
