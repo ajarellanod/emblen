@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.base.shortcuts import softdelete_by_object
+
 class EmblenQuerySet(models.QuerySet):
     def eliminar(self):
         self.update(eliminado=True)
@@ -28,5 +30,8 @@ class EmblenBaseModel(models.Model):
     def eliminar(self):
         self.eliminado = True
         self.save()
+
+    def eliminar_relaciones(self):
+        softdelete_by_object(self)
 
     objects = EmblenManager()

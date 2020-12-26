@@ -15,6 +15,9 @@ class Sector(EmblenBaseModel):
 
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Sectores"
 
@@ -33,17 +36,14 @@ class Dependencia(EmblenBaseModel):
 
     descripcion = models.TextField()
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Dependencias"
 
 
 class Departamento(EmblenBaseModel):
-
-    dependencia = models.ForeignKey(
-        Dependencia,
-        related_name="departamentos",
-        on_delete=models.PROTECT
-    )
     
     unidad_ejecutora = models.ForeignKey(
         "UnidadEjecutora",
@@ -54,6 +54,9 @@ class Departamento(EmblenBaseModel):
     codigo = models.CharField(max_length=14)
 
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Departamentos"
@@ -137,13 +140,18 @@ class UnidadEjecutora(EmblenBaseModel):
     
     adscrito = models.ForeignKey(
         "UnidadEjecutora",
+        related_name="unidadejecutoras",
         on_delete=models.PROTECT,
         null=True,
+        blank=True,
     )
 
     codigo = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Unidades Ejecutoras"

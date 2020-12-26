@@ -8,7 +8,12 @@ from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
 
 
-class EmblenView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
+class EmblenPermissionsMixin(LoginRequiredMixin, MultiplePermissionsRequiredMixin):
+    class Meta:
+        abstract = True
+
+
+class EmblenView(View):
     
     template_name = False
     json_post = False
@@ -47,3 +52,6 @@ class EmblenView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, View):
 
     def jsonpost(self, request, *args, **kwargs):
         return Http404()
+
+    class Meta:
+        abstract = True
