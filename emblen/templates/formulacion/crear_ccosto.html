@@ -1,0 +1,180 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:ccostos' %}">Lista de Centros de Costos</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Creación de Centros de Costos</i></a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          <h3 class="mb-0">Creación Centro de Costo</h3>
+        </div>
+        <div class="col-4 text-right">
+          <a href="#!" class="btn btn-sm btn-primary" id="saveForm">Guardar</a>
+          <a href="{% url 'formulacion:ccostos' %}" class="btn btn-sm btn-default">Cancelar</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Crear Centro de Costo</h6>
+      <div class="pl-lg-4">
+        {% if form.errors %}
+          <div class="alert alert-default" role="alert">
+            {% for key,value in form.errors.items %}
+              <strong>Error en {{ key|escape }}:</strong>{{ value|escape }}
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="row">
+          <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_codigo_uno">Centro de Costo</label>
+                <select class="form-control selectsCcostos" id="id_codigo_uno" step="0">
+                  <option class="form-control">-------</option>
+                  {% for ccosto in ccostos %}
+                    <option class="form-control" value="{{ ccosto.id }}">
+                      {{ ccosto.option }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          <div class="col">
+              <div class="form-group">
+                  <label class="form-control-label" for="id_codigo_dos">Ramo</label>
+                  <select class="form-control selectsCcostos" id="id_codigo_dos" step="1">
+                    <option class="form-control">-------</option>
+                  </select>
+              </div>
+          </div>
+
+          <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_codigo_tres">Auxiliar</label>
+                <input type="text" id="id_codigo_tres" class="form-control" maxlength="3" placeholder="Aux">
+              </div>
+          </div>
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_codigo">Visualización de Centro de Costo Completo</label>
+                <input type="text" id="id_codigo" name="codigo" readonly="" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="form-control-label" for="id_nombre">{{ form.nombre.label }}</label>
+                <input type="text" id="id_nombre" max="100" name="nombre" class="form-control" placeholder="Añada Nombre del Centro de Costo">
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="number" id="saldoSinPuntos" name="saldo" value="0" hidden="true">
+        <input type="number" name="nivel" value="6" hidden="true">
+      </form>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="module">
+
+    import { postQuery, inputCurrency } from "{% static 'global/js/helpers.js' %}";
+    let url = "{% url 'formulacion:crear_ccosto' %}";
+    let token = "{{ csrf_token }}";
+
+    function resetSelectById(select){
+      $("#" + select).empty();
+      $("#" + select).html($('<option/>', {text:'------', value:''}));
+    }
+
+    function main(response, params){
+
+      let parseResponse = response.ccostos_hijas;
+
+      let id = params.id;
+      let step = parseInt(params.step);
+
+      let currentSelect = $(`select[step=${step}]`);
+      let nextSelect = $(`select[step=${step + 1}]`);
+
+      let inicio, fin;
+
+      // Definiendo que parte mostrar del codigo
+      switch (id){
+        case 'id_codigo_uno':
+          inicio=1; fin=3;
+          break;              
+        default:
+          inicio=1; fin=3;
+      }
+
+      // Reseteando todos los selects mayores al actual.
+      $('.selectsCcostos').filter(`:gt(${step})`).each(function(){
+        resetSelectById($(this).attr("id"));
+      });
+
+      // Desabilitando primera opcion del select
+      $('#' + currentSelect.attr("id") + ' option')[0].disabled = true;
+
+      // Mostrando todos los nuevos options
+      parseResponse.forEach(function(object){
+
+        nextSelect.append(
+          $('<option />', 
+          {
+            text: object.codigo.slice(inicio, fin),
+            value: object.id,
+          }
+        ));
+
+      });
+
+      // Añadiendo codigo completo
+      $("#id_codigo").val(response.ccosto_madre.codigo);
+        
+    }
+
+
+    $(document).ready(function(){
+
+      // inputCurrency("#id_saldo");
+
+      //<Disparadores Principales>
+
+      $('.selectsCcostos').on('change', function() {
+        let id = $(this).attr("id");
+        let step = $(this).attr("step");
+        let pk = $(this).val();
+        postQuery(url, token, {"data": pk}, main, {"id": id, "step": step});
+      });
+
+      $('#id_codigo_tres').on('change', function() {
+        if ($('#id_codigo_dos').val()){
+          let sinAux = $("#id_codigo").val().slice(0, 3);
+          $("#id_codigo").val(sinAux + $(this).val());
+        }
+      });
+
+      $('#saveForm').on('click', function() {
+        $("#form").submit();
+      });
+
+    });
+  </script>
+{% endblock script %}

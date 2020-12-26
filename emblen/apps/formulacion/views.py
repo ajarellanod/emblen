@@ -11,6 +11,10 @@ from apps.formulacion.models import Partida
 from apps.formulacion.forms import PartidaForm
 from apps.formulacion.serializers import PartidaSerializer
 
+from apps.formulacion.models import CentroCosto
+from apps.formulacion.forms import CentroCostoForm
+from apps.formulacion.serializers import CentroCostoSerializer
+
 from apps.base.views import EmblenView
 
 
@@ -119,3 +123,95 @@ class PartidaCreateView(EmblenView):
         # Si existe error transformando el request
         except TypeError:
             return {"partida_madre": "Partida Inexistente","partidas_hijas":[]}
+
+
+# Clases Centros de Costos
+class CcostoView(EmblenView):
+    permissions = {"all": ("formulacion.view_partida",)}
+    template_name = "formulacion/ccosto.html"
+    json_post = True
+    
+    def altget(self, request, pk):
+        ccosto = get_object_or_404(CentroCosto, pk=pk)
+        return {"ccosto": ccosto}
+    
+    def jsonpost(self, request, pk):
+        ccosto = get_object_or_404(CentroCosto, pk=pk)
+        ccosto.nombre = request.POST.get("nombre")
+        ccosto.save()
+        return {"msg": "Centro de Costo Guardado Exitosamente"}
+
+
+class CcostoListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, ListView):
+
+    # MultiplePermissionsRequiredMixin
+    permissions = {"all": ("formulacion.view_partida",)}
+
+    # ListView
+    queryset = CentroCosto.objects.all()
+    paginate_by = 8
+    template_name = "formulacion/ccostos.html"
+    success_url = "formulacion:ccostos"
+
+
+class CcostoUpdateView(EmblenView): 
+    permissions = {"all": ("formulacion.view_partida",)}
+    template_name = "formulacion/ccostoU.html"
+    
+    
+class CcostoDeleteView(EmblenView):
+    """Vista para borrar los centros de costo"""
+
+    permissions = {"all": ("formulacion.delete_partida",)}
+    
+    def altget(self, request, pk):
+        ccosto = get_object_or_404(CentroCosto, pk=pk)
+        ccosto.eliminar()
+        return redirect('formulacion:ccostos')
+
+
+class CcostoCreateView(EmblenView):
+    """
+    Se crean los centros de costo de nivel 3 por medio de los auxiliares
+    """
+
+    # Variables Necesarias
+    permissions = {"all": ("formulacion.view_partida",)}
+    template_name = "formulacion/crear_ccosto.html"
+    json_post = True
+
+    # Variables de Ayuda
+    ccostos = CentroCosto.objects.filter(nivel=1).annotate(option=Substr('codigo', 1, 1))
+    
+    def altget(self, request):
+        return {'ccostos': self.ccostos}
+
+    def altpost(self, request):
+        # Se reciben los formularios para guardar un nuevo centro de costo
+
+        #Creando el formulario y validandolo
+        ccosto_form = CentroCostoForm(data=request.POST)
+        if ccosto_form.is_valid():
+            ccosto = ccosto_form.save(commit=False)
+            ccosto.nivel = 3
+            ccosto.save()
+            return redirect('formulacion:ccostos')
+        else:
+            return {'ccostos': self.ccostos,'form': ccosto_form}
+
+    def jsonpost(self, request):
+        # Se manda un json con los centros de costo serializados
+
+        try:
+            # Obteniendo el centro de costo
+            id_ccosto = int(request.POST.get("data"))
+            ccosto = get_object_or_404(CentroCosto, pk=id_ccosto)
+            
+            # Salida
+            ccosto_madre = CentroCostoSerializer(ccosto).data
+            ccostos_hijas = CentroCostoSerializer(ccosto.siguientes(), many=True).data
+            return {"ccosto_madre": ccosto_madre,"ccostos_hijas": ccostos_hijas}
+
+        # Si existe error transformando el request
+        except TypeError:
+            return {"ccosto_madre": "Centro de Costo Inexistente","ccostos_hijas":[]}

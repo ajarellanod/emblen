@@ -117,14 +117,40 @@ class FuenteFinanciamiento(EmblenBaseModel):
 
 class CentroCosto(EmblenBaseModel):
 
-    codigo = models.CharField(max_length=10)
+    NIVELES = {
+        1: 1,
+        2: 3
+    }
+    
+    codigo = models.CharField(max_length=6,unique=True)
 
     nombre = models.CharField(max_length=100)
 
     nivel = models.IntegerField()
 
+    def sin_ceros(self):
+        """Retorna el codigo sin ceros a la derecha"""
+        return self.codigo[0:self.NIVELES[self.nivel]]
+
+    def siguientes(self):
+        """Devuelve queryset de los centros de costo hijos del nivel siguiente"""
+        
+        debe_comenzar = self.sin_ceros() 
+        siguiente_nivel = self.nivel + 1
+
+        queryset = CentroCosto.objects.filter(
+            nivel=siguiente_nivel,
+            codigo__startswith=debe_comenzar,
+        )
+
+        return queryset
+
     class Meta:
+        ordering = ('-creado',)
         verbose_name_plural = "Centros de Costos"
+
+    def __str__(self):
+        return self.codigo
 
 
 class UnidadEjecutora(EmblenBaseModel):
