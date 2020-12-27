@@ -4,10 +4,10 @@ from django.http import JsonResponse, Http404
 from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin
 
-from apps.base.views import EmblenView, EmblenPermissionsMixin
-from apps.formulacion.forms import PartidaForm, DepartamentoForm
+from apps.base.views import EmblenView, EmblenPermissionsMixin, EmblenDeleteView, EmblenFormView
+from apps.formulacion.forms import PartidaForm, DepartamentoForm, UnidadEjecutoraForm
 from apps.formulacion.serializers import PartidaSerializer
-from apps.formulacion.models import (Partida, Departamento)
+from apps.formulacion.models import (Partida, Departamento, UnidadEjecutora)
 
 # ----- Formulacion -----
 
@@ -49,15 +49,10 @@ class PartidaListView(EmblenPermissionsMixin, ListView):
     success_url = "formulacion:partidas"
     
     
-class PartidaDeleteView(EmblenPermissionsMixin, EmblenView):
-    """Vista para borrar las partidas"""
-
+class PartidaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     permissions = {"all": ("formulacion.delete_partida",)}
-    
-    def altget(self, request, pk):
-        partida = get_object_or_404(Partida, pk=pk)
-        partida.eliminar()
-        return redirect('formulacion:partidas')
+    model = Partida
+    success_url = 'formulacion:partidas'
 
 
 class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
@@ -114,64 +109,61 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
 
 # ----- Departamentos -----
 
-class DepartamentoView(EmblenPermissionsMixin, EmblenView):
+class DepartamentoView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_departamento",)}
     template_name = "formulacion/departamento.html"
-    
-    def altget(self, request, pk):
-        departamento = get_object_or_404(Departamento, pk=pk)
-        departamento_form = DepartamentoForm(instance=departamento)
-        return {"form": departamento_form}
-
-    def altpost(self, request, pk):
-        departamento = get_object_or_404(Departamento, pk=pk)
-        
-        departamento_form = DepartamentoForm(
-            data=request.POST, instance=departamento
-        )
-
-        if departamento_form.is_valid():
-            departamento_form.save()
-            return redirect("formulacion:departamentos")
-        else:
-            return {"form": departamento_form}
-
-
-class DepartamentoListView(EmblenPermissionsMixin, ListView):
-
-    # MultiplePermissionsRequiredMixin
-    permissions = {"all": ("formulacion.view_departamento",)}
-
-    # ListView
-    queryset = Departamento.objects.all().order_by("codigo")
-    paginate_by = 8
-    template_name = "formulacion/departamentos.html"
+    form_class = DepartamentoForm
+    instance_model = Departamento
     success_url = "formulacion:departamentos"
 
 
-class DepartamentoCreateView(EmblenPermissionsMixin, EmblenView):
+class DepartamentoListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/departamentos.html"
+    success_url = "formulacion:departamentos"
+    queryset = Departamento.objects.all().order_by("codigo")
+    paginate_by = 8
+    
+
+class DepartamentoCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_departamento",)}
     template_name = "formulacion/departamento.html"
-    
-    def altget(self, request):
-        departamento_form = DepartamentoForm()
-        return {"form": departamento_form}
-
-    def altpost(self, request):
-        departamento_form = DepartamentoForm(data=request.POST)
-        if departamento_form.is_valid():
-            departamento_form.save()
-            return redirect("formulacion:departamentos")
-        else:
-            return {"form": departamento_form}
+    form_class = DepartamentoForm
+    success_url = "formulacion:departamentos"
 
 
-class DepartamentoDeleteView(EmblenPermissionsMixin, EmblenView):
-    """Vista para borrar las departamentos"""
-
+class DepartamentoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     permissions = {"all": ("formulacion.delete_departamento",)}
-    
-    def altget(self, request, pk):
-        departamento = get_object_or_404(Departamento, pk=pk)
-        departamento.eliminar()
-        return redirect('formulacion:departamentos')
+    model = Departamento
+    success_url = "formulacion:departamentos"
+
+
+# ----- Unidades Ejecutoras -----
+
+class UnidadEjecutoraView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/unidad_ejecutora.html"
+    form_class = UnidadEjecutoraForm
+    instance_model = UnidadEjecutora
+    success_url = "formulacion:unidades_ejecutoras"
+
+
+class UnidadEjecutoraListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_unidadejecutora",)}
+    template_name = "formulacion/unidades_ejecutoras.html"
+    success_url = "formulacion:unidades_ejecutoras"
+    queryset = UnidadEjecutora.objects.all().order_by("codigo")
+    paginate_by = 8
+
+
+class UnidadEjecutoraCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/unidad_ejecutora.html"
+    form_class = UnidadEjecutoraForm
+    success_url = "formulacion:unidades_ejecutoras"
+
+
+class UnidadEjecutoraDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_departamento",)}
+    model = UnidadEjecutora
+    success_url = "formulacion:unidades_ejecutoras"

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-  Partidas Presupuestarias
+  Lista de Unidades Ejecutoras
 {% endblock title %}
 
 {% block menu %}
@@ -11,9 +11,13 @@
 {% endblock menu %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:principal' %}">
+      <i class="fas fa-home"></i>
+    </a>
+  </li>
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
-  <li class="breadcrumb-item"><a href="#">Partidas Presupuestarias</a></li>
+  <li class="breadcrumb-item"><a href="#">Unidades Ejecutoras</a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -25,50 +29,56 @@
       <div class="card-header border-0">
         <div class="row align-items-center">
           <div class="col-6">
-            <h3 class="mb-0">Partidas Presupuestarias</h3>
+            <h3 class="mb-0">Unidades Ejecutoras</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:crear_partida' %}" class="btn btn-sm btn-primary">
-              Nueva
+            <a id="btn_partidaNew" href="{% url 'formulacion:crear_unidad_ejecutora' %}" 
+            class="btn btn-sm btn-primary">
+              Crear Unidad Ejecutora
             </a>
           </div>
         </div>
       </div>
       <!-- Light table -->
       <div class="table-responsive" id="tablaPartidas">
-        <table class="table align-items-center table-hover" > <!-- table-bordered -->
+        <table class="table align-items-center table-hover" >
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center" style="width: 5%;" data-sort="nivel">Nivel</th>
-              <th scope="col" class="sort text-center" style="width: 20%;" data-sort="cuenta">Cuenta</th>
-              <th scope="col" class="sort text-center" style="width: 45%;" data-sort="descripcion">Descripción</th>
-              <th scope="col" class="sort text-center " style="width: 25%;" data-sort="saldo">Saldo</th>
+              <th scope="col" class="sort text-center" data-sort="nombre">
+                Nombre
+              </th>
+              <th scope="col" class="sort text-center" data-sort="dependencia">Dependencia</th>
+              <th scope="col" class="sort text-center" data-sort="unidad_ejecutora">
+                Adscrito a
+              </th>
+              <th scope="col" class="sort text-center " data-sort="codigo">Codigo</th>
               <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
             </tr>
           </thead>
           <tbody>
-            {% for partida in page_obj %}
+            {% for unidad in page_obj %}
               <tr>
                 <th scope="row" class="nivel text-center">
-                  {{ partida.nivel }}
-                </th>
-                <td class="cuenta text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:ver_partida' partida.id %}">
-                        <span class="name mb-0 text-sm">{{ partida.cuenta }}</span>
+                      <a href="{% url 'formulacion:ver_unidad_ejecutora' unidad.id %}">
+                        <span class="name mb-0 text-sm">{{ unidad.nombre }}</span>
                       </a>
                     </div>
                   </div>
+                </th>
+                <td class="cuenta text-center">
+                  {{ unidad.dependencia }}
                 </td>
                 <td class="descripcion text-center">
-                  {{ partida.descripcion }}
+                  {{ unidad.adscrito }}
                 </td>
                 <td class="saldo text-center"> 
-                  {{ partida.saldo|floatformat:2 }}
+                  {{ unidad.codigo }}
                 </td>
                 <td class="text-right">
-                  <a href="{% url 'formulacion:eliminar_partida' partida.id %}" class="btn btn-sm btn-default">
+                  <a href="{% url 'formulacion:eliminar_unidad_ejecutora' unidad.id %}" 
+                  class="btn btn-sm btn-default">
                     Eliminar
                   </a>
                 </td>
@@ -78,7 +88,7 @@
         </table>
       </div>
       <!-- Card footer -->
-      {% include 'base/_paginador.html' %}
+      {% include 'base/_paginador.html' %}  
     </div>
   </div>
 </div>

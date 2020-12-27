@@ -12,4 +12,8 @@ urlpatterns = [
     path('departamento/<pk>/', views.DepartamentoView.as_view(), name="ver_departamento"),
     path("departamentos/", views.DepartamentoListView.as_view(), name="departamentos"),
     path('departamento/<pk>/eliminar/', views.DepartamentoDeleteView.as_view(), name="eliminar_departamento"),
+    path("unidades-ejecutoras/", views.UnidadEjecutoraListView.as_view(), name="unidades_ejecutoras"),
+    path('unidad-ejecutora/crear/', views.UnidadEjecutoraCreateView.as_view(), name="crear_unidad_ejecutora"),
+    path('unidad-ejecutora/<pk>/', views.UnidadEjecutoraView.as_view(), name="ver_unidad_ejecutora"),
+    path('unidad-ejecutora/<pk>/eliminar/', views.UnidadEjecutoraDeleteView.as_view(), name="eliminar_unidad_ejecutora"),
 ]
