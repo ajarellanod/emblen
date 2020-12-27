@@ -8,9 +8,13 @@
   {% include 'formulacion/menu.html' %}  
 {% endblock menu %}
 
+{% block title %}
+  Centro de Costo - {{ ccosto.id }}
+{% endblock title %}
+
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
-  <li class="breadcrumb-item"><a href="{% url 'formulacion:ccostos' %}">Lista de Centros de Costo</i></a></li>
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:centros_costos' %}">Lista de Centros de Costo</i></a></li>
   <li class="breadcrumb-item"><a href="#">Centro de Costo</i></a></li>
 {% endblock breadcrumb %}
 
@@ -30,10 +34,10 @@
           <h3 class="mb-0">Creación Centro de Costo</h3>
         </div>
         <div class="col-4 text-right">
-          <a href="#" class="btn btn-sm btn-primary" id="queryButton" callback="true" url="{% url 'formulacion:ver_ccosto' ccosto.id %}" token="{{ csrf_token }}">
+          <a href="#" class="btn btn-sm btn-primary" id="queryButton" callback="true" url="{% url 'formulacion:ver_centro_costo' ccosto.id %}" token="{{ csrf_token }}">
             Guardar
           </a>
-          <a href="{% url 'formulacion:ccostos' %}" class="btn btn-sm btn-default">Cancelar</a>
+          <a href="{% url 'formulacion:centros_costos' %}" class="btn btn-sm btn-default">Cancelar</a>
         </div>
       </div>
     </div>
@@ -71,12 +75,15 @@
   <script>
     function callbackFunction(response){
       Swal.fire(
-        'Centro de Costo Editado!',
+        response.msg,
         '',
-        'success'
+        response.icon
       ).then((result) => {
-        window.location.replace("{% url 'formulacion:ccostos' %}");
+        window.location.replace("{% url 'formulacion:centros_costos' %}");
       })
     }
+    $(document).ready(function(){
+      $('#m_centros_costos').attr('class','nav-link active-option-menu');
+    });
   </script>
 {% endblock script %}

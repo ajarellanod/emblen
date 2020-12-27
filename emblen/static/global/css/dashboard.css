@@ -26393,3 +26393,13 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget tab
 }
 
 /*# sourceMappingURL=dashboard.css.map */
+
+.active-option-menu{
+    background: #600114;
+    margin-right: 1rem;
+    margin-left: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.375rem;
+    color: #ffffff!important;
+}

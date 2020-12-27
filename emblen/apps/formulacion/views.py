@@ -108,9 +108,10 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
             return {"partida_madre": "Partida Inexistente","partidas_hijas":[]}
 
 
-# Clases Centros de Costos
-class CcostoView(EmblenView):
-    permissions = {"all": ("formulacion.view_partida",)}
+# ----- Centros de Costos ----- 
+
+class CentroCostoView(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("formulacion.view_centro_costo",)}
     template_name = "formulacion/ccosto.html"
     json_post = True
     
@@ -120,46 +121,51 @@ class CcostoView(EmblenView):
     
     def jsonpost(self, request, pk):
         ccosto = get_object_or_404(CentroCosto, pk=pk)
-        ccosto.nombre = request.POST.get("nombre")
-        ccosto.save()
-        return {"msg": "Centro de Costo Guardado Exitosamente"}
+        nombre = request.POST.get("nombre")
+        if nombre is not None and nombre != "":
+            ccosto.nombre = nombre        
+            ccosto.save()
+            return {"msg": "Centro de Costo Guardado Exitosamente", "icon": "success"}
+        else:
+            return {"msg": "Centro de Costo Fallo al Guardar", "icon": "error"}
 
 
-class CcostoListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, ListView):
+class CentroCostoListView(EmblenPermissionsMixin, ListView):
 
     # MultiplePermissionsRequiredMixin
-    permissions = {"all": ("formulacion.view_partida",)}
+    permissions = {"all": ("formulacion.view_centro_costo",)}
 
     # ListView
     queryset = CentroCosto.objects.all()
     paginate_by = 8
     template_name = "formulacion/ccostos.html"
-    success_url = "formulacion:ccostos"
+    success_url = "formulacion:centros_costos"
 
 
-class CcostoUpdateView(EmblenView): 
-    permissions = {"all": ("formulacion.view_partida",)}
-    template_name = "formulacion/ccostoU.html"
+# class CentroCostoUpdateView(EmblenView): 
+#     permissions = {"all": ("formulacion.view_partida",)}
+#     template_name = "formulacion/ccostoU.html"
     
     
-class CcostoDeleteView(EmblenView):
+class CentroCostoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     """Vista para borrar los centros de costo"""
 
-    permissions = {"all": ("formulacion.delete_partida",)}
-    
-    def altget(self, request, pk):
-        ccosto = get_object_or_404(CentroCosto, pk=pk)
-        ccosto.eliminar()
-        return redirect('formulacion:ccostos')
+    permissions = {"all": ("formulacion.delete_centro_costo",)}
+    model = CentroCosto
+    success_url = 'formulacion:centros_costos'
+    # def altget(self, request, pk):
+    #     ccosto = get_object_or_404(CentroCosto, pk=pk)
+    #     ccosto.eliminar()
+    #     return redirect('formulacion:ccostos')
 
 
-class CcostoCreateView(EmblenView):
+class CentroCostoCreateView(EmblenPermissionsMixin, EmblenView):
     """
     Se crean los centros de costo de nivel 3 por medio de los auxiliares
     """
 
     # Variables Necesarias
-    permissions = {"all": ("formulacion.view_partida",)}
+    permissions = {"all": ("formulacion.view_centro_costo",)}
     template_name = "formulacion/crear_ccosto.html"
     json_post = True
 
@@ -178,7 +184,7 @@ class CcostoCreateView(EmblenView):
             ccosto = ccosto_form.save(commit=False)
             ccosto.nivel = 3
             ccosto.save()
-            return redirect('formulacion:ccostos')
+            return redirect('formulacion:centros_costos')
         else:
             return {'ccostos': self.ccostos,'form': ccosto_form}
 

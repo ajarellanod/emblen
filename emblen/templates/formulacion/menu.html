@@ -3,7 +3,7 @@
 
 <li class="nav-item">
   <a class="nav-link active active-pro" href="{% url 'formulacion:principal' %}">
-    <i class="fas fa-atom text-primary"></i>
+    <i class="fas fa-atom "></i>
     <span class="nav-link-text">Formulación</span>
   </a>
 </li>
@@ -44,12 +44,27 @@
           <span class="sidenav-normal"> Departamentos </span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link">
+          <span class="sidenav-mini-icon"> UE </span>
+          <span class="sidenav-normal"> Unidades Ejecutoras </span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{% url 'formulacion:centros_costos' %}" class="nav-link" id="m_centros_costos">
+          <span class="sidenav-mini-icon"> CC </span>
+          <span class="sidenav-normal"> Centros Costos </span>
+        </a>
+      </li>
       <li class="nav-item">
         <a href="{% url 'formulacion:partidas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> P </span>
           <span class="sidenav-normal"> Partidas </span>
         </a>
       </li>
+
       <li class="nav-item">
         <a href="#" class="nav-link">
           <span class="sidenav-mini-icon"> P/C </span>

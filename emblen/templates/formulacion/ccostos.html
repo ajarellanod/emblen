@@ -2,9 +2,9 @@
 
 {% load static %}
 
-{% load widget_tweaks %}
-
-{% load humanize %}
+{% block title %}
+  Centros de Costos
+{% endblock title %}
 
 {% block menu %}
   {% include 'formulacion/menu.html' %}  
@@ -28,7 +28,7 @@
             <h3 class="mb-0">Centros de Costos</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:crear_ccosto' %}" class="btn btn-sm btn-primary">
+            <a id="btn_partidaNew" href="{% url 'formulacion:crear_centro_costo' %}" class="btn btn-sm btn-primary">
               Nuevo
             </a>
           </div>
@@ -54,7 +54,9 @@
                 <td class="cuenta text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <span class="name mb-0 text-sm">{{ ccosto.codigo }}</span>
+                      <a href="{% url 'formulacion:ver_centro_costo' ccosto.id %}">
+                        <span class="name mb-0 text-sm">{{ ccosto.codigo }}</span>
+                      </a>
                     </div>
                   </div>
                 </td>
@@ -62,10 +64,7 @@
                   {{ ccosto.nombre }}
                 </td>
                 <td class="text-right">
-                  <a href="{% url 'formulacion:ver_ccosto' ccosto.id %}" class="btn btn-sm btn-primary">
-                    Ver
-                  </a>
-                  <a href="{% url 'formulacion:eliminar_ccosto' ccosto.id %}" class="btn btn-sm btn-default">
+                  <a href="{% url 'formulacion:eliminar_centro_costo' ccosto.id %}" class="btn btn-sm btn-default">
                     Eliminar
                   </a>
                 </td>
@@ -75,46 +74,16 @@
         </table>
       </div>
       <!-- Card footer -->
-      <div class="card-footer py-4">
-        <nav aria-label="...">
-          <ul class="pagination justify-content-end mb-0">
-            {% if page_obj.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?page=1" tabindex="-1">
-                  <i class="fas fa-angle-double-left"></i>
-                  <span class="sr-only">first</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
-                </a>              
-              </li>
-            {% endif %}
-
-            <li class="page-item active">
-              <a class="page-link link-active" href="?page=1" tabindex="-1">{{ page_obj.number }}</a>
-            </li>
-
-            {% if page_obj.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
-                  <i class="fas fa-angle-double-right"></i>
-                  <span class="sr-only">Last</span>
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </nav>
-      </div>
+      {% include 'base/_paginador.html' %}
     </div>
   </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+  <script type="module">
+    $(document).ready(function(){
+      $('#m_centros_costos').attr('class','nav-link active-option-menu');
+    });
+  </script>
+{% endblock script %}
