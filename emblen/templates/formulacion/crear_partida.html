@@ -6,6 +6,10 @@
   {% include 'formulacion/menu.html' %}  
 {% endblock menu %}
 
+{% block title %}
+  Crear Nueva Partida
+{% endblock title %}
+
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
   <li class="breadcrumb-item"><a href="{% url 'formulacion:partidas' %}">Lista de Partidas</i></a></li>
@@ -28,13 +32,7 @@
     <div class="card-body">
       <h6 class="heading-small text-muted mb-4">Crear Partida Presupuestaria</h6>
       <div class="pl-lg-4">
-        {% if form.errors %}
-          <div class="alert alert-default" role="alert">
-            {% for key,value in form.errors.items %}
-              <strong>Error en {{ key|escape }}:</strong>{{ value|escape }}
-            {% endfor %}
-          </div>
-        {% endif %}
+        {% include 'base/_form_error.html' %}
         <div class="row">
           <div class="col">
               <div class="form-group">

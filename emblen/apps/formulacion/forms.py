@@ -1,14 +1,25 @@
 from django import forms
-from django.db.models.functions import Substr
 
-from apps.formulacion.models import Partida
-from apps.formulacion.models import CentroCosto
+
+from apps.formulacion.models import (Partida, Departamento, UnidadEjecutora, CentroCosto)
 
 
 class PartidaForm(forms.ModelForm):
     class Meta:
         model = Partida
         fields = ("cuenta","descripcion", "saldo")
+
+
+class DepartamentoForm(forms.ModelForm):
+    class Meta:
+        model = Departamento
+        fields = ("nombre","codigo", "unidad_ejecutora")
+
+
+class UnidadEjecutoraForm(forms.ModelForm):
+    class Meta:
+        model = UnidadEjecutora
+        fields = "__all__"
 
 
 class CentroCostoForm(forms.ModelForm):

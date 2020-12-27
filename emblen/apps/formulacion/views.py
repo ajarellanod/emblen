@@ -1,34 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
-from django.views.generic.edit import UpdateView, DeleteView
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse, Http404
 from django.db.models.functions import Substr
+from braces.views import LoginRequiredMixin
 
-from braces.views import LoginRequiredMixin, MultiplePermissionsRequiredMixin
-
-from apps.formulacion.models import Partida
-from apps.formulacion.forms import PartidaForm
-from apps.formulacion.serializers import PartidaSerializer
-
-from apps.formulacion.models import CentroCosto
-from apps.formulacion.forms import CentroCostoForm
-from apps.formulacion.serializers import CentroCostoSerializer
-
-from apps.base.views import EmblenView
+from apps.base.views import EmblenView, EmblenPermissionsMixin, EmblenDeleteView, EmblenFormView
+from apps.formulacion.forms import PartidaForm, DepartamentoForm, UnidadEjecutoraForm, CentroCostoForm
+from apps.formulacion.serializers import PartidaSerializer, CentroCostoSerializer
+from apps.formulacion.models import (Partida, Departamento, UnidadEjecutora, CentroCosto)
 
 
-class PrincipalView(LoginRequiredMixin, View):
+# ----- Formulacion -----
 
-    permissions = {"all": ("formulacion.view_partida",)}
-
+class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "formulacion/principal.html"
 
-    def get(self, request):
-        return render(request, self.template_name)
 
+# ----- Partidas -----
 
-class PartidaView(EmblenView):
+class PartidaView(EmblenPermissionsMixin, EmblenView):
     permissions = {"all": ("formulacion.view_partida",)}
     template_name = "formulacion/partida.html"
     json_post = True
@@ -39,12 +29,16 @@ class PartidaView(EmblenView):
     
     def jsonpost(self, request, pk):
         partida = get_object_or_404(Partida, pk=pk)
-        partida.descripcion = request.POST.get("descripcion")
-        partida.save()
-        return {"msg": "Partida Guardada Exitosamente"}
+        descripcion = request.POST.get("descripcion")
+        if descripcion is not None and descripcion != "":
+            partida.descripcion = descripcion        
+            partida.save()
+            return {"msg": "Partida Guardada Exitosamente", "icon": "success"}
+        else:
+            return {"msg": "Partida Fallo al Guardar", "icon": "error"}
 
 
-class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, ListView):
+class PartidaListView(EmblenPermissionsMixin, ListView):
 
     # MultiplePermissionsRequiredMixin
     permissions = {"all": ("formulacion.view_partida",)}
@@ -54,25 +48,15 @@ class PartidaListView(LoginRequiredMixin, MultiplePermissionsRequiredMixin, List
     paginate_by = 8
     template_name = "formulacion/partidas.html"
     success_url = "formulacion:partidas"
-
-
-class PartidaUpdateView(EmblenView): 
-    permissions = {"all": ("formulacion.view_partida",)}
-    template_name = "formulacion/partidaU.html"
     
     
-class PartidaDeleteView(EmblenView):
-    """Vista para borrar las partidas"""
-
+class PartidaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     permissions = {"all": ("formulacion.delete_partida",)}
-    
-    def altget(self, request, pk):
-        partida = get_object_or_404(Partida, pk=pk)
-        partida.eliminar()
-        return redirect('formulacion:partidas')
+    model = Partida
+    success_url = 'formulacion:partidas'
 
 
-class PartidaCreateView(EmblenView):
+class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
     """
     Se crean las partidas de nivel 6 por medio de los auxiliares
     """
@@ -103,7 +87,6 @@ class PartidaCreateView(EmblenView):
                 return redirect('formulacion:partidas')
             else:
                 return {'partidas': self.partidas,'form': partida_form}
-
         else:
             return Http404()
 
@@ -215,3 +198,65 @@ class CcostoCreateView(EmblenView):
         # Si existe error transformando el request
         except TypeError:
             return {"ccosto_madre": "Centro de Costo Inexistente","ccostos_hijas":[]}
+
+
+# ----- Departamentos -----
+
+class DepartamentoView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/departamento.html"
+    form_class = DepartamentoForm
+    instance_model = Departamento
+    success_url = "formulacion:departamentos"
+
+
+class DepartamentoListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/departamentos.html"
+    success_url = "formulacion:departamentos"
+    queryset = Departamento.objects.all().order_by("codigo")
+    paginate_by = 8
+    
+
+class DepartamentoCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/departamento.html"
+    form_class = DepartamentoForm
+    success_url = "formulacion:departamentos"
+
+
+class DepartamentoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_departamento",)}
+    model = Departamento
+    success_url = "formulacion:departamentos"
+
+
+# ----- Unidades Ejecutoras -----
+
+class UnidadEjecutoraView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/unidad_ejecutora.html"
+    form_class = UnidadEjecutoraForm
+    instance_model = UnidadEjecutora
+    success_url = "formulacion:unidades_ejecutoras"
+
+
+class UnidadEjecutoraListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_unidadejecutora",)}
+    template_name = "formulacion/unidades_ejecutoras.html"
+    success_url = "formulacion:unidades_ejecutoras"
+    queryset = UnidadEjecutora.objects.all().order_by("codigo")
+    paginate_by = 8
+
+
+class UnidadEjecutoraCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_departamento",)}
+    template_name = "formulacion/unidad_ejecutora.html"
+    form_class = UnidadEjecutoraForm
+    success_url = "formulacion:unidades_ejecutoras"
+
+
+class UnidadEjecutoraDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_departamento",)}
+    model = UnidadEjecutora
+    success_url = "formulacion:unidades_ejecutoras"

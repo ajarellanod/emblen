@@ -8,6 +8,10 @@
   {% include 'formulacion/menu.html' %}  
 {% endblock menu %}
 
+{% block title %}
+  Partida Presupuestaria - {{ partida.id }}
+{% endblock title %}
+
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}"><i class="fas fa-home"></i></a></li>
   <li class="breadcrumb-item"><a href="{% url 'formulacion:partidas' %}">Lista de Partidas</i></a></li>
@@ -77,9 +81,9 @@
   <script>
     function callbackFunction(response){
       Swal.fire(
-        'Partida Editada!',
+        response.msg,
         '',
-        'success'
+        response.icon
       ).then((result) => {
         window.location.replace("{% url 'formulacion:partidas' %}");
       })

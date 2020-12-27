@@ -9,9 +9,17 @@ urlpatterns = [
     path('partida/<pk>/', views.PartidaView.as_view(), name="ver_partida"),
     path('partida/<pk>/eliminar/', views.PartidaDeleteView.as_view(), name="eliminar_partida"),
 
+    path('departamento/crear/', views.DepartamentoCreateView.as_view(), name="crear_departamento"),
+    path('departamento/<pk>/', views.DepartamentoView.as_view(), name="ver_departamento"),
+    path("departamentos/", views.DepartamentoListView.as_view(), name="departamentos"),
+    path('departamento/<pk>/eliminar/', views.DepartamentoDeleteView.as_view(), name="eliminar_departamento"),
+    path("unidades-ejecutoras/", views.UnidadEjecutoraListView.as_view(), name="unidades_ejecutoras"),
+    path('unidad-ejecutora/crear/', views.UnidadEjecutoraCreateView.as_view(), name="crear_unidad_ejecutora"),
+    path('unidad-ejecutora/<pk>/', views.UnidadEjecutoraView.as_view(), name="ver_unidad_ejecutora"),
+    path('unidad-ejecutora/<pk>/eliminar/', views.UnidadEjecutoraDeleteView.as_view(), name="eliminar_unidad_ejecutora"),
+
     path("ccostos/", views.CcostoListView.as_view(), name="ccostos"),
     path('ccosto/crear/', views.CcostoCreateView.as_view(), name="crear_ccosto"),
     path('ccosto/<pk>/', views.CcostoView.as_view(), name="ver_ccosto"),
     path('ccosto/<pk>/eliminar/', views.CcostoDeleteView.as_view(), name="eliminar_ccosto"),
-
 ]

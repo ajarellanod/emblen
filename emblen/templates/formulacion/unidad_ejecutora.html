@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %}
+  {% if form.initial %}
+    Departamento - {{form.instance.nombre}}
+  {% else %}
+    Nuevo Departamento
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">
+    <i class="fas fa-home"></i></a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:departamentos' %}">
+      Unidades Ejecutoras
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.nombre}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Crear Unidad Ejecutora</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white;
+    }
+  </style>
+{% endblock head %}
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">Unidad Ejecutora - {{form.instance.nombre}}</h3>
+          {% else %}
+            <h3 class="mb-0">Crear Unidad Ejecutora</h3>
+          {% endif %}
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
+            Guardar
+          </a>
+          <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="btn btn-sm btn-default">
+            Cancelar
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Detalles</h6>
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_descripcion">Dependencia</label>
+                {% render_field form.dependencia class="form-control" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_descripcion">Unidad Ejecutora Adscrita</label>
+                {% render_field form.adscrito class="form-control" %}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_cuenta">Nombre de la Unidad</label>
+                {% render_field form.nombre class="form-control" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_saldo">Codigo de la Unidad</label>
+                {% render_field form.codigo class="form-control" %}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('#saveForm').on('click', function() {
+            $("#form").submit();
+        });
+    </script>
+{% endblock script %}
