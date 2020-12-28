@@ -39,11 +39,7 @@ class PartidaView(EmblenPermissionsMixin, EmblenView):
 
 
 class PartidaListView(EmblenPermissionsMixin, ListView):
-
-    # MultiplePermissionsRequiredMixin
     permissions = {"all": ("formulacion.view_partida",)}
-
-    # ListView
     queryset = Partida.objects.all()
     paginate_by = 8
     template_name = "formulacion/partidas.html"
@@ -131,32 +127,18 @@ class CentroCostoView(EmblenPermissionsMixin, EmblenView):
 
 
 class CentroCostoListView(EmblenPermissionsMixin, ListView):
-
-    # MultiplePermissionsRequiredMixin
     permissions = {"all": ("formulacion.view_centro_costo",)}
-
-    # ListView
     queryset = CentroCosto.objects.all()
     paginate_by = 8
     template_name = "formulacion/ccostos.html"
     success_url = "formulacion:centros_costos"
-
-
-# class CentroCostoUpdateView(EmblenView): 
-#     permissions = {"all": ("formulacion.view_partida",)}
-#     template_name = "formulacion/ccostoU.html"
     
     
 class CentroCostoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     """Vista para borrar los centros de costo"""
-
     permissions = {"all": ("formulacion.delete_centro_costo",)}
     model = CentroCosto
     success_url = 'formulacion:centros_costos'
-    # def altget(self, request, pk):
-    #     ccosto = get_object_or_404(CentroCosto, pk=pk)
-    #     ccosto.eliminar()
-    #     return redirect('formulacion:ccostos')
 
 
 class CentroCostoCreateView(EmblenPermissionsMixin, EmblenView):

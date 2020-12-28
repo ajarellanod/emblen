@@ -1,0 +1,55 @@
+{% extends 'base/reporte_base.html' %}
+
+{% block reporte_title %}
+    Todas las Partidas
+{% endblock reporte_title %}
+
+{% block reporte_header %}
+    <div class="row align-items-center">
+      <div class="col-1">
+        <img alt="Image placeholder" src="/static/global/images/user.jpg" height="50">
+      </div>
+      <div class="col-3 offset-3 text-center">
+        Todas las Partidas
+      </div>
+    </div>
+{% endblock reporte_header %}
+
+{% block reporte_body %}
+<div class="table-responsive" id="tablaPartidas">
+<table class="table align-items-center table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" class="sort text-center" style="width: 5%;" data-sort="nivel">Nivel</th>
+      <th scope="col" class="sort text-center" style="width: 20%;" data-sort="cuenta">Cuenta</th>
+      <th scope="col" class="sort text-center" style="width: 45%;" data-sort="descripcion">Descripción</th>
+      <th scope="col" class="sort text-center " style="width: 25%;" data-sort="saldo">Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for partida in partidas %}
+      <tr>
+        <th scope="row" class="nivel text-center">
+          {{ partida.nivel }}
+        </th>
+        <td class="cuenta text-center">
+          <div class="media align-items-center">
+            <div class="media-body">
+              <a href="#">
+                <span class="name mb-0 text-sm">{{ partida.cuenta }}</span>
+              </a>
+            </div>
+          </div>
+        </td>
+        <td class="descripcion text-center">
+          {{ partida.descripcion }}
+        </td>
+        <td class="saldo text-center"> 
+          {{ partida.saldo }}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock reporte_body %}

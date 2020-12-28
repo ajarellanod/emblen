@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.formulacion import views
+from apps.formulacion import views, reports
 
 urlpatterns = [
     path("", views.PrincipalView.as_view(), name="principal"),
@@ -24,4 +24,6 @@ urlpatterns = [
     path('centro-costo/crear/', views.CentroCostoCreateView.as_view(), name="crear_centro_costo"),
     path('centro-costo/<pk>/', views.CentroCostoView.as_view(), name="ver_centro_costo"),
     path('centro-costo/<pk>/eliminar/', views.CentroCostoDeleteView.as_view(), name="eliminar_centro_costo"),
+
+    path('r/todas-partidas/', reports.TodasPartidasReport.as_view())
 ]
