@@ -22,7 +22,7 @@ class EmblenManager(models.Manager):
 class EmblenBaseModel(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     modificado = models.DateTimeField(auto_now=True)
-    eliminado = models.BooleanField(default=False)
+    eliminado = models.BooleanField(default=False, editable=False)
     
     class Meta:
         abstract = True

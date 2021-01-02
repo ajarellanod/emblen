@@ -32,7 +32,7 @@
           <h3 class="mb-0">Creación Cuenta Presupuestaria</h3>
         </div>
         <div class="col-4 text-right">
-          <a href="#" class="btn btn-sm btn-primary" id="queryButton" callback="true" url="{% url 'formulacion:ver_partida' partida.id %}" token="{{ csrf_token }}">
+          <a href="#" class="btn btn-sm btn-primary" id="queryButton" callback="true" url="{% url 'formulacion:v_partida' partida.id %}" token="{{ csrf_token }}">
             Guardar
           </a>
           <a href="{% url 'formulacion:partidas' %}" class="btn btn-sm btn-default">Cancelar</a>

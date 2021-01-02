@@ -122,7 +122,7 @@
   <script type="module">
 
     import { postQuery, inputCurrency } from "{% static 'global/js/helpers.js' %}";
-    let url = "{% url 'formulacion:crear_partida' %}";
+    let url = "{% url 'formulacion:c_partida' %}";
     let token = "{{ csrf_token }}";
 
     function resetSelectById(select){

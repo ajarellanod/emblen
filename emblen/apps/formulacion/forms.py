@@ -1,7 +1,12 @@
 from django import forms
 
-
-from apps.formulacion.models import (Partida, Departamento, UnidadEjecutora, CentroCosto)
+from apps.formulacion.models import (
+    Partida,
+    Departamento,
+    UnidadEjecutora,
+    CentroCosto,
+    Programa
+)
 
 
 class PartidaForm(forms.ModelForm):
@@ -26,3 +31,9 @@ class CentroCostoForm(forms.ModelForm):
     class Meta:
         model = CentroCosto
         fields = ("codigo","nombre")
+
+
+class ProgramaForm(forms.ModelForm):
+    class Meta:
+        model = Programa
+        fields = "__all__"

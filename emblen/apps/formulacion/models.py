@@ -223,7 +223,7 @@ class PeriodoActualizacion(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Periodos de Actualizacion"
-
+ 
 
 class CondicionPrograma(EmblenBaseModel):
     
@@ -237,10 +237,14 @@ class CondicionPrograma(EmblenBaseModel):
 
 class Programa(EmblenBaseModel):
 
-    dependencia = models.ForeignKey(
-        Dependencia,
-        related_name="programas",
-        on_delete=models.PROTECT
+    FEMENINO = 0
+    MASCULINO = 1
+    NO_DEFINIDO = 2
+
+    SEXO_BENEFICIARIO = (
+        (FEMENINO, "Femenino"),
+        (MASCULINO, "Masculino"),
+        (NO_DEFINIDO, "No Definido")
     )
 
     periodo_actualizacion = models.ForeignKey(
@@ -249,7 +253,7 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    # Información Básica
+    # Información Básica =====================================
 
     anio = models.CharField(max_length=4)
 
@@ -257,7 +261,7 @@ class Programa(EmblenBaseModel):
 
     nivel = models.IntegerField() #3 o 4
 
-    detallada = models.TextField()
+    detalle = models.TextField()
 
     condicion = models.ForeignKey(
         CondicionPrograma,
@@ -265,7 +269,7 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    estado = models.CharField(max_length=3) #INI -
+    estado = models.CharField(max_length=3, default="INI") #INI
 
     sector_desarrollador = models.ForeignKey(
         SectorDesarrollador,
@@ -279,19 +283,13 @@ class Programa(EmblenBaseModel):
 
     fin = models.DateTimeField()
 
-    # =======================================================
-
-    # Responsables
-
     responsable = models.ForeignKey(
         Departamento,
         related_name="programas",
         on_delete=models.PROTECT
     )
 
-    # =======================================================
-
-    # Ubicación
+    # Ubicación ==============================================
 
     extension_territorial = models.BooleanField(default=True)
 
@@ -301,10 +299,8 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    # =======================================================
+    # Objetivos ============================================
     
-    # Objetivos
-
     desarrollo_sostenible = models.TextField()
 
     estrategico = models.TextField()
@@ -315,9 +311,7 @@ class Programa(EmblenBaseModel):
 
     resumen = models.TextField()   
 
-    # =======================================================
-
-    # Resultado Esperados -> AQUI QUEDÉ
+    # Resultado Esperados ==================================
 
     bien_servicio = models.TextField()
 
@@ -335,17 +329,14 @@ class Programa(EmblenBaseModel):
 
     indicador_objetivo = models.TextField()
 
-    # =======================================================
+    # Distribución Meta Física Trimestral ===================
 
-    # Distribución Meta Física Trimestral
     trimestre_1 = models.DecimalField(max_digits=22,decimal_places=4)
     trimestre_2 = models.DecimalField(max_digits=22,decimal_places=4)
     trimestre_3 = models.DecimalField(max_digits=22,decimal_places=4)
     trimestre_4 = models.DecimalField(max_digits=22,decimal_places=4)
     
-    # =======================================================
-
-    # Beneficiarios
+    # Beneficiarios ==========================================
 
     tipo_beneficiario = models.ForeignKey(
         TipoBeneficiario,
@@ -353,16 +344,13 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    distincion_genero = models.BooleanField(default=True)
-
-    beneficiario_masculino = models.IntegerField()
-
-    beneficiario_femenino = models.IntegerField()
+    sexo_benificiario = models.IntegerField(
+        "Sexo del Beneficiario", 
+        choices=SEXO_BENEFICIARIO,
+        default=NO_DEFINIDO
+    )
     
-
-    # =======================================================
-
-    # Empleos Generados
+    # Empleos Generados =======================================
 
     directo_masculino = models.IntegerField()
 
@@ -372,15 +360,11 @@ class Programa(EmblenBaseModel):
     
     indirecto_femenino = models.IntegerField()
 
-    # =======================================================
-
-    # Porcentaje Avance
+    # Porcentaje Avance ========================================
 
     ejecucion_fisica = models.FloatField()
 
     ejecucion_financiera = models.FloatField()
-
-    # =======================================================
 
     class Meta:
         verbose_name_plural = "Programas"

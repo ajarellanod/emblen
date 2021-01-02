@@ -32,7 +32,7 @@
             <h3 class="mb-0">Departamentos</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:crear_departamento' %}" class="btn btn-sm btn-primary">
+            <a id="btn_partidaNew" href="{% url 'formulacion:c_departamento' %}" class="btn btn-sm btn-primary">
               Crear Departamento
             </a>
           </div>
@@ -60,7 +60,7 @@
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:ver_departamento' departamento.id %}">
+                      <a href="{% url 'formulacion:v_departamento' departamento.id %}">
                         <span class="name mb-0 text-sm">{{ departamento.nombre }}</span>
                       </a>
                     </div>
@@ -76,7 +76,7 @@
                   {{ departamento.codigo }}
                 </td>
                 <td class="text-right">
-                  <a href="{% url 'formulacion:eliminar_departamento' departamento.id %}" class="btn btn-sm btn-default">
+                  <a href="{% url 'formulacion:e_departamento' departamento.id %}" class="btn btn-sm btn-default">
                     Eliminar
                   </a>
                 </td>

@@ -32,7 +32,7 @@
             <h3 class="mb-0">Unidades Ejecutoras</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:crear_unidad_ejecutora' %}" 
+            <a id="btn_partidaNew" href="{% url 'formulacion:c_unidad_ejecutora' %}" 
             class="btn btn-sm btn-primary">
               Crear Unidad Ejecutora
             </a>
@@ -61,7 +61,7 @@
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:ver_unidad_ejecutora' unidad.id %}">
+                      <a href="{% url 'formulacion:v_unidad_ejecutora' unidad.id %}">
                         <span class="name mb-0 text-sm">{{ unidad.nombre }}</span>
                       </a>
                     </div>
@@ -77,7 +77,7 @@
                   {{ unidad.codigo }}
                 </td>
                 <td class="text-right">
-                  <a href="{% url 'formulacion:eliminar_unidad_ejecutora' unidad.id %}" 
+                  <a href="{% url 'formulacion:e_unidad_ejecutora' unidad.id %}" 
                   class="btn btn-sm btn-default">
                     Eliminar
                   </a>

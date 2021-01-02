@@ -4,10 +4,27 @@ from django.http import JsonResponse, Http404
 from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin
 
-from apps.base.views import EmblenView, EmblenPermissionsMixin, EmblenDeleteView, EmblenFormView
-from apps.formulacion.forms import PartidaForm, DepartamentoForm, UnidadEjecutoraForm, CentroCostoForm
+from apps.base.views import (
+    EmblenView, EmblenPermissionsMixin, EmblenDeleteView, EmblenFormView
+)
+
 from apps.formulacion.serializers import PartidaSerializer, CentroCostoSerializer
-from apps.formulacion.models import (Partida, Departamento, UnidadEjecutora, CentroCosto)
+
+from apps.formulacion.forms import (
+    PartidaForm,
+    DepartamentoForm,
+    UnidadEjecutoraForm,
+    CentroCostoForm,
+    ProgramaForm
+)
+
+from apps.formulacion.models import (
+    Partida,
+    Departamento,
+    UnidadEjecutora,
+    CentroCosto,
+    Programa
+)
 
 
 # ----- Formulacion -----
@@ -222,7 +239,7 @@ class DepartamentoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
 # ----- Unidades Ejecutoras -----
 
 class UnidadEjecutoraView(EmblenPermissionsMixin, EmblenFormView):
-    permissions = {"all": ("formulacion.view_departamento",)}
+    permissions = {"all": ("formulacion.view_unidadejecutora",)}
     template_name = "formulacion/unidad_ejecutora.html"
     form_class = UnidadEjecutoraForm
     instance_model = UnidadEjecutora
@@ -238,13 +255,22 @@ class UnidadEjecutoraListView(EmblenPermissionsMixin, ListView):
 
 
 class UnidadEjecutoraCreateView(EmblenPermissionsMixin, EmblenFormView):
-    permissions = {"all": ("formulacion.view_departamento",)}
+    permissions = {"all": ("formulacion.view_unidadejecutora",)}
     template_name = "formulacion/unidad_ejecutora.html"
     form_class = UnidadEjecutoraForm
     success_url = "formulacion:unidades_ejecutoras"
 
 
 class UnidadEjecutoraDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
-    permissions = {"all": ("formulacion.delete_departamento",)}
+    permissions = {"all": ("formulacion.delete_unidadejecutora",)}
     model = UnidadEjecutora
     success_url = "formulacion:unidades_ejecutoras"
+
+
+# ----- Programas -----
+
+class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_programa",)}
+    template_name = "formulacion/crear_programa.html"
+    form_class = ProgramaForm
+    success_url = "formulacion:principal"

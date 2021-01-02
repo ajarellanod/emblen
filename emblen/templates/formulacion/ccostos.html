@@ -28,7 +28,7 @@
             <h3 class="mb-0">Centros de Costos</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:crear_centro_costo' %}" class="btn btn-sm btn-primary">
+            <a id="btn_partidaNew" href="{% url 'formulacion:c_centro_costo' %}" class="btn btn-sm btn-primary">
               Nuevo
             </a>
           </div>
@@ -54,7 +54,7 @@
                 <td class="cuenta text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:ver_centro_costo' ccosto.id %}">
+                      <a href="{% url 'formulacion:v_centro_costo' ccosto.id %}">
                         <span class="name mb-0 text-sm">{{ ccosto.codigo }}</span>
                       </a>
                     </div>
@@ -64,7 +64,7 @@
                   {{ ccosto.nombre }}
                 </td>
                 <td class="text-right">
-                  <a href="{% url 'formulacion:eliminar_centro_costo' ccosto.id %}" class="btn btn-sm btn-default">
+                  <a href="{% url 'formulacion:e_centro_costo' ccosto.id %}" class="btn btn-sm btn-default">
                     Eliminar
                   </a>
                 </td>
