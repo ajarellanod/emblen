@@ -45,27 +45,25 @@
 {% endblock head %}
 
 {% block body %}
-  <div class="card bg-default" >
-    <div class="card-header" style="background-color: #f7fafc;">
+  <div class="card" >
+    <div class="card-header" style="background-color: #f9f9f9;">
       <div class="row align-items-center">
         <div class="col">
           <h6 class="text-uppercase ls-1 mb-1">{% block title_card %}{% endblock title_card %}</h6>
-            <div class="card-body">   
-  
-            <div class="stepwizard col-md-offset-3">
-              <div class="stepwizard-row setup-panel">
-                {% block stepwizard %}{% endblock stepwizard %}
-              </div>
+          <div class="stepwizard col-md-offset-3">
+            <div class="stepwizard-row setup-panel">
+              {% block stepwizard %}{% endblock stepwizard %}
             </div>
-            
-            <form role="form" id="form" action="." method="post">
-              {% csrf_token %}
-              {% block stepform %}{% endblock stepform %}
-            </form>
-
           </div>
+          
         </div>
       </div>
+    </div>
+    <div class="card-body">
+      <form role="form" id="form" action="." method="post">
+        {% csrf_token %}
+        {% block stepform %}{% endblock stepform %}
+      </form>
     </div>
   </div>
 {% endblock body %}
@@ -118,4 +116,5 @@
       $('div.setup-panel div a.btn-default').trigger('click');
     });
   </script>
+  {% block stepscript %}{% endblock stepscript %}
 {% endblock script %}

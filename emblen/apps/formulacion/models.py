@@ -246,6 +246,11 @@ class Programa(EmblenBaseModel):
         (MASCULINO, "Masculino"),
         (NO_DEFINIDO, "No Definido")
     )
+    
+    NIVEL = (
+        (0, "Proyecto"),
+        (1, "Acción Centralizada")
+    )
 
     periodo_actualizacion = models.ForeignKey(
         PeriodoActualizacion,
@@ -259,7 +264,7 @@ class Programa(EmblenBaseModel):
 
     codigo = models.CharField(max_length=11)
 
-    nivel = models.IntegerField() #3 o 4
+    nivel = models.IntegerField(choices=NIVEL)
 
     detalle = models.TextField()
 
@@ -344,7 +349,7 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    sexo_benificiario = models.IntegerField(
+    sexo_beneficiario = models.IntegerField(
         "Sexo del Beneficiario", 
         choices=SEXO_BENEFICIARIO,
         default=NO_DEFINIDO

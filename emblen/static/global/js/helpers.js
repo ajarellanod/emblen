@@ -34,6 +34,7 @@ export function inputCurrency(selector){
     _radixDance: true,
     rightAlign: false,
     numericInput: true,
+    autoUnmask: true,
     placeholder: "0",
     definitions: {
         "0": {
@@ -41,4 +42,9 @@ export function inputCurrency(selector){
         }
     }
   }).mask($(selector));
+}
+
+
+export function inputDate(selector){
+  Inputmask({alias:"datetime", inputFormat: "dd/mm/yyyy"}).mask(selector);
 }

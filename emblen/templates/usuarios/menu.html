@@ -1,32 +1,4 @@
+{% extends 'base/menu.html' %}
 
-<!-- Modulos Disponibles en el Menú -->
-<h6 class="navbar-heading pl-4 text-muted">
-  <span class="docs-normal">Modulos</span>
-</h6>
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'formulacion:principal' %}">
-    <i class="fas fa-atom"></i>
-    <span class="nav-link-text">Formulación</span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="ni ni-ui-04"></i>
-    <span class="nav-link-text">Planificación</span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="ni ni-chart-pie-35"></i>
-    <span class="nav-link-text">Tesoreria</span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link " href="#">
-    <i class="ni ni-send"></i>
-    <span class="nav-link-text">Contabilidad</span>
-  </a>
-</li>
-
-<!-- División -->
-<hr class="my-3">
+{% block options %}
+{% endblock options %}

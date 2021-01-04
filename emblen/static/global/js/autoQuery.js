@@ -1,8 +1,6 @@
-import { postQuery, inputCurrency } from "./helpers.js";
+import { postQuery } from "./helpers.js";
 
 $(document).ready(function(){
-
-    inputCurrency(".inputCurrency");
 
     // Obteniendo valores del QueryButton 
     let token = $("#queryButton").attr("token");

@@ -1,0 +1,36 @@
+<!-- Modulos Disponibles en el Menú -->
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'formulacion:principal' %}">
+    <i class="fas fa-scroll"></i>
+    <span class="nav-link-text">Formulación</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="#">
+    <i class="fas fa-columns"></i>
+    <span class="nav-link-text">Planificación</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="#">
+    <i class="fas fa-sign-in-alt"></i>
+    <span class="nav-link-text">Ejecución</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="#">
+    <i class="fas fa-money-bill-wave"></i>
+    <span class="nav-link-text">Tesoreria</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link " href="#">
+    <i class="fas fa-book"></i>
+    <span class="nav-link-text">Contabilidad</span>
+  </a>
+</li>
+
+<!-- División -->
+<hr class="my-3">
+
+{% block options %}{% endblock options %}
