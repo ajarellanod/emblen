@@ -27,7 +27,7 @@
   <title>{% block title %}{% endblock title %}</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="#" type="image/png">
+  <link rel="icon" href="{% static 'global/images/logonegro.ico' %}" type="image/png">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
@@ -49,7 +49,8 @@
       <!-- Brand -->
       <div class="sidenav-header d-flex  align-items-center">
         <a class="navbar-brand" href="{% url 'usuarios:principal' %}">
-          <img src="{% static 'global/images/invialca.png' %}" class="navbar-brand-img">
+          <img src="{% static 'global/images/emblen.png' %}" class="navbar-brand-img" 
+          style="max-height:2rem;margin-left:1rem;">
         </a>
         <div class=" ml-auto ">
           <!-- Sidenav toggler -->
@@ -87,7 +88,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-search"></i></span>
                 </div>
-                <input class="form-control" placeholder="Busqueda" type="text">
+                <input class="form-control" placeholder="Busqueda de Leyes" type="text">
               </div>
             </div>
             <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
@@ -115,7 +116,7 @@
               <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="ni ni-ungroup"></i>
               </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
+              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
                 <div class="row shortcuts px-4">
                   <a href="#!" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-red">

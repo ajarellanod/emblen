@@ -25,5 +25,6 @@ urlpatterns = [
     path('centro-costo/<pk>/', views.CentroCostoView.as_view(), name="v_centro_costo"),
     path('centro-costo/<pk>/eliminar/', views.CentroCostoDeleteView.as_view(), name="e_centro_costo"),
 
+    path('programa/<int:pk>/', views.ProgramaView.as_view(), name="v_programa"),
     path('programa/crear/', views.ProgramaCreateView.as_view(), name="c_programa"),
 ]

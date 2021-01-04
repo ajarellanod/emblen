@@ -7,50 +7,65 @@
 {% endblock menu %}
 
 {% block title %}
-  Creación de Programa
+  {% if form.initial %}
+    Programa - {{form.instance.codigo}}
+  {% else %}
+    Creación de Programa
+  {% endif %}
 {% endblock title %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="#">Programas a Ejecutar</i></a></li>
-  <li class="breadcrumb-item"><a href="#">Creación de Programa</i></a></li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</i></a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Programa</i></a></li>
+  {% endif %}
+  
 {% endblock breadcrumb %}
 
-{% block title_card %}Creación de Programa{% endblock title_card %}
+{% block title_card %}
+  {% if form.initial %}
+    Programa - {{form.instance.codigo}}
+  {% else %}
+    Creación de Programa
+  {% endif %}
+{% endblock title_card %}
 
 {% block stepwizard %}
 <div class="stepwizard-step">
     <a href="#step-1" type="button" class="btn btn-default btn-circle">
         <i class="fas fa-info"></i>
     </a>
-    <p>Información</p>
+    <p class="form-control-label">Información</p>
 </div>
 
 <div class="stepwizard-step">
     <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
         <i class="fas fa-bullseye"></i>
     </a>
-    <p>Objetivos</p>
+    <p class="form-control-label">Objetivos</p>
 </div>
 
 <div class="stepwizard-step">
     <a href="#step-3" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
         <i class="fas fa-poll-h"></i>
     </a>
-    <p>Resultados</p>
+    <p class="form-control-label">Resultados</p>
 </div>
 
 <div class="stepwizard-step">
     <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
         <i class="fas fa-file"></i>
     </a>
-    <p>Info Extra</p>
+    <p class="form-control-label">Info Extra</p>
 </div>
 
 <div class="stepwizard-step">
     <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
         <i class="fas fa-briefcase"></i>
     </a>
-    <p>Empleos</p>
+    <p class="form-control-label">Empleos</p>
 </div>
 {% endblock stepwizard %}
 
@@ -80,13 +95,21 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Inicio del Proyecto</label>
-          {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" %}
+          {% if form.initial %}
+            <input type="text" name="inicio" value='{{ form.instance.inicio|date:"d/m/Y" }}' placeholder="Ingrese Fecha de Inicio" class="form-control inputDate" required="" id="id_inicio">
+          {% else %}
+            {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" %}
+          {% endif %}
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Fin del Proyecto</label>
-          {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha Final" %}
+          {% if form.initial %}
+            <input type="text" name="fin" value='{{ form.instance.fin|date:"d/m/Y" }}' placeholder="Ingrese Fecha de Final" class="form-control inputDate" required="" id="id_fin">
+          {% else %}
+            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha Final" %}
+          {% endif %}
         </div>
       </div>
     </div>

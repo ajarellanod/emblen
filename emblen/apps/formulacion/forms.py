@@ -36,4 +36,4 @@ class CentroCostoForm(forms.ModelForm):
 class ProgramaForm(forms.ModelForm):
     class Meta:
         model = Programa
-        fields = "__all__"
+        exclude = ("codigo", "anio", "estado")

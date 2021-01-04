@@ -27,6 +27,11 @@ export function postQuery(url, token, data, callback=false, params=false){
 }
 
 export function inputCurrency(selector){
+
+  if($(selector).val()){
+    $(selector).val($(selector).val().replace(".", ","));
+  }
+
   Inputmask("decimal", {
     positionCaretOnClick: "radixFocus",
     groupSeparator: ".",

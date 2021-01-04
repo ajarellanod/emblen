@@ -269,6 +269,14 @@ class UnidadEjecutoraDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
 
 # ----- Programas -----
 
+class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.view_programa",)}
+    template_name = "formulacion/crear_programa.html"
+    instance_model = Programa
+    form_class = ProgramaForm
+    success_url = "formulacion:principal"
+
+
 class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_programa",)}
     template_name = "formulacion/crear_programa.html"

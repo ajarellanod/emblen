@@ -60,6 +60,7 @@
       </div>
     </div>
     <div class="card-body">
+      {% include 'base/_form_error.html' %}
       <form role="form" id="form" action="." method="post">
         {% csrf_token %}
         {% block stepform %}{% endblock stepform %}

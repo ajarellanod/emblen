@@ -284,9 +284,9 @@ class Programa(EmblenBaseModel):
 
     plan_inversion_social = models.BooleanField(default=False)
 
-    inicio = models.DateTimeField()
+    inicio = models.DateField()
 
-    fin = models.DateTimeField()
+    fin = models.DateField()
 
     responsable = models.ForeignKey(
         Departamento,
