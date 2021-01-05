@@ -75,13 +75,21 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Tipo de Proyecto</label>
-          {% render_field form.nivel class="form-control" %}
+          {% if form.initial %}
+            <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control" required="" id="id_nivel">
+          {% else %}
+            {% render_field form.nivel class="form-control" %}
+          {% endif %}
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Departamento Responsable</label>
-          {% render_field form.responsable class="form-control" %}
+          {% if form.initial %}
+            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control" required="" id="id_responsable">
+          {% else %}
+            {% render_field form.responsable class="form-control" %}
+          {% endif %}
         </div>
       </div>
       <div class="col" id="divParroquia">
@@ -96,7 +104,7 @@
         <div class="form-group">
           <label class="form-control-label">Inicio del Proyecto</label>
           {% if form.initial %}
-            <input type="text" name="inicio" value='{{ form.instance.inicio|date:"d/m/Y" }}' placeholder="Ingrese Fecha de Inicio" class="form-control inputDate" required="" id="id_inicio">
+            {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" readonly="true" %}
           {% else %}
             {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" %}
           {% endif %}
@@ -106,9 +114,9 @@
         <div class="form-group">
           <label class="form-control-label">Fin del Proyecto</label>
           {% if form.initial %}
-            <input type="text" name="fin" value='{{ form.instance.fin|date:"d/m/Y" }}' placeholder="Ingrese Fecha de Final" class="form-control inputDate" required="" id="id_fin">
+            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha de Final" readonly="true" %}
           {% else %}
-            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha Final" %}
+            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha de Final" %}
           {% endif %}
         </div>
       </div>

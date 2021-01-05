@@ -28,9 +28,11 @@ export function postQuery(url, token, data, callback=false, params=false){
 
 export function inputCurrency(selector){
 
-  if($(selector).val()){
-    $(selector).val($(selector).val().replace(".", ","));
-  }
+  $(selector).each(function(){
+    if($(this).val()){
+      $(this).val($(this).val().replace(".", ","));
+    }
+  });
 
   Inputmask("decimal", {
     positionCaretOnClick: "radixFocus",
@@ -51,5 +53,14 @@ export function inputCurrency(selector){
 
 
 export function inputDate(selector){
+
+  $(selector).each(function(){
+    if($(this).val()){
+      let values = $(this).val().split("-");
+      let value = `${values[2]}/${values[1]}/${values[0]}`
+      $(this).val(value)
+    }
+  });
+
   Inputmask({alias:"datetime", inputFormat: "dd/mm/yyyy"}).mask(selector);
 }

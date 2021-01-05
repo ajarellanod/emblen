@@ -276,9 +276,28 @@ class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
     form_class = ProgramaForm
     success_url = "formulacion:principal"
 
+    def altpost(self, request, pk, *args, **kwargs):
+        programa = get_object_or_404(self.instance_model, pk=pk)
+        new_request = request.POST.copy()
+        new_request.update({
+            "nivel": programa.nivel, 
+            "responsable": programa.responsable.id
+        })
+        form = self.form_class(instance=programa, data=new_request)
 
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        else:
+            return {"form":form}
+            
 class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_programa",)}
     template_name = "formulacion/crear_programa.html"
     form_class = ProgramaForm
     success_url = "formulacion:principal"
+
+    def form_valid(self, form):
+        programa = form.save(commit=False)
+        programa.gen_rest_attrs()
+        return super().form_valid(programa)

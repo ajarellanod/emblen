@@ -92,6 +92,13 @@ class EmblenFormView(EmblenView):
         else:
             return False
 
+    def get_form(self, form):
+        self.form_class = form
+        return self.form_class
+
+    def get_data(self, request):
+        return request.POST
+
     def altget(self, request, *args, **kwargs):
         if self.validate_attrs():
             obj = get_object_or_404(self.instance_model, pk=kwargs["pk"])
@@ -99,20 +106,23 @@ class EmblenFormView(EmblenView):
         else:
             form = self.form_class()
 
-        return {"form": form}
+        return {"form": self.get_form(form)}
 
     def altpost(self, request, *args, **kwargs):
         if self.validate_attrs():
             obj = get_object_or_404(self.instance_model, pk=kwargs["pk"])
-            form = self.form_class(data=request.POST, instance=obj)
+            form = self.form_class(instance=obj, data=self.get_data(request))
         else:
-            form = self.form_class(data=request.POST)
+            form = self.form_class(data=self.get_data(request))
 
         if form.is_valid():
             return self.form_valid(form)
         else:
-            return {"form": form}
+            return self.form_invalid(form)
 
     def form_valid(self, form):
         form.save()
         return redirect(self.success_url)
+
+    def form_invalid(self, form):
+        return {"form": form}

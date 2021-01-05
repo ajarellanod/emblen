@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.functions import Substr
+from django.db.models import Max
 
 from apps.base.models import EmblenBaseModel
 from django.core.exceptions import NON_FIELD_ERRORS
@@ -9,7 +10,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 class Sector(EmblenBaseModel):
 
-    codigo = models.CharField(max_length=14)
+    codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
 
@@ -30,7 +31,7 @@ class Dependencia(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    codigo = models.CharField(max_length=14)
+    codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
 
@@ -99,6 +100,9 @@ class Parroquia(EmblenBaseModel):
     codigo = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Parroquias"
@@ -189,6 +193,9 @@ class SectorDesarrollador(EmblenBaseModel):
 
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Sectores Desarrolladores"
 
@@ -201,6 +208,9 @@ class UnidadMedida(EmblenBaseModel):
 
     dimension = models.IntegerField()
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Unidades de Medidas"
 
@@ -210,6 +220,9 @@ class TipoBeneficiario(EmblenBaseModel):
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Tipos de Beneficiarios"
@@ -221,6 +234,9 @@ class PeriodoActualizacion(EmblenBaseModel):
 
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Periodos de Actualizacion"
  
@@ -230,6 +246,9 @@ class CondicionPrograma(EmblenBaseModel):
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)  #Formulado - Banco de Proyectos
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Condiciones de los Programas"
@@ -248,8 +267,8 @@ class Programa(EmblenBaseModel):
     )
     
     NIVEL = (
-        (0, "Proyecto"),
-        (1, "Acción Centralizada")
+        (1, "Proyecto"),
+        (2, "Acción Centralizada")
     )
 
     periodo_actualizacion = models.ForeignKey(
@@ -371,8 +390,63 @@ class Programa(EmblenBaseModel):
 
     ejecucion_financiera = models.FloatField()
 
+    # Fields de Ayuda =========================
+
+    duracion = models.DurationField()
+
+    contador = models.IntegerField()
+
+
+    def gen_codigo(self):
+        """Genera el codigo del Programa en instancia"""
+        
+        # Consulta donde se busca la dependencia
+        dependencia = self.responsable.unidad_ejecutora.dependencia
+        
+        # Extraccion del codigo en cada modelo y nivel
+        cod_sector = dependencia.sector.codigo
+        cod_dependencia = dependencia.codigo
+        cod_tipo = f"0{self.nivel}"
+
+        if self.contador < 10:
+            cod_contador = f"0{self.contador}"
+        else:
+            cod_contador = self.contador
+
+        self.codigo = f"{cod_sector}{cod_dependencia}{cod_tipo}{cod_contador}"
+
+
+    def gen_rest_attrs(self, commit=False):
+        """
+        Genera los atributos restantes del Programa en instancia
+        """
+        
+        self.anio = self.inicio.year
+        self.duracion = self.fin - self.inicio
+
+        # Obtiene el contador mayor de ese año y ese tipo de Programa 
+        result = Programa.objects.filter(
+            nivel=self.nivel, anio=self.anio
+        ).aggregate(Max('contador')).get("contador__max")
+
+        # Valida si es el primero en crearse
+        if result:
+            self.contador = result + 1
+        else:
+            self.contador = 1
+
+        # Genera el codigo del Programa
+        self.gen_codigo()
+
+        if commit:
+            self.save()
+
+    def __str__(self):
+        return self.codigo
+
     class Meta:
         verbose_name_plural = "Programas"
+        unique_together = (("anio", "nivel", "contador"),)
 
 
 class LineaPlan(EmblenBaseModel):

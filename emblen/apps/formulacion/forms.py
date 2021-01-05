@@ -36,4 +36,4 @@ class CentroCostoForm(forms.ModelForm):
 class ProgramaForm(forms.ModelForm):
     class Meta:
         model = Programa
-        exclude = ("codigo", "anio", "estado")
+        exclude = ("codigo", "anio", "estado", "contador", "duracion")
