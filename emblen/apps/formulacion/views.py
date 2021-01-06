@@ -15,7 +15,8 @@ from apps.formulacion.forms import (
     DepartamentoForm,
     UnidadEjecutoraForm,
     CentroCostoForm,
-    ProgramaForm
+    ProgramaForm, 
+    AccionEspecificaForm
 )
 
 from apps.formulacion.models import (
@@ -23,7 +24,8 @@ from apps.formulacion.models import (
     Departamento,
     UnidadEjecutora,
     CentroCosto,
-    Programa
+    Programa,
+    AccionEspecifica
 )
 
 
@@ -75,7 +77,7 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
     """
 
     # Variables Necesarias
-    permissions = {"all": ("formulacion.view_partida",)}
+    permissions = {"all": ("formulacion.add_partida",)}
     template_name = "formulacion/crear_partida.html"
     json_post = True
 
@@ -164,7 +166,7 @@ class CentroCostoCreateView(EmblenPermissionsMixin, EmblenView):
     """
 
     # Variables Necesarias
-    permissions = {"all": ("formulacion.view_centro_costo",)}
+    permissions = {"all": ("formulacion.add_centro_costo",)}
     template_name = "formulacion/crear_ccosto.html"
     json_post = True
 
@@ -224,7 +226,7 @@ class DepartamentoListView(EmblenPermissionsMixin, ListView):
     
 
 class DepartamentoCreateView(EmblenPermissionsMixin, EmblenFormView):
-    permissions = {"all": ("formulacion.view_departamento",)}
+    permissions = {"all": ("formulacion.add_departamento",)}
     template_name = "formulacion/departamento.html"
     form_class = DepartamentoForm
     success_url = "formulacion:departamentos"
@@ -255,7 +257,7 @@ class UnidadEjecutoraListView(EmblenPermissionsMixin, ListView):
 
 
 class UnidadEjecutoraCreateView(EmblenPermissionsMixin, EmblenFormView):
-    permissions = {"all": ("formulacion.view_unidadejecutora",)}
+    permissions = {"all": ("formulacion.add_unidadejecutora",)}
     template_name = "formulacion/unidad_ejecutora.html"
     form_class = UnidadEjecutoraForm
     success_url = "formulacion:unidades_ejecutoras"
@@ -301,3 +303,17 @@ class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
         programa = form.save(commit=False)
         programa.gen_rest_attrs()
         return super().form_valid(programa)
+    
+    
+# ----- AccionEspecifica -----
+
+class AccionEspecificaCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_accionespecifica",)}
+    template_name = "formulacion/crear_accion_especifica.html"
+    form_class = AccionEspecificaForm
+    success_url = "formulacion:principal"
+    
+    def form_valid(self, form):
+        accion_especifica = form.save(commit=False)
+        accion_especifica.gen_rest_attrs()
+        return super().form_valid(accion_especifica)
