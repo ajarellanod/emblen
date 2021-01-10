@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- Modulos Disponibles en el Menú -->
 <li class="nav-item">
   <a class="nav-link" href="{% url 'formulacion:principal' %}">
@@ -34,3 +36,9 @@
 <hr class="my-3">
 
 {% block options %}{% endblock options %}
+
+<!-- Logo Organismo -->
+<div class="logo mr-5 navbar-brand-img image-organizacion" style='margin-left: 15px; bottom: 10px; position: fixed; '>
+  <img src="{% static 'global/images/invialca.png' %}" alt="Logo Organización" width="200px" class="navbar-brand-img">
+</div>
+<!-- Logo Organismo -->
