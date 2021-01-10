@@ -1,0 +1,413 @@
+{% extends 'base/steps.html' %}
+
+{% load widget_tweaks %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %}
+  {% if form.initial %}
+    Accion Especifica - {{form.instance.codigo}}
+  {% else %}
+    Creación de Accion Especifica
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="#">Acciones Especificas a Ejecutar</i></a></li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</i></a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Acción Especifica</i></a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+{% block title_card %}
+  {% if form.initial %}
+    Acción Especifica - {{form.instance.codigo}}
+  {% else %}
+    Creación de Acción Especifica
+  {% endif %}
+{% endblock title_card %}
+
+{% block stepwizard %}
+<div class="stepwizard-step">
+    <a href="#step-1" type="button" class="btn btn-default btn-circle">
+        <i class="fas fa-info"></i>
+    </a>
+    <p class="form-control-label">Información</p>
+</div>
+
+<div class="stepwizard-step">
+    <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+        <i class="fas fa-bullseye"></i>
+    </a>
+    <p class="form-control-label">Objetivos</p>
+</div>
+
+<div class="stepwizard-step">
+    <a href="#step-3" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+        <i class="fas fa-poll-h"></i>
+    </a>
+    <p class="form-control-label">Resultados</p>
+</div>
+
+<div class="stepwizard-step">
+    <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+        <i class="fas fa-file"></i>
+    </a>
+    <p class="form-control-label">Info Extra</p>
+</div>
+
+<div class="stepwizard-step">
+    <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+        <i class="fas fa-briefcase"></i>
+    </a>
+    <p class="form-control-label">Empleos</p>
+</div>
+{% endblock stepwizard %}
+
+{% block stepform %}
+<div class="setup-content" id="step-1">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Tipo de Proyecto</label>
+          {% if form.initial %}
+            <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control" required="" id="id_nivel">
+          {% else %}
+            {% render_field form.nivel class="form-control" %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Departamento Responsable</label>
+          {% if form.initial %}
+            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control" required="" id="id_responsable">
+          {% else %}
+            {% render_field form.responsable class="form-control" %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="col" id="divParroquia">
+        <div class="form-group">
+          <label class="form-control-label">Seleccione Parroquia</label>
+          {% render_field form.parroquia class="form-control" %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Inicio del Proyecto</label>
+          {% if form.initial %}
+            {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" readonly="true" %}
+          {% else %}
+            {% render_field form.inicio class="form-control inputDate" placeholder="Ingrese Fecha de Inicio" %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Fin del Proyecto</label>
+          {% if form.initial %}
+            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha de Final" readonly="true" %}
+          {% else %}
+            {% render_field form.fin class="form-control inputDate" placeholder="Ingrese Fecha de Final" %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Periodo de Actualización</label>
+          {% render_field form.periodo_actualizacion class="form-control" %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Sector Desarrollador</label>
+          {% render_field form.sector_desarrollador class="form-control" %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Condición</label>
+          {% render_field form.condicion class="form-control" %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Detalle del Proyecto</label>
+          {% render_field form.detalle class="form-control" rows="5" placeholder="Ingrese Detalle..." %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="form-check">
+            {% render_field form.plan_inversion_social class="form-check-input" %}
+            <label class="form-check-label form-control-label" for="id_plan_inversion_social">
+              Plan de Inversion Social
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="form-check">
+            {% render_field form.extension_territorial class="form-check-input" %}
+            <label class="form-check-label form-control-label" for="id_extension_territorial">
+              Posee Extension Territorial
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <div class="form-group">
+            <button class="btn btn-primary nextBtn" type="button">
+              Continuar
+            </button>
+          </div>
+      </div>
+    </div>
+</div>
+
+<div class="setup-content" id="step-2">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Desarrollo Sostenible</label>
+        {% render_field form.desarrollo_sostenible class="form-control" rows="5" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Objetico Estrategico</label>
+        {% render_field form.estrategico class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Problematica</label>
+        {% render_field form.problematica class="form-control" rows="5" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Objetivo Especifico</label>
+        {% render_field form.especifico class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Resumen</label>
+        {% render_field form.resumen class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary nextBtn" type="button">
+            Continuar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="setup-content" id="step-3">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Unidad de Medida</label>
+        {% render_field form.unidad_medida class="form-control" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indicador de Situacion</label>
+        {% render_field form.indicador_situacion class="form-control" rows="5" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indicador Fuente</label>
+        {% render_field form.indicador_fuente class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indicador Formula</label>
+        {% render_field form.indicador_formula class="form-control" rows="5" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indicador Objetivo</label>
+        {% render_field form.indicador_objetivo class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Bien del Servicio</label>
+        {% render_field form.bien_servicio class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary nextBtn" type="button">
+            Continuar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="setup-content" id="step-4">
+  <h6 class="heading-small text-muted mb-4">Distribución Meta Física Trimestral</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Primer Trimestre</label>
+        {% render_field form.trimestre_1 class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Segundo Trimestre</label>
+        {% render_field form.trimestre_2 class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Tercer Trimestre</label>
+        {% render_field form.trimestre_3 class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Cuarto Trimestre</label>
+        {% render_field form.trimestre_4 class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <h6 class="heading-small text-muted mb-4">Beneficiario</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Tipo de Beneficiario</label>
+        {% render_field form.tipo_beneficiario class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Sexo del Beneficiario</label>
+        {% render_field form.sexo_beneficiario class="form-control" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary nextBtn" type="button">
+            Continuar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="setup-content" id="step-5">
+  <h6 class="heading-small text-muted mb-4">Empleos Generados</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Directo Masculino</label>
+        {% render_field form.directo_masculino class="form-control" type="text" placeholder="Ingrese Cantidad..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Directo Femenino</label>
+        {% render_field form.directo_femenino class="form-control" type="text" placeholder="Ingrese Cantidad..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indirecto Masculino</label>
+        {% render_field form.indirecto_masculino class="form-control" type="text" placeholder="Ingrese Cantidad..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Indirecto Femenino</label>
+        {% render_field form.indirecto_femenino class="form-control" type="text" placeholder="Ingrese Cantidad..." %}
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <h6 class="heading-small text-muted mb-4">Porcentaje Avance</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Ejecución Fisica</label>
+        {% render_field form.ejecucion_fisica class="form-control" placeholder="Ingrese Porcentaje..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Ejecución Financiera</label>
+        {% render_field form.ejecucion_financiera class="form-control" placeholder="Ingrese Porcentaje..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">
+            Enviar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock stepform %}
+
+{% block stepscript %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#id_extension_territorial").on("change", function(){
+        $("#divParroquia").toggle();
+      });
+    });
+  </script>
+{% endblock stepscript %}

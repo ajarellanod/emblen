@@ -551,7 +551,7 @@ class EstatusFinanciamientoExterno(EmblenBaseModel):
 
 class TipoAreaInversion(EmblenBaseModel):
     
-    codigo = models.CharField(max_length=5)
+    codigo = models.CharField(max_length=9)
 
     nombre = models.CharField(max_length=100)
 
@@ -567,6 +567,16 @@ class TipoAreaInversion(EmblenBaseModel):
 
 class AccionEspecifica(EmblenBaseModel):
 
+    FEMENINO = 0
+    MASCULINO = 1
+    NO_DEFINIDO = 2
+
+    SEXO_BENEFICIARIO = (
+        (FEMENINO, "Femenino"),
+        (MASCULINO, "Masculino"),
+        (NO_DEFINIDO, "No Definido")
+    )
+    
     programa = models.ForeignKey(
         Programa,
         related_name="acciones_especificas",
@@ -577,7 +587,11 @@ class AccionEspecifica(EmblenBaseModel):
 
     codigo = models.CharField(max_length=11)
 
-    condicion = models.CharField(max_length=20) #Formulado - Banco de Proyectos
+    condicion = models.ForeignKey(
+        CondicionPrograma,
+        related_name="acciones_especificas",
+        on_delete=models.PROTECT
+    )
 
     descripcion = models.TextField()
 
@@ -585,9 +599,9 @@ class AccionEspecifica(EmblenBaseModel):
 
     especifico = models.TextField()
 
-    inicio = models.DateTimeField()
+    inicio = models.DateField()
 
-    fin = models.DateTimeField()
+    fin = models.DateField()
 
     impacto_social = models.TextField()
 
@@ -609,11 +623,11 @@ class AccionEspecifica(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    distincion_genero = models.BooleanField(default=True)
-
-    beneficiario_masculino = models.IntegerField()
-
-    beneficiario_femenino = models.IntegerField()
+    sexo_beneficiario = models.IntegerField(
+        "Sexo del Beneficiario", 
+        choices=SEXO_BENEFICIARIO,
+        default=NO_DEFINIDO
+    )
     
     # =======================================================
 
@@ -693,9 +707,9 @@ class AccionEspecifica(EmblenBaseModel):
 
     # Porcentaje Avance
 
-    fecha_aprobacion_f_e = models.DateTimeField()
+    fecha_aprobacion_f_e = models.DateField()
 
-    inicio_ejecucion_fisica_f_e = models.DateTimeField()
+    inicio_ejecucion_fisica_f_e = models.DateField()
  
     ejecucion_fisica = models.FloatField()
 
@@ -708,6 +722,27 @@ class AccionEspecifica(EmblenBaseModel):
     estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=4)
 
     # =======================================================
+    
+    # Fields de Ayuda =========================
+
+    duracion = models.DurationField()
+
+    contador = models.IntegerField(default=1)
+    
+    def gen_rest_attrs(self):
+        self.duracion = self.fin - self.inicio
+        
+        result = AccionEspecifica.objects.filter(
+            programa=self.programa
+        ).aggregate(Max('contador')).get("contador__max")
+        
+        if result:
+            self.contador = result + 1
+            
+        if self.contador < 9:
+            self.contador = self.programa.codigo + f"0{self.contador}"
+        else:
+            self.contador = self.programa.codigo + f"{self.contador}"
 
     class Meta:
         verbose_name_plural = "Acciones Especificas"
