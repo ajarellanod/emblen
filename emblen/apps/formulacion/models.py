@@ -457,6 +457,9 @@ class LineaPlan(EmblenBaseModel):
 
     tipo = models.CharField(max_length=1) #N = Nacional - E = Estadal 
 
+    def __str__(self):
+        return self.codigo
+
     class Meta:
         verbose_name_plural = "Lineas del Plan"
 
@@ -482,6 +485,9 @@ class LineaPrograma(EmblenBaseModel):
     estrategico = models.TextField()
     
     general = models.TextField()
+
+    def __str__(self):
+        return self.codigo
 
     class Meta:
         verbose_name_plural = "Lineas del Programa"
@@ -509,6 +515,9 @@ class PlanDesarrollo(EmblenBaseModel):
     
     solucion = models.TextField()
 
+    def __str__(self):
+        return self.codigo
+
     class Meta:
         verbose_name_plural = "Planes de Desarrollo"
 
@@ -518,6 +527,9 @@ class AreaInversion(EmblenBaseModel):
     codigo = models.CharField(max_length=5)
 
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Areas de Inversion"
@@ -535,6 +547,9 @@ class CategoriaAreaInversion(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Categorias de las Areas de Inversion"
 
@@ -545,13 +560,16 @@ class EstatusFinanciamientoExterno(EmblenBaseModel):
 
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Estatus de Financiamientos Externos"
 
 
 class TipoAreaInversion(EmblenBaseModel):
     
-    codigo = models.CharField(max_length=9)
+    codigo = models.CharField(max_length=7)
 
     nombre = models.CharField(max_length=100)
 
@@ -560,6 +578,9 @@ class TipoAreaInversion(EmblenBaseModel):
         related_name="tipo_area_inversion",
         on_delete=models.PROTECT
     )
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Tipos de Areas de Inversion"
@@ -609,7 +630,7 @@ class AccionEspecifica(EmblenBaseModel):
 
     vinculacion = models.BooleanField(default=True)
 
-    financiamiento_externo = models.BooleanField(default=False)
+    financiamiento_externo = models.BooleanField(default=True)
 
     bien_servicio = models.TextField()
     
@@ -728,6 +749,9 @@ class AccionEspecifica(EmblenBaseModel):
     duracion = models.DurationField()
 
     contador = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.codigo
     
     def gen_rest_attrs(self):
         self.duracion = self.fin - self.inicio
@@ -740,9 +764,9 @@ class AccionEspecifica(EmblenBaseModel):
             self.contador = result + 1
             
         if self.contador < 9:
-            self.contador = self.programa.codigo + f"0{self.contador}"
+            self.codigo = self.programa.codigo + f"0{self.contador}"
         else:
-            self.contador = self.programa.codigo + f"{self.contador}"
+            self.codigo = self.programa.codigo + f"{self.contador}"
 
     class Meta:
         verbose_name_plural = "Acciones Especificas"

@@ -10,39 +10,61 @@
   </a>
   <div class="collapse" id="navbar-dashboards">
     <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
       <li class="nav-item">
         <a href="{% url 'formulacion:departamentos' %}" class="nav-link">
           <span class="sidenav-mini-icon"> DP </span>
           <span class="sidenav-normal"> Departamentos </span>
         </a>
       </li>
-
+      {% endif %}
+      
+      {% if perms.formulacion.view_unidadejecutora %}
       <li class="nav-item">
         <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link">
           <span class="sidenav-mini-icon"> UE </span>
           <span class="sidenav-normal"> Unidades Ejecutoras </span>
         </a>
       </li>
+      {% endif %}
 
+      {% if perms.formulacion.view_centrocosto %}
       <li class="nav-item">
         <a href="{% url 'formulacion:centros_costos' %}" class="nav-link" id="m_centros_costos">
           <span class="sidenav-mini-icon"> CC </span>
           <span class="sidenav-normal"> Centros Costos </span>
         </a>
       </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_partida %}
       <li class="nav-item">
         <a href="{% url 'formulacion:partidas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> PT </span>
           <span class="sidenav-normal"> Partidas </span>
         </a>
       </li>
+      {% endif %}
 
+      {% if perms.formulacion.view_programa %}
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{% url 'formulacion:programas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> PG </span>
           <span class="sidenav-normal"> Programas </span>
         </a>
-      </li>      
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_accionespecifica %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link">
+          <span class="sidenav-mini-icon"> AE </span>
+          <span class="sidenav-normal"> Acciones Especificas </span>
+        </a>
+      </li>
+      {% endif %}
+
     </ul>
   </div>
 </li>

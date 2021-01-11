@@ -15,11 +15,15 @@
 {% endblock title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="#">Acciones Especificas a Ejecutar</i></a></li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_especificas' %}">
+      Acciones Especificas a Ejecutar
+    </a>
+  </li>
   {% if form.initial %}
-    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</i></a></li>
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</a></li>
   {% else %}
-    <li class="breadcrumb-item"><a href="#">Creación de Acción Especifica</i></a></li>
+    <li class="breadcrumb-item"><a href="#">Creación de Acción Especifica</a></li>
   {% endif %}
 {% endblock breadcrumb %}
 
@@ -41,9 +45,9 @@
 
 <div class="stepwizard-step">
     <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
-        <i class="fas fa-bullseye"></i>
+        <i class="fas fa-info"></i>
     </a>
-    <p class="form-control-label">Objetivos</p>
+    <p class="form-control-label">Información</p>
 </div>
 
 <div class="stepwizard-step">
@@ -73,11 +77,11 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Tipo de Proyecto</label>
+          <label class="form-control-label">Programa</label>
           {% if form.initial %}
-            <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control" required="" id="id_nivel">
+            <input type="text" name="programa" value="{{form.instance.programa}}" readonly="true" class="form-control" required="" id="id_programa">
           {% else %}
-            {% render_field form.nivel class="form-control" %}
+            {% render_field form.programa class="form-control" %}
           {% endif %}
         </div>
       </div>
@@ -119,23 +123,9 @@
           {% endif %}
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Periodo de Actualización</label>
-          {% render_field form.periodo_actualizacion class="form-control" %}
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Sector Desarrollador</label>
-          {% render_field form.sector_desarrollador class="form-control" %}
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Condición</label>
+          <label class="form-control-label">Condición de Programa</label>
           {% render_field form.condicion class="form-control" %}
         </div>
       </div>
@@ -143,20 +133,14 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Detalle del Proyecto</label>
-          {% render_field form.detalle class="form-control" rows="5" placeholder="Ingrese Detalle..." %}
+          <label class="form-control-label">Descripción</label>
+          {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col">
         <div class="form-group">
-          <div class="form-check">
-            {% render_field form.plan_inversion_social class="form-check-input" %}
-            <label class="form-check-label form-control-label" for="id_plan_inversion_social">
-              Plan de Inversion Social
-            </label>
-          </div>
+          <label class="form-control-label">Especifico</label>
+          {% render_field form.especifico class="form-control" rows="5" placeholder="Ingrese Especifo..." %}
         </div>
       </div>
     </div>
@@ -187,36 +171,40 @@
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Desarrollo Sostenible</label>
-        {% render_field form.desarrollo_sostenible class="form-control" rows="5" %}
+        <label class="form-control-label">Detalle de la Accion</label>
+        {% render_field form.detallada class="form-control" rows="5" placeholder="Ingrese Detalle..." %}
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Objetico Estrategico</label>
-        {% render_field form.estrategico class="form-control" rows="5" %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Problematica</label>
-        {% render_field form.problematica class="form-control" rows="5" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Objetivo Especifico</label>
-        {% render_field form.especifico class="form-control" rows="5" %}
+        <label class="form-control-label">Bien del Servicio</label>
+        {% render_field form.bien_servicio class="form-control" rows="5" %}
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Resumen</label>
-        {% render_field form.resumen class="form-control" rows="5" %}
+        <label class="form-control-label">Impacto Social</label>
+        {% render_field form.impacto_social class="form-control" rows="5" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Articulacion</label>
+        {% render_field form.articulacion class="form-control" rows="5" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <div class="form-check">
+          {% render_field form.vinculacion class="form-check-input" %}
+          <label class="form-check-label form-control-label" for="id_vinculacion">
+            Posee Vinculación
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -232,6 +220,7 @@
 </div>
 
 <div class="setup-content" id="step-3">
+  <h6 class="heading-small text-muted mb-4">Metas Fisicas</h6>
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -239,40 +228,32 @@
         {% render_field form.unidad_medida class="form-control" %}
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Indicador de Situacion</label>
-        {% render_field form.indicador_situacion class="form-control" rows="5" %}
+        <label class="form-control-label">Sector Desarrollador</label>
+        {% render_field form.sector class="form-control" %}
       </div>
     </div>
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Indicador Fuente</label>
-        {% render_field form.indicador_fuente class="form-control" rows="5" %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Indicador Formula</label>
-        {% render_field form.indicador_formula class="form-control" rows="5" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Indicador Objetivo</label>
-        {% render_field form.indicador_objetivo class="form-control" rows="5" %}
+        <label class="form-control-label">Plazo de Ejecución</label>
+        {% render_field form.plazo_ejecucion class="form-control" placeholder="Ingresar Plazo de Ejecución..." %}
       </div>
     </div>
   </div>
+  <hr class="my-4">
+  <h6 class="heading-small text-muted mb-4">Beneficiario</h6>
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Bien del Servicio</label>
-        {% render_field form.bien_servicio class="form-control" rows="5" %}
+        <label class="form-control-label">Tipo de Beneficiario</label>
+        {% render_field form.tipo_beneficiario class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Sexo del Beneficiario</label>
+        {% render_field form.sexo_beneficiario class="form-control" %}
       </div>
     </div>
   </div>
@@ -317,19 +298,39 @@
       </div>
     </div>
   </div>
-  <hr class="my-4">
-  <h6 class="heading-small text-muted mb-4">Beneficiario</h6>
+  <div id="divFinExt">
+    <hr class="my-4">
+    <h6 class="heading-small text-muted mb-4">Financiamiento Externo</h6>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Estatus de Financiamiento</label>
+          {% render_field form.estatus_financiamiento_externo class="form-control" %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Tipo de Area de Inversión</label>
+          {% render_field form.tipo_area_inversion class="form-control" %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Fase del Financiamiento</label>
+          {% render_field form.fase class="form-control" placeholder="Ingrese la Fase" %}
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Tipo de Beneficiario</label>
-        {% render_field form.tipo_beneficiario class="form-control" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Sexo del Beneficiario</label>
-        {% render_field form.sexo_beneficiario class="form-control" %}
+        <div class="form-check">
+          {% render_field form.financiamiento_externo class="form-check-input" %}
+          <label class="form-check-label form-control-label" for="id_financiamiento_externo">
+            Financiamiento Externo
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -379,6 +380,20 @@
   <div class="row">
     <div class="col">
       <div class="form-group">
+        <label class="form-control-label">Fecha de Aprobación</label>
+        {% render_field form.fecha_aprobacion_f_e class="form-control inputDate" placeholder="Ingrese Fecha..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Inicio de la Ejecución Fisica</label>
+        {% render_field form.inicio_ejecucion_fisica_f_e class="form-control inputDate" placeholder="Ingrese Fecha..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
         <label class="form-control-label">Ejecución Fisica</label>
         {% render_field form.ejecucion_fisica class="form-control" placeholder="Ingrese Porcentaje..." %}
       </div>
@@ -387,6 +402,26 @@
       <div class="form-group">
         <label class="form-control-label">Ejecución Financiera</label>
         {% render_field form.ejecucion_financiera class="form-control" placeholder="Ingrese Porcentaje..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Ejecutado Año Anterior</label>
+        {% render_field form.ejecutado_anio_anterior class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Estimado Año Siguiente</label>
+        {% render_field form.estimado_anio_siguiente class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Estimado Año en Ejercicio</label>
+        {% render_field form.estimado_anio_ejercicio class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
       </div>
     </div>
   </div>
@@ -407,6 +442,11 @@
     $(document).ready(function(){
       $("#id_extension_territorial").on("change", function(){
         $("#divParroquia").toggle();
+      });
+
+      $("#id_financiamiento_externo").on("change", function(){
+        console.log("click");
+        $("#divFinExt").toggle();
       });
     });
   </script>

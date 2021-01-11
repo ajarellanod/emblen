@@ -271,6 +271,14 @@ class UnidadEjecutoraDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
 
 # ----- Programas -----
 
+class ProgramaListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_programa",)}
+    template_name = "formulacion/programas.html"
+    success_url = "formulacion:programas"
+    queryset = Programa.objects.all().order_by("codigo")
+    paginate_by = 8
+
+
 class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_programa",)}
     template_name = "formulacion/crear_programa.html"
@@ -285,6 +293,7 @@ class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
             "nivel": programa.nivel, 
             "responsable": programa.responsable.id
         })
+
         form = self.form_class(instance=programa, data=new_request)
 
         if form.is_valid():
@@ -303,17 +312,61 @@ class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
         programa = form.save(commit=False)
         programa.gen_rest_attrs()
         return super().form_valid(programa)
-    
+
+
+class ProgramaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_programa",)}
+    model = Programa
+    success_url = "formulacion:programas"
+
     
 # ----- AccionEspecifica -----
+
+class AccionEspecificaListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_accionespecifica",)}
+    template_name = "formulacion/acciones_especificas.html"
+    success_url = "formulacion:acciones_especificas"
+    queryset = AccionEspecifica.objects.all().order_by("codigo")
+    paginate_by = 8
+
+
+class AccionEspecificaView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_accionespecifica",)}
+    template_name = "formulacion/crear_accion_especifica.html"
+    instance_model = AccionEspecifica
+    form_class = AccionEspecificaForm
+    success_url = "formulacion:acciones_especificas"
+    
+    def altpost(self, request, pk, *args, **kwargs):
+        accion = get_object_or_404(self.instance_model, pk=pk)
+        new_request = request.POST.copy()
+        new_request.update({
+            "programa": accion.programa, 
+            "responsable": accion.responsable.id
+        })
+
+        form = self.form_class(instance=accion, data=new_request)
+
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)
+        else:
+            return {"form":form}
+
 
 class AccionEspecificaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_accionespecifica",)}
     template_name = "formulacion/crear_accion_especifica.html"
     form_class = AccionEspecificaForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:acciones_especificas"
     
     def form_valid(self, form):
         accion_especifica = form.save(commit=False)
         accion_especifica.gen_rest_attrs()
         return super().form_valid(accion_especifica)
+
+
+class AccionEspecificaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_accionespecifica",)}
+    model = AccionEspecifica
+    success_url = "formulacion:acciones_especificas"

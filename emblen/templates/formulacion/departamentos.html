@@ -46,7 +46,9 @@
                 Unidad Ejecutora
               </th>
               <th scope="col" class="sort text-center " data-sort="codigo">Codigo</th>
+              {% if perms.formulacion.delete_departamento %}
               <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
@@ -70,11 +72,13 @@
                 <td class="saldo text-center"> 
                   {{ departamento.codigo }}
                 </td>
+                {% if perms.formulacion.delete_departamento %}
                 <td class="text-right">
                   <a href="{% url 'formulacion:e_departamento' departamento.id %}" class="btn btn-sm btn-default">
                     Eliminar
                   </a>
                 </td>
+                {% endif %}
               </tr>
             {% endfor %}
           </tbody>
