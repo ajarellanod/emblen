@@ -19940,6 +19940,10 @@ textarea[resize="horizontal"] {
     display: none !important;
 }
 
+.g-sidenav-hidden:not(.g-sidenav-show) .image-organizacion {
+    display: none !important;
+}
+
 .g-sidenav-hidden:not(.g-sidenav-show) .sidenav .nav-link-text {
     opacity: 0;
 }
