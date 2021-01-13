@@ -128,3 +128,8 @@ DATE_INPUT_FORMATS = [
     '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
     '%d/%m/%Y',                         # '25/10/2006'
 ]
+
+
+# Redirección de solicitudes de inicio de sesión
+
+LOGIN_URL = '/login'

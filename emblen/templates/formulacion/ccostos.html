@@ -36,7 +36,7 @@
       </div>
       <!-- Light table -->
       <div class="table-responsive" id="tablaPartidas">
-        <table class="table align-items-center table-hover" > <!-- table-bordered -->
+        <table class="table align-items-center" > <!-- table-bordered -->
           <thead class="thead-light">
             <tr>
               <th scope="col" class="sort text-center" style="width: 5%;" data-sort="nivel">Nivel</th>
@@ -50,17 +50,21 @@
           <tbody>
             {% for ccosto in page_obj %}
               <tr>
-                <th scope="row" class="nivel text-center">
+                <td scope="row" class="nivel text-center">
                   {{ ccosto.nivel }}
-                </th>
+                </td>
                 <td class="cuenta text-center">
+                  {{ ccosto.codigo }}
+                </td>
+                <th scope="row" class="nombre text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
                       <a href="{% url 'formulacion:v_centro_costo' ccosto.id %}">
-                        <span class="name mb-0 text-sm">{{ ccosto.codigo }}</span>
+                        <span class="name mb-0 text-sm">{{ ccosto.nombre }}</span>
                       </a>
                     </div>
                   </div>
+                </th>
                 </td>
                 <td class="nombre text-center">
                   {{ ccosto.nombre }}
@@ -83,11 +87,3 @@
   </div>
 </div>
 {% endblock body %}
-
-{% block script %}
-  <script type="module">
-    $(document).ready(function(){
-      $('#m_centros_costos').attr('class','nav-link active-option-menu');
-    });
-  </script>
-{% endblock script %}

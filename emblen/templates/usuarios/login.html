@@ -44,8 +44,8 @@
 <body class="bg-white">
   <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
     <div class="container">
-      <a class="navbar-brand" href="../../../index.html">
-        <img src="{% static 'global/images/logo.png' %}" height="80">
+      <a class="navbar-brand" href="{% url 'usuarios:login' %}" style="background-color: #ffffff!important;">
+        <img src="{% static 'global/images/emblen.png' %}" height="80">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
         <div class="navbar-collapse-header">
           <div class="row">
             <div class="col-6 collapse-brand">
-              <a href="../../../index.html">
+              <a href="{% url 'usuarios:login' %}">
                 <img src="{% static 'global/images/logo.png' %}" height="80">
               </a>
             </div>
