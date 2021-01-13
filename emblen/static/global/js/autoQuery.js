@@ -1,4 +1,4 @@
-import { postQuery } from "./helpers.js";
+import { postQuery } from "./emblen.js";
 
 $(document).ready(function(){
 

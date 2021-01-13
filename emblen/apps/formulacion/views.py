@@ -5,10 +5,17 @@ from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin
 
 from apps.base.views import (
-    EmblenView, EmblenPermissionsMixin, EmblenDeleteView, EmblenFormView
+    EmblenView,
+    EmblenPermissionsMixin,
+    EmblenDeleteView,
+    EmblenFormView
 )
 
-from apps.formulacion.serializers import PartidaSerializer, CentroCostoSerializer
+from apps.formulacion.serializers import (
+    PartidaSerializer,
+    CentroCostoSerializer,
+    EstimacionSerializer
+)
 
 from apps.formulacion.forms import (
     PartidaForm,
@@ -16,7 +23,8 @@ from apps.formulacion.forms import (
     UnidadEjecutoraForm,
     CentroCostoForm,
     ProgramaForm, 
-    AccionEspecificaForm
+    AccionEspecificaForm,
+    EstimacionForm
 )
 
 from apps.formulacion.models import (
@@ -25,7 +33,8 @@ from apps.formulacion.models import (
     UnidadEjecutora,
     CentroCosto,
     Programa,
-    AccionEspecifica
+    AccionEspecifica,
+    Estimacion
 )
 
 
@@ -370,3 +379,24 @@ class AccionEspecificaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     permissions = {"all": ("formulacion.delete_accionespecifica",)}
     model = AccionEspecifica
     success_url = "formulacion:acciones_especificas"
+
+
+# ----- Estimacion -----
+
+class EstimacionView(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("formulacion.add_estimacion",)}
+    template_name = "formulacion/estimacion.html"
+    json_post = True
+
+    def altget(self, request):
+        acciones = AccionEspecifica.objects.all()
+        partidas = Partida.objects.exclude(nivel=1)
+        return {"acciones": acciones, "partidas": partidas}
+
+    def jsonpost(self, request):
+        estimacion = EstimacionSerializer(data=request.POST)
+        if estimacion.is_valid():
+            estimacion.save()
+            return {"estimacion": estimacion.data}
+        else:
+            return {"error": "No se pudo guardar"}

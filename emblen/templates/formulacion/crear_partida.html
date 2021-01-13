@@ -120,7 +120,7 @@
 {% block script %}
   <script type="module">
 
-    import { postQuery, inputCurrency } from "{% static 'global/js/helpers.js' %}";
+    import { postQuery, inputCurrency } from "{% static 'global/js/emblen.js' %}";
     let url = "{% url 'formulacion:c_partida' %}";
     let token = "{{ csrf_token }}";
 

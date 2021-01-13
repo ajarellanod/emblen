@@ -1,3 +1,7 @@
+//
+// Query Functions - For make queries to the server
+//
+
 export function postQuery(url, token, data, callback=false, params=false){
   
   // Joining data response with token and json
@@ -25,6 +29,11 @@ export function postQuery(url, token, data, callback=false, params=false){
     }
   });
 }
+
+
+//
+// Input Functions - For create inputs with masks
+//
 
 export function inputCurrency(selector){
 
@@ -63,4 +72,20 @@ export function inputDate(selector){
   });
 
   Inputmask({alias:"datetime", inputFormat: "dd/mm/yyyy"}).mask(selector);
+}
+
+
+//
+// Tranform Functions - Modify the format of the text
+//
+
+export function transformCurrency(str){
+  return str.replace(/.{1,3}(?=(.{3})*$)/g, '.\$&')
+    .replace("..", ",")
+    .replace(/(\.)/, "")
+}
+
+
+export function textToCurrency(str, symbol="Bs"){
+  return symbol + " " + transformCurrency(str)
 }

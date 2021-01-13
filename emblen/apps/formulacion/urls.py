@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.formulacion import views, reports
+from apps.formulacion import views
 
 urlpatterns = [
     path('', views.PrincipalView.as_view(), name='principal'),
@@ -34,4 +34,6 @@ urlpatterns = [
     path('accion-especifica/<int:pk>/', views.AccionEspecificaView.as_view(), name='v_accion_especifica'),
     path('accion-especifica/crear/', views.AccionEspecificaCreateView.as_view(), name='c_accion_especifica'),
     path('accion-especifica/<int:pk>/eliminar/', views.AccionEspecificaDeleteView.as_view(), name='e_accion_especifica'),
+
+    path('estimacion/', views.EstimacionView.as_view(), name='estimacion'),
 ]

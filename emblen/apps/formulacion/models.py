@@ -355,10 +355,10 @@ class Programa(EmblenBaseModel):
 
     # Distribución Meta Física Trimestral ===================
 
-    trimestre_1 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_2 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_3 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_4 = models.DecimalField(max_digits=22,decimal_places=4)
+    trimestre_1 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_2 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_3 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_4 = models.DecimalField(max_digits=22,decimal_places=2)
     
     # Beneficiarios ==========================================
 
@@ -701,10 +701,10 @@ class AccionEspecifica(EmblenBaseModel):
     # =======================================================
 
     # Distribución Física Trimestral
-    trimestre_1 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_2 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_3 = models.DecimalField(max_digits=22,decimal_places=4)
-    trimestre_4 = models.DecimalField(max_digits=22,decimal_places=4)
+    trimestre_1 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_2 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_3 = models.DecimalField(max_digits=22,decimal_places=2)
+    trimestre_4 = models.DecimalField(max_digits=22,decimal_places=2)
 
     # =======================================================
 
@@ -736,11 +736,11 @@ class AccionEspecifica(EmblenBaseModel):
 
     ejecucion_financiera = models.FloatField()
 
-    ejecutado_anio_anterior = models.DecimalField(max_digits=22,decimal_places=4)
+    ejecutado_anio_anterior = models.DecimalField(max_digits=22,decimal_places=2)
     
-    estimado_anio_siguiente = models.DecimalField(max_digits=22,decimal_places=4)
+    estimado_anio_siguiente = models.DecimalField(max_digits=22,decimal_places=2)
 
-    estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=4)
+    estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=2)
 
     # =======================================================
     
@@ -792,7 +792,7 @@ class Partida(EmblenBaseModel):
 
     nivel = models.IntegerField()
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=4,null=True)
+    saldo = models.DecimalField(max_digits=22,decimal_places=2,null=True)
 
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
@@ -834,7 +834,7 @@ class Estimacion(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    monto = models.DecimalField(max_digits=22,decimal_places=4)
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
     
     anio = models.CharField(max_length=4)
 
@@ -945,9 +945,9 @@ class CtasCCostoAInt(EmblenBaseModel):
 
     anio = models.CharField(max_length=4)
 
-    mto_original = models.DecimalField(max_digits=22,decimal_places=4)
+    mto_original = models.DecimalField(max_digits=22,decimal_places=2)
 
-    mto_actualizado = models.DecimalField(max_digits=22,decimal_places=4)
+    mto_actualizado = models.DecimalField(max_digits=22,decimal_places=2)
 
 
     class Meta:

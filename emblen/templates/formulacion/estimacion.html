@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %} Estimación {% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="#">Estimación</i></a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Crear Relación</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'formulacion:estimacion' %}" token="{{ csrf_token }}" callback="true">
+                Crear
+              </a>
+              <a href="{% url 'formulacion:partidas' %}" class="btn btn-sm btn-default">Cancelar</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h6 class="heading-small text-muted mb-4">Crear Estimación</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+            </div>
+            <form method="POST" action="." id="form">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Acciones Especificas</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_accion_especifica" 
+                    name="accion_especifica">
+                      <option>--------------------</option>
+                      {% for accion in acciones %}
+                        <option value="{{accion.id}}">{{accion.codigo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Seleccione Partida</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_partida" name="partida">
+                      <option>--------------------</option>
+                      {% for partida in partidas %}
+                        <option value="{{partida.id}}">{{partida.cuenta}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    <input type="text" id="id_anio" maxlength="4" name="anio"
+                    class="form-control queryInput" placeholder="Ingrese Año...">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Monto</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="monto" id="id_monto">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card"><!-- Card header -->
+        <div class="card-header border-0">
+          <h3 class="mb-0">Relaciones Concretadas</h3>
+        </div><!-- Light table -->
+        <div class="table-responsive" data-toggle="list" data-list-values='["anio", "monto"]'>
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Acción</th>
+                <th scope="col">Partida</th>
+                <th scope="col" class="sort" data-sort="anio">Año</th>
+                <th scope="col" class="sort" data-sort="monto">Monto</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    // HTML Objects
+    $("#id_anio").datepicker({
+      format: "yyyy",
+      viewMode: "years", 
+      minViewMode: "years"
+    });
+  </script>
+
+  <script>
+    function callbackFunction(response){
+      let est = response.estimacion;
+      $('table > tbody:last-child').append(`
+        <tr>
+          <th>${est.accion_especifica}</th>
+          <td>${est.partida}</td>
+          <td class="anio">${est.anio}</td>
+          <td class="monto">${textToCurrency(est.monto)}</td>
+        </tr>
+      `);
+    }
+  </script>
+{% endblock script %}

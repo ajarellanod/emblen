@@ -34,8 +34,9 @@
   <link rel="stylesheet" href="{% static 'global/vendor/nucleo/css/nucleo.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'global/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
   <!-- Page plugins -->
-  <link rel="stylesheet" href="{% static 'global/vendor/fullcalendar/dist/fullcalendar.min.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'global/vendor/fullcalendar/dist/fullcalendar.min.css' %}"> -->
   <link rel="stylesheet" href="{% static 'global/vendor/sweetalert2/dist/sweetalert2.min.css' %}">
+  <link href="{% static 'global/vendor/select2/css/select2.min.css' %}" rel="stylesheet"/>
   <!-- Argon CSS -->
   <link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}" type="text/css">
   {% block head %}{% endblock head %}
@@ -274,8 +275,13 @@
   <!-- Optional JS -->
   <script src="{% static 'global/vendor/chart.js/dist/Chart.min.js' %}"></script>
   <script src="{% static 'global/vendor/chart.js/dist/Chart.extension.js' %}"></script>
+  <script src="{% static 'global/vendor/select2/js/select2.min.js' %}"></script>
+  <script src="{% static 'global/vendor/list.js/dist/list.min.js' %}"></script>
+  <script src="{% static 'global/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'global/js/dashboard.js' %}"></script>
+  <!-- Emblen JS -->
+  <script src="{% static 'global/js/emblenNotModule.js' %}"></script>
   {% block script %}{% endblock script %}
   <script type="module" src="{% static 'global/js/autoLoadInputs.js' %}"></script>
   <script type="module" src="{% static 'global/js/autoQuery.js' %}"></script>

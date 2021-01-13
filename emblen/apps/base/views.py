@@ -45,7 +45,10 @@ class EmblenView(View):
                 return altpost
             
     def altget(self, request, *args, **kwargs):
-        raise Http404()
+        if isinstance(self.template_name, str):
+            return render(request, self.template_name)
+        else: 
+            raise ValueError("template_name is not set")
 
     def altpost(self, request, *args, **kwargs):
         raise Http404()
