@@ -34,42 +34,38 @@
         </div>
       </div>
       <!-- Light table -->
-      <div class="table-responsive" id="tablaPartidas">
-        <table class="table align-items-center table-hover" > <!-- table-bordered -->
+      <div class="table-responsive" emblen-toggle="list" data-list-values='["codigo"]'>
+        <table class="table align-items-center table-hover">
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center" data-sort="nombre">
-                Nombre
-              </th>
-              <th scope="col" class="sort text-center" data-sort="dependencia">Dependencia</th>
-              <th scope="col" class="sort text-center" data-sort="unidad_ejecutora">
-                Unidad Ejecutora
-              </th>
-              <th scope="col" class="sort text-center " data-sort="codigo">Codigo</th>
+              <th scope="col" class="text-center">Nombre</th>
+              <th scope="col" class="text-center">Dependencia</th>
+              <th scope="col" class="text-center">Unidad Ejecutora</th>
+              <th scope="col" class="sort text-center" data-sort="codigo">Codigo</th>
               {% if perms.formulacion.delete_departamento %}
-              <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
+              <th scope="col" class="text-center" width="5"><i class="fas fa-cogs"></i></th>
               {% endif %}
             </tr>
           </thead>
-          <tbody>
+          <tbody class="list">
             {% for departamento in page_obj %}
               <tr>
-                <th scope="row" class="nivel text-center">
+                <th scope="row" class="text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
                       <a href="{% url 'formulacion:v_departamento' departamento.id %}">
-                        <span class="name mb-0 text-sm">{{ departamento.nombre }}</span>
+                        <span class="mb-0 text-sm">{{ departamento.nombre }}</span>
                       </a>
                     </div>
                   </div>
                 </th>
-                <td class="cuenta text-center">
+                <td class="text-center">
                   {{ departamento.unidad_ejecutora.dependencia }}
                 </td>
-                <td class="descripcion text-center">
+                <td class="text-center">
                   {{ departamento.unidad_ejecutora }}
                 </td>
-                <td class="saldo text-center"> 
+                <td class="codigo text-center"> 
                   {{ departamento.codigo }}
                 </td>
                 {% if perms.formulacion.delete_departamento %}

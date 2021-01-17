@@ -1,6 +1,6 @@
-//
+// //
 // Query Functions - For make queries to the server
-//
+// //
 
 function postQuery(url, token, data, callback=false, params=false){
   
@@ -31,9 +31,9 @@ function postQuery(url, token, data, callback=false, params=false){
 }
 
 
-//
+// //
 // Input Functions - For create inputs with masks
-//
+// //
 
 function inputCurrency(selector){
 
@@ -75,9 +75,9 @@ function inputDate(selector){
 }
 
 
-//
+// //
 // Tranform Functions - Modify the format of the text
-//
+// //
 
 function transformCurrency(str){
   return str.replace(/.{1,3}(?=(.{3})*$)/g, '.\$&')

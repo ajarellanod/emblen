@@ -82,23 +82,30 @@
       </div>
     </div>
     <div class="col">
-      <div class="card"><!-- Card header -->
+      <div class="card">
         <div class="card-header border-0">
           <h3 class="mb-0">Relaciones Concretadas</h3>
         </div><!-- Light table -->
-        <div class="table-responsive" data-toggle="list" data-list-values='["anio", "monto"]'>
+        <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Acción</th>
+                <th scope="col">Acción Esp</th>
                 <th scope="col">Partida</th>
-                <th scope="col" class="sort" data-sort="anio">Año</th>
-                <th scope="col" class="sort" data-sort="monto">Monto</th>
+                <th scope="col">Año</th>
+                <th scope="col">Monto</th>
               </tr>
             </thead>
             <tbody class="list">
+              <tr id="ninguna">
+                <th colspan="4">
+                  Ninguna Relación Creada...
+                </th>
+              </tr>
             </tbody>
           </table>
+        </div>
+        <div class="card-footer">
         </div>
       </div>
     </div>
@@ -116,14 +123,20 @@
   </script>
 
   <script>
+    var flag = true;
     function callbackFunction(response){
+      if(flag){
+        $('#ninguna').hide();
+        flag = false;
+      }
+
       let est = response.estimacion;
       $('table > tbody:last-child').append(`
         <tr>
-          <th>${est.accion_especifica}</th>
-          <td>${est.partida}</td>
-          <td class="anio">${est.anio}</td>
-          <td class="monto">${textToCurrency(est.monto)}</td>
+          <th>${est.codigo_accion}</th>
+          <th>${est.codigo_partida}</th>
+          <td>${est.anio}</td>
+          <td>${textToCurrency(est.monto)}</td>
         </tr>
       `);
     }

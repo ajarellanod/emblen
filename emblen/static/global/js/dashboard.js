@@ -2442,7 +2442,7 @@ var SortList = (function() {
 	// Variables
 	//  //
 
-	var $lists = $('[data-toggle="list"]');
+	var $lists = $('[emblen-toggle="list"]');
 	var $listsSort = $('[data-sort]');
 
 

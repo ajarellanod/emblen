@@ -27,53 +27,51 @@
             <h3 class="mb-0">Partidas Presupuestarias</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:c_partida' %}" class="btn btn-sm btn-primary">
-              Nueva
+            <a href="{% url 'formulacion:c_partida' %}" class="btn btn-sm btn-primary">
+              Crear Partida
             </a>
           </div>
         </div>
       </div>
       <!-- Light table -->
-      <div class="table-responsive" id="tablaPartidas">
-        <table class="table align-items-center table-hover" > <!-- table-bordered -->
+      <div class="table-responsive" emblen-toggle="list" data-list-values='["nivel", "saldo"]'>
+        <table class="table align-items-center table-hover">
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center" style="width: 5%;" data-sort="nivel">Nivel</th>
-              <th scope="col" class="sort text-center" style="width: 20%;" data-sort="cuenta">Cuenta</th>
-              <th scope="col" class="sort text-center" style="width: 45%;" data-sort="descripcion">Descripción</th>
-              <th scope="col" class="sort text-center " style="width: 25%;" data-sort="saldo">Saldo</th>
+              <th scope="col" class="text-center sort" data-sort="nivel">Nivel</th>
+              <th scope="col" class="text-center">Cuenta</th>
+              <th scope="col" class="text-center">Descripción</th>
+              <th scope="col" class="text-center sort" data-sort="saldo">Saldo</th>
               {% if perms.formulacion.delete_partida %}
-              <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
+              <th scope="col" class="text-center" width="5"><i class="fas fa-cogs"></i></th>
               {% endif %}
             </tr>
           </thead>
-          <tbody>
+          <tbody class="list">
             {% for partida in page_obj %}
               <tr>
-                <th scope="row" class="nivel text-center">
+                <th scope="row" class="text-center nivel">
                   {{ partida.nivel }}
                 </th>
-                <td class="cuenta text-center">
+                <td class="text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
                       <a href="{% url 'formulacion:v_partida' partida.id %}">
-                        <span class="name mb-0 text-sm">{{ partida.cuenta }}</span>
+                        <span class="mb-0 text-sm">{{ partida.cuenta }}</span>
                       </a>
                     </div>
                   </div>
                 </td>
-                <td class="descripcion text-center">
+                <td class="text-center">
                   {{ partida.descripcion }}
                 </td>
-                <td class="saldo text-center"> 
-                  {{ partida.saldo|floatformat:2 }}
-                </td>
+                <td class="saldo text-center">{{ partida.saldo|floatformat:2 }}</td>
                 {% if perms.formulacion.delete_partida %}
-                <td class="text-right">
-                  <a href="{% url 'formulacion:e_partida' partida.id %}" class="btn btn-sm btn-default">
-                    Eliminar
-                  </a>
-                </td>
+                  <td class="text-right">
+                    <a href="{% url 'formulacion:e_partida' partida.id %}" class="btn btn-sm btn-default">
+                      Eliminar
+                    </a>
+                  </td>
                 {% endif %}
               </tr>
             {% endfor %}
@@ -86,3 +84,13 @@
   </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.saldo').each(function(){
+        $(this).text(textToCurrency($(this).text()));
+      });
+    });
+  </script>
+{% endblock script %}

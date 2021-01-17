@@ -16,6 +16,9 @@ class CentroCostoSerializer(serializers.ModelSerializer):
 
 
 class EstimacionSerializer(serializers.ModelSerializer):
+    codigo_accion = serializers.CharField(source='accion_especifica.codigo', read_only=True)
+    codigo_partida = serializers.CharField(source='partida.cuenta', read_only=True)
+
     class Meta:
         model = Estimacion
-        fields = ['id', 'accion_especifica', 'partida', 'anio', 'monto']
+        fields = ['id', 'accion_especifica', 'partida', 'anio', 'monto', 'codigo_accion', 'codigo_partida']
