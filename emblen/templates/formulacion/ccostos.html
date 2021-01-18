@@ -65,9 +65,6 @@
                   </div>
                 </th>
                 </td>
-                <td class="nombre text-center">
-                  {{ ccosto.nombre }}
-                </td>
                 {% if perms.formulacion.delete_centrocosto %}
                 <td class="text-right">
                   <a href="{% url 'formulacion:e_centro_costo' ccosto.id %}" class="btn btn-sm btn-default">

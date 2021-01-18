@@ -58,10 +58,10 @@
   </a>
   <div class="collapse" id="navbar-dashboards2">
     <ul class="nav nav-sm flex-column">
-      
+     
       {% if perms.formulacion.view_programa %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:programas' %}" class="nav-link"  id="m_programas">
+        <a href="{% url 'formulacion:programas' %}" class="nav-link" id="m_programas">
           <span class="sidenav-mini-icon"> PG </span>
           <span class="sidenav-normal"> Programas </span>
         </a>
@@ -72,11 +72,11 @@
       <li class="nav-item">
         <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link" id="m_acc_especificas">
           <span class="sidenav-mini-icon"> AE </span>
-          <span class="sidenav-normal"> Acciones Especificas </span>
+          <span class="sidenav-normal"> Acc. Específicas </span>
         </a>
       </li>
-      {% endif %}
-   
+      {% endif %}      
+
     </ul>
   </div>
 </li>
@@ -87,14 +87,13 @@
   </a>
   <div class="collapse" id="navbar-examples">
     <ul class="nav nav-sm flex-column">
-      {% if perms.formulacion.view_partida %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:partidas' %}" class="nav-link" id="m_partidas">
-          <span class="sidenav-mini-icon"> CG </span>
+        <a href="{% url 'formulacion:partidas' %}" class="nav-link">
+          <span class="sidenav-mini-icon"> C </span>
           <span class="sidenav-normal"> Carga </span>
+
         </a>
       </li>
-      {% endif %}
     </ul>
   </div>
 </li>
