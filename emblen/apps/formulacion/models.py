@@ -116,7 +116,10 @@ class FuenteFinanciamiento(EmblenBaseModel):
 
     orden = models.IntegerField()
 
-    externo=models.BooleanField(default=False)
+    externo = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         verbose_name_plural = "Fuentes de Financiamientos"
@@ -841,6 +844,9 @@ class Estimacion(EmblenBaseModel):
     class Meta:
         verbose_name_plural = "Estimaciones por Partidas"
         unique_together = (("accion_especifica", "partida", "anio"),)
+
+    def __str__(self):
+        return f"{self.accion_especifica} - {self.partida}"
         
     def save(self, *args, **kwargs):
         if self.partida.nivel > 1:
@@ -855,6 +861,9 @@ class TipoGasto(EmblenBaseModel):
 
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Tipos de Gasto"
 
@@ -865,13 +874,22 @@ class TipoOrganismo(EmblenBaseModel):
 
     nombre = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         verbose_name_plural = "Tipos de Organismos"
         
 
 class AccionInterna(EmblenBaseModel):
 
-    codigo = models.CharField(max_length=11)
+    NIVELES = (
+        (1, "Nivel 1"), # 1000000, 2000000
+        (2, "Nivel 2"), # 1070000, 2070000
+        (3, "Nivel 3")  # 2070001, 2110001
+    )
+
+    codigo = models.CharField(max_length=7)
     
     descripcion = models.TextField()
 
@@ -887,8 +905,7 @@ class AccionInterna(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    # 1 = 1000000, 2000000 - 2 = 1070000, 2070000, 2110000 - 3 = 1070001, 2070001, 2110001
-    nivel = models.CharField(max_length=1)
+    nivel = models.IntegerField(choices=NIVELES)
 
     fuente_financiamiento = models.ForeignKey(
         FuenteFinanciamiento,
@@ -908,6 +925,7 @@ class AccionInterna(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Acciones Internas"
+
 
 class CCostoAccInt(EmblenBaseModel):
 

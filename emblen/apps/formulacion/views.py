@@ -24,7 +24,7 @@ from apps.formulacion.forms import (
     CentroCostoForm,
     ProgramaForm, 
     AccionEspecificaForm,
-    EstimacionForm
+    AccionInternaForm,
 )
 
 from apps.formulacion.models import (
@@ -34,7 +34,8 @@ from apps.formulacion.models import (
     CentroCosto,
     Programa,
     AccionEspecifica,
-    Estimacion
+    Estimacion,
+    AccionInterna
 )
 
 
@@ -340,7 +341,7 @@ class AccionEspecificaListView(EmblenPermissionsMixin, ListView):
 
 
 class AccionEspecificaView(EmblenPermissionsMixin, EmblenFormView):
-    permissions = {"all": ("formulacion.add_accionespecifica",)}
+    permissions = {"all": ("formulacion.change_accionespecifica",)}
     template_name = "formulacion/crear_accion_especifica.html"
     instance_model = AccionEspecifica
     form_class = AccionEspecificaForm
@@ -400,3 +401,12 @@ class EstimacionView(EmblenPermissionsMixin, EmblenView):
             return {"estimacion": estimacion.data}
         else:
             return {"error": "No se pudo guardar"}
+
+
+# ----- Acción Interna -----
+
+class AccionInternaCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_accioninterna",)}
+    template_name = "formulacion/crear_accion_interna.html"
+    form_class = AccionInternaForm
+    success_url = "formulacion:principal"

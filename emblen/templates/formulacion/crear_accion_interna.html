@@ -1,0 +1,138 @@
+{% extends 'base/steps.html' %}
+
+{% load widget_tweaks %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %}
+  {% if form.initial %}
+    Accion Interna - {{form.instance.codigo}}
+  {% else %}
+    Creación de Accion Interna
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_especificas' %}">
+      Acciones Internas
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Acción Interna</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+{% block stepwizard %}
+  <div class="stepwizard-step">
+      <a href="#step-1" type="button" class="btn btn-default btn-circle">
+          <i class="fas fa-info"></i>
+      </a>
+      <p class="form-control-label"></p>
+  </div>
+
+  <div class="stepwizard-step">
+      <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+          <i class="fas fa-file"></i>
+      </a>
+      <p class="form-control-label"></p>
+  </div>
+{% endblock stepwizard %}
+
+{% block stepform %}
+<div class="setup-content" id="step-1">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Acción Especifica</label>
+        {% render_field form.accion_especifica data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Codigo de la Acción Interna</label>
+        {% render_field form.codigo class="form-control" placeholder="Ingrese Codigo..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Nivel</label>
+        {% render_field form.nivel class="form-control"%}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Auxiliar</label>
+        {% render_field form.auxiliar class="form-control" placeholder="Ingrese Auxiliar..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <div class="form-check">
+          {% render_field form.transferencia class="form-check-input" %}
+          <label class="form-check-label form-control-label" for="id_transferencia">
+            Es Transnferencia
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary nextBtn" type="button">
+            Continuar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="setup-content" id="step-2">
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Tipo de Gasto</label>
+        {% render_field form.tipo_gasto data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Fuente de Financiamiento</label>
+        {% render_field form.fuente_financiamiento data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Tipo de Organismo</label>
+        {% render_field form.tipo_organismo data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Descripción</label>
+        {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">
+            Guardar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock stepform %}

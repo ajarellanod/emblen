@@ -36,4 +36,6 @@ urlpatterns = [
     path('accion-especifica/<int:pk>/eliminar/', views.AccionEspecificaDeleteView.as_view(), name='e_accion_especifica'),
 
     path('estimacion/', views.EstimacionView.as_view(), name='estimacion'),
+
+    path('accion-interna/crear/', views.AccionInternaCreateView.as_view(), name='c_accion_interna'),
 ]

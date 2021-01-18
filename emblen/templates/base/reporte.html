@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reporte de Testing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body { 
+            font-family: "Roboto", serif; font-size: 0.8rem; 
+            font-weight: 400; 
+            line-height: 1.4;
+            color: #000000; 
+        }
+
+        h1, h2, h4, h5 { 
+            font-weight: 700; 
+            color: #000000; 
+        }
+
+        h1 { 
+            font-size: 2rem; 
+        }
+
+        h2 { 
+            font-size: 1.6rem; 
+        }
+
+        h4 { 
+            font-size: 1.2rem;
+        }
+
+        h5 { 
+            font-size: 1rem; 
+        }
+
+        .table { 
+            color: #000; 
+        }
+        
+        .table td, .table th { 
+            border-top: 1px solid #000; 
+        }
+        
+        .table thead th { 
+            vertical-align: bottom; 
+            border-bottom: 2px solid #000; 
+        }
+
+        @page {
+            margin-top: 2.5cm;
+            margin-bottom: 2.5cm;
+        }
+
+        @page :first {
+            margin-top: 0;
+            margin-bottom: 2.5cm;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: #000000; height: 10px;"></div>
+    <div class="container-fluid pt-2 pt-md-4 px-md-5">
+        <!-- Title -->
+        <div class="row">
+            <div class="col-md text-center text-md-left mb-3 mb-md-0">
+                <img class="logo img-fluid mb-3" src="../../static/global/images/emblen.png" 
+                style="max-height:35px;"/><br>
+                Carabobo, Valencia, Venezuela<br>
+                soporte@emblen.us / 0212 565 4537<br>
+                <strong>emblen.us</strong>
+            </div>
+            <div class="col text-center text-md-right">
+                <h1 class="mb-0">Reporte</h1>
+                <h4 class="mb-0">RF12021</h4>
+            </div>
+        </div>
+
+        <br><br><br> <!-- Divider -->
+
+        <!-- Información del Proyecto - Aun Falta -->
+        <div class="row">
+            <div class="col">
+                <ul>
+                    <li>
+                        <strong>Sector 07</strong>
+                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M
+                    </li>
+                    <li>
+                        <strong>Tipo 01</strong>
+                        Pursuit Running Shoes, Men's Pursuit Running Shoes
+                    </li>
+                    <li>
+                        <strong>Especifica 04</strong>
+                        Pursuit Running Shoes, Men's Pursuit Running Shoes Men's Pursuit Running Shoes
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Invoice items table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="3">Codigo</th>
+                <th colspan="2">Titulo</th>
+                <th class="text-right">Accion Interna</th>
+            </tr>
+            <tr>
+                <th>De Codigo</th>
+                <th>Codigo Titulo</th>
+                <th>C Accion Interna</th>
+
+                <th>Codigo</th>
+                <th>Titulo</th>
+
+                <th class="text-right">A La Derecha</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <h5 class="mb-1">Pursuit Running Shoes</h5>
+                        Men's Pursuit Running Shoes - 10/M
+                    </td>
+                    <td class="font-weight-bold align-middle text-right text-nowrap">$149.00 USD</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <h5 class="mb-1">Shelby Boots</h5>
+                        Men's Shelby Leather Boots - 10/M
+                    </td>
+                    <td class="font-weight-bold align-middle text-right text-nowrap">$99.00 USD</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-right border-0 pt-4"><h5>Total: $248.00 USD</h5></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Thank you note -->
+        <h5 class="text-center pt-2">
+            Thank you for your custom!
+        </h5>
+    </div>
+</body>
