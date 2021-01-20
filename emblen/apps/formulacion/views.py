@@ -298,7 +298,7 @@ class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
     template_name = "formulacion/crear_programa.html"
     instance_model = Programa
     form_class = ProgramaForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:programas"
 
     def altpost(self, request, pk, *args, **kwargs):
         programa = get_object_or_404(self.instance_model, pk=pk)
@@ -320,7 +320,7 @@ class ProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_programa",)}
     template_name = "formulacion/crear_programa.html"
     form_class = ProgramaForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:programas"
 
     def form_valid(self, form):
         programa = form.save(commit=False)
