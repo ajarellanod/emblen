@@ -1,0 +1,79 @@
+body {
+    background:rgb(221, 221, 221);
+}
+
+.page {
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #000000;
+    max-width: 320mm;
+    margin: auto;
+    box-shadow: 1px 2px 8px 8px rgba(0,0,0,0.16);
+    background: white;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+h1, h2, h4, h5 { 
+    font-weight: 700; 
+    color: #000000; 
+}
+
+h1 { 
+    font-size: 2rem; 
+}
+
+h2 { 
+    font-size: 1.6rem; 
+}
+
+h4 { 
+    font-size: 1.2rem;
+}
+
+h5 { 
+    font-size: 1rem; 
+}
+
+.table { 
+    color: #000;
+    font-size: 0.6rem;
+}
+
+.table td { 
+    border-top: 1.5px solid #000;
+    padding: 0.4em;
+}
+
+.table .project td { 
+    border-top: none;
+    padding: 0.2em 0.5em;
+    page-break-before: auto;
+}
+
+.table thead th { 
+    vertical-align: bottom; 
+    color: #000;
+    border: 1.5px solid #000;
+    font-size: 1em;
+    padding: 0.5em;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-weight: bold;
+}
+
+@page {
+    size: 216mm 280mm;
+    margin: auto 5mm auto 5mm;
+}
+
+@page :first {
+    margin-top: 5mm;
+}

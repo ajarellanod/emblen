@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'global/css/bootstrap/bootstrap.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'global/css/report.css' %}" type="text/css">
+        <style>
+            #fixedButton {
+                position: fixed;
+                top: 30px;
+                left: 30px; 
+            }
+        </style>
+        {% block head %}{% endblock head %}
+    </head>
+<body>
+    <button type="button" onClick="window.print();" class="btn btn-primary" id="fixedButton">Imprimir</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page col">
+                <div class="container-fluid pt-2 pt-md-4 px-md-5">  
+                    <div class="header-report">
+                        <div class="row">
+                            <div class="col-3 text-center mb-3 mb-md-0" style="font-size: 9px; font-weight: bold;">
+                                <img class="logo img-fluid mb-1" src="../../static/global/images/escudo-gris.png" style="max-height:50px;"/><br>
+                                Republica Bolivariana de Venezuela<br>
+                                Gobernación del Estado Carabobo
+                            </div>
+                            <div class="col text-center pt-4">
+                                <span class="title">{% block rtitle %}{% endblock rtitle %}</span><br>
+                                <span class="subtitle">{% block subtitle %}{% endblock subtitle %}</span>
+                            </div>
+                            <div class="col-3 text-center text-md-right pt-4">
+                                Fecha: {{ fecha }}<br>
+                                Hora: {{ hora }}
+                            </div>
+                        </div>
+                        <br><br> <!-- Separator -->
+                    </div>
+
+                    {% block body %}{% endblock body %}
+
+                    <br><!-- Final -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    {% block script %}{% endblock script %}
+</body>

@@ -4,6 +4,7 @@ from apps.formulacion import views
 
 urlpatterns = [
     path('', views.PrincipalView.as_view(), name='principal'),
+    path('reporte/', views.ReporteTestView.as_view(), name='reporte'),
 
     path('partidas/', views.PartidaListView.as_view(), name='partidas'),
     path('partida/crear/', views.PartidaCreateView.as_view(), name='c_partida'),

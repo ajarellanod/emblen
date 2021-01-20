@@ -1,210 +1,468 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Creditos Presupuestarios Asignados</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'global/css/bootstrap/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'global/css/report.css' %}" type="text/css">
     <style>
-        body {
-            font-family: "Roboto", serif;
-            font-size: 0.8rem;
-            font-weight: 400;
-            line-height: 1.4;
-            color: #000000;
-            max-width: 216mm;
-            height: 280mm;
-            margin: auto;
-            box-shadow: 1px 2px 8px 8px rgba(0,0,0,0.16);
-        }
-
-        h1, h2, h4, h5 { 
-            font-weight: 700; 
-            color: #000000; 
-        }
-
-        h1 { 
-            font-size: 2rem; 
-        }
-
-        h2 { 
-            font-size: 1.6rem; 
-        }
-
-        h4 { 
-            font-size: 1.2rem;
-        }
-
-        h5 { 
-            font-size: 1rem; 
-        }
-
-        .table { 
-            color: #000;
-            font-size: 0.6rem;
-        }
-        
-        .table td, .table th { 
-            border-top: 1.5px solid #000;
-            padding: 0.4em;
-        }
-
-        .table .project td, .table .project th { 
-            border-top: none;
-            padding: 0.2em 0.5em;
-        }
-        
-        .table thead th { 
-            vertical-align: bottom; 
-            border-bottom: 2px solid #000;
-            color: #000;
-            border: 1.5px solid #000;
-            background: #efefef;
-            font-size: 1em;
-            padding: 0.5em;
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .subtitle {
-            font-weight: bold;
-        }
-
-        @page {
-            margin-top: 2.5cm;
-            margin-bottom: 2.5cm;
-        }
-
-        @page :first {
-            margin-top: 0;
-            margin-bottom: 2.5cm;
+        #fixedButton {
+            position: fixed;
+            top: 30px;
+            left: 30px; 
         }
     </style>
 </head>
 <body>
-    <div style="background-color: #000000; height: 10px;"></div>
-    <div class="container-fluid pt-2 pt-md-4 px-md-5">
-        <!-- Title -->
+    <button type="button" onClick="window.print();" class="btn btn-primary" id="fixedButton">Imprimir</button>
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-3 text-center mb-3 mb-md-0" style="font-size: 9px; font-weight: bold;">
-                <img class="logo img-fluid mb-1" src="../../static/global/images/escudo-gris.png" style="max-height:50px;"/><br>
-                Republica Bolivariana de Venezuela<br>
-                Gobernación del Estado Carabobo
-            </div>
-            <div class="col text-center pt-4">
-                <span class="title">Creditos Presupuestarios Asignados</span>
-                <span class="subtitle">Presupuesto de Gastos 2021</span>
-            </div>
-            <div class="col-3 text-center text-md-right pt-4">
-                Fecha: 18/01/2021<br>
-                Hora: 2:14 PM
+            <div class="page col">
+                <div class="container-fluid pt-2 pt-md-4 px-md-5">  
+                    <div class="header-report">
+                        <div class="row">
+                            <div class="col-3 text-center mb-3 mb-md-0" style="font-size: 9px; font-weight: bold;">
+                                <img class="logo img-fluid mb-1" src="../../static/global/images/escudo-gris.png" style="max-height:50px;"/><br>
+                                Republica Bolivariana de Venezuela<br>
+                                Gobernación del Estado Carabobo
+                            </div>
+                            <div class="col text-center pt-4">
+                                <span class="title">Creditos Presupuestarios Asignados</span><br>
+                                <span class="subtitle">Presupuesto de Gastos 2021</span>
+                            </div>
+                            <div class="col-3 text-center text-md-right pt-4">
+                                Fecha: 18/01/2021<br>
+                                Hora: 2:14 PM
+                            </div>
+                        </div>
+                        <br><br> <!-- Separator -->
+                    </div>
+                    
+                    <div class="group-report">
+                        <!-- Proyecto -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table">
+                                    <tbody class="project">
+                                        <tr>
+                                            <td><strong>Sector</strong></td>
+                                            <td><strong>07</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dependencia</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tipo</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Proyecto</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Acción Especifica</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Centro de Costo</strong></td>
+                                            <td><strong>634001</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Especifica -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="align-middle text-center">Part</th>
+                                <th class="align-middle text-center">Gen</th>
+                                <th class="align-middle text-center">Esp</th>
+                                <th class="align-middle text-center">Sub</th>
+                                <th class="align-middle text-center">Aux</th>
+                                <th class="align-middle text-center">Descripción de la Partida</th>
+                                <th class="align-middle text-center">Acción Interna</th>
+                                <th class="align-middle text-center">Fuente Fin</th>
+                                <th class="align-middle text-center">Descripción de la Acción Interna</th>
+                                <th class="align-middle text-center">Monto Asignado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr><!-- Divider -->
+                    <div class="group-report">
+                        <!-- Proyecto -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table">
+                                    <tbody class="project">
+                                        <tr>
+                                            <td><strong>Sector</strong></td>
+                                            <td><strong>07</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dependencia</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tipo</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Proyecto</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Acción Especifica</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Centro de Costo</strong></td>
+                                            <td><strong>634001</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Especifica -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="align-middle text-center">Part</th>
+                                <th class="align-middle text-center">Gen</th>
+                                <th class="align-middle text-center">Esp</th>
+                                <th class="align-middle text-center">Sub</th>
+                                <th class="align-middle text-center">Aux</th>
+                                <th class="align-middle text-center">Descripción de la Partida</th>
+                                <th class="align-middle text-center">Acción Interna</th>
+                                <th class="align-middle text-center">Fuente Fin</th>
+                                <th class="align-middle text-center">Descripción de la Acción Interna</th>
+                                <th class="align-middle text-center">Monto Asignado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr><!-- Divider -->
+                    <div class="group-report">
+                        <!-- Proyecto -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table">
+                                    <tbody class="project">
+                                        <tr>
+                                            <td><strong>Sector</strong></td>
+                                            <td><strong>07</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dependencia</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tipo</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Proyecto</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Acción Especifica</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Centro de Costo</strong></td>
+                                            <td><strong>634001</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Especifica -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="align-middle text-center">Part</th>
+                                <th class="align-middle text-center">Gen</th>
+                                <th class="align-middle text-center">Esp</th>
+                                <th class="align-middle text-center">Sub</th>
+                                <th class="align-middle text-center">Aux</th>
+                                <th class="align-middle text-center">Descripción de la Partida</th>
+                                <th class="align-middle text-center">Acción Interna</th>
+                                <th class="align-middle text-center">Fuente Fin</th>
+                                <th class="align-middle text-center">Descripción de la Acción Interna</th>
+                                <th class="align-middle text-center">Monto Asignado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr><!-- Divider -->
+                    <div class="group-report">
+                        <!-- Proyecto -->
+                        <div class="row">
+                            <div class="col">
+                                <table class="table">
+                                    <tbody class="project">
+                                        <tr>
+                                            <td><strong>Sector</strong></td>
+                                            <td><strong>07</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dependencia</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tipo</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Proyecto</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Acción Especifica</strong></td>
+                                            <td><strong>01</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>Centro de Costo</strong></td>
+                                            <td><strong>634001</strong></td>
+                                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Especifica -->
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="align-middle text-center">Part</th>
+                                <th class="align-middle text-center">Gen</th>
+                                <th class="align-middle text-center">Esp</th>
+                                <th class="align-middle text-center">Sub</th>
+                                <th class="align-middle text-center">Aux</th>
+                                <th class="align-middle text-center">Descripción de la Partida</th>
+                                <th class="align-middle text-center">Acción Interna</th>
+                                <th class="align-middle text-center">Fuente Fin</th>
+                                <th class="align-middle text-center">Descripción de la Acción Interna</th>
+                                <th class="align-middle text-center">Monto Asignado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                                <tr>
+                                    <td>403</td>
+                                    <td>12</td>
+                                    <td>02</td>
+                                    <td>00</td>
+                                    <td>000</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td>1070001</td>
+                                    <td>RP</td>
+                                    <td class="text-justify">
+                                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
+                                    </td>
+                                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br><!-- Final -->
+                </div>
             </div>
         </div>
-
-        <br><br><br> 
-
-        <!-- Proyecto -->
-        <div class="row">
-            <div class="col">
-                <table class="table">
-                    <tbody class="project">
-                        <tr>
-                            <td><strong>Sector</strong></td>
-                            <td><strong>07</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Dependencia</strong></td>
-                            <td><strong>01</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tipo</strong></td>
-                            <td><strong>01</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Proyecto</strong></td>
-                            <td><strong>01</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap"><strong>Acción Especifica</strong></td>
-                            <td><strong>01</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                        <tr>
-                            <td class="text-nowrap"><strong>Centro de Costo</strong></td>
-                            <td><strong>634001</strong></td>
-                            <td>Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/M</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- Especifica -->
-        <table class="table">
-            <thead>
-            <tr>
-                <th class="align-middle text-center">Part</th>
-                <th class="align-middle text-center">Gen</th>
-                <th class="align-middle text-center">Esp</th>
-                <th class="align-middle text-center">Sub</th>
-                <th class="align-middle text-center">Aux</th>
-                <th class="align-middle text-center">Descripción de la Partida</th>
-                <th class="align-middle text-center">Acción Interna</th>
-                <th class="align-middle text-center">Fuente Fin</th>
-                <th class="align-middle text-center">Descripción de la Acción Int</th>
-                <th class="align-middle text-center">Monto Asignado</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>403</td>
-                    <td>12</td>
-                    <td>02</td>
-                    <td>00</td>
-                    <td>000</td>
-                    <td class="text-justify">
-                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
-                    </td>
-                    <td>1070001</td>
-                    <td>RP</td>
-                    <td class="text-justify">
-                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
-                    </td>
-                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
-                </tr>
-                <tr>
-                    <td>403</td>
-                    <td>12</td>
-                    <td>02</td>
-                    <td>00</td>
-                    <td>000</td>
-                    <td class="text-justify">
-                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
-                    </td>
-                    <td>1070001</td>
-                    <td>RP</td>
-                    <td class="text-justify">
-                        Pursuit Running Shoes, Men's Pursuit Running Shoes - 10/M, Men's Shelby Leather Boots - 10/MPursuit Running Shoes, Men's Pursuit Running Shoes
-                    </td>
-                    <td class="text-right text-nowrap">Bs 129.154.182,25</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <hr><!-- Divider -->
-
-        <h5 class="text-center pt-2">
-            Fin del Reporte
-        </h5>
     </div>
 </body>

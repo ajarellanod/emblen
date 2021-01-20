@@ -43,6 +43,10 @@ from apps.formulacion.models import (
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "formulacion/principal.html"
+    
+
+class ReporteTestView(LoginRequiredMixin, TemplateView):
+    template_name = "formulacion/r/creditos_presupuestarios.html"
 
 
 # ----- Partidas -----
