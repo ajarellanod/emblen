@@ -38,5 +38,6 @@ urlpatterns = [
 
     path('estimacion/', views.EstimacionView.as_view(), name='estimacion'),
 
+    path('acciones-internas/', views.AccionInternaCreateView.as_view(), name='acciones_internas'),
     path('accion-interna/crear/', views.AccionInternaCreateView.as_view(), name='c_accion_interna'),
 ]

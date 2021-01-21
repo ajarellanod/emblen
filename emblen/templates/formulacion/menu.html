@@ -58,7 +58,16 @@
   </a>
   <div class="collapse" id="navbar-dashboards2">
     <ul class="nav nav-sm flex-column">
-      
+
+      {% if perms.formulacion.view_accionespecifica %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:acciones_internas' %}" class="nav-link" id="m_acc_internas">
+          <span class="sidenav-mini-icon"> AI </span>
+          <span class="sidenav-normal"> Acciones Internas </span>
+        </a>
+      </li>
+      {% endif %}
+
       {% if perms.formulacion.view_programa %}
       <li class="nav-item">
         <a href="{% url 'formulacion:programas' %}" class="nav-link"  id="m_programas">
@@ -76,7 +85,7 @@
         </a>
       </li>
       {% endif %}
-   
+
     </ul>
   </div>
 </li>
