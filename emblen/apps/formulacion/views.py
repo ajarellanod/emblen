@@ -14,7 +14,8 @@ from apps.base.views import (
 from apps.formulacion.serializers import (
     PartidaSerializer,
     CentroCostoSerializer,
-    EstimacionSerializer
+    EstimacionSerializer,
+    PartidaAccionInternaSerializer
 )
 
 from apps.formulacion.forms import (
@@ -45,8 +46,17 @@ class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "formulacion/principal.html"
     
 
-class ReporteTestView(LoginRequiredMixin, TemplateView):
+class ReporteTestView(LoginRequiredMixin, EmblenView):
     template_name = "formulacion/r/creditos_presupuestarios.html"
+
+    def altget(self, request):
+        qs = AccionEspecifica.objects.filter(programa__anio=2021).select_related(
+            'programa__responsable__unidad_ejecutora__dependencia__sector'
+        ).prefetch_related(
+            'acciones_internas__partida_accioninternas'
+        )
+        
+        return {"acc_especificas": qs}
 
 
 # ----- Partidas -----
@@ -414,3 +424,29 @@ class AccionInternaCreateView(EmblenPermissionsMixin, EmblenFormView):
     template_name = "formulacion/crear_accion_interna.html"
     form_class = AccionInternaForm
     success_url = "formulacion:principal"
+
+    def form_valid(self, form):
+        accion_interna = form.save(commit=False)
+        accion_interna.gen_rest_attrs()
+        return super().form_valid(accion_interna)
+
+
+# ----- PartidaAccionInterna -----
+
+class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("formulacion.add_partidaaccioninterna",)}
+    template_name = "formulacion/partida_accion_interna.html"
+    json_post = True
+
+    def altget(self, request):
+        acciones = AccionInterna.objects.all()
+        partidas = Partida.objects.exclude(nivel=1)
+        return {"acciones": acciones, "partidas": partidas}
+
+    def jsonpost(self, request):
+        part_acc = PartidaAccionInternaSerializer(data=request.POST)
+        if part_acc.is_valid():
+            part_acc.save()
+            return {"part_acc": part_acc.data}
+        else:
+            return {"error": "No se pudo guardar"}

@@ -397,7 +397,7 @@ class Programa(EmblenBaseModel):
 
     duracion = models.DurationField()
 
-    contador = models.IntegerField()
+    contador = models.IntegerField(default=1)
 
 
     def gen_codigo(self):
@@ -410,20 +410,17 @@ class Programa(EmblenBaseModel):
         cod_sector = dependencia.sector.codigo
         cod_dependencia = dependencia.codigo
         cod_tipo = f"0{self.nivel}"
-
-        if self.contador < 10:
-            cod_contador = f"0{self.contador}"
-        else:
-            cod_contador = self.contador
+        cod_contador = "{:02}".format(self.contador)
 
         self.codigo = f"{cod_sector}{cod_dependencia}{cod_tipo}{cod_contador}"
 
 
-    def gen_rest_attrs(self, commit=False):
+    def gen_rest_attrs(self):
         """
-        Genera los atributos restantes del Programa en instancia
+        Genera Atributos restante del objeto en instancia.
+        >> ("codigo", "anio", "estado", "contador", "duracion")
         """
-        
+
         self.anio = self.inicio.year
         self.duracion = self.fin - self.inicio
 
@@ -432,17 +429,12 @@ class Programa(EmblenBaseModel):
             nivel=self.nivel, anio=self.anio
         ).aggregate(Max('contador')).get("contador__max")
 
-        # Valida si es el primero en crearse
         if result:
             self.contador = result + 1
-        else:
-            self.contador = 1
 
         # Genera el codigo del Programa
         self.gen_codigo()
 
-        if commit:
-            self.save()
 
     def __str__(self):
         return self.codigo
@@ -701,6 +693,12 @@ class AccionEspecifica(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
+    centro_costo = models.ForeignKey(
+        CentroCosto,
+        related_name="acciones_especificas",
+        on_delete=models.PROTECT
+    )
+
     # =======================================================
 
     # Distribución Física Trimestral
@@ -757,6 +755,11 @@ class AccionEspecifica(EmblenBaseModel):
         return self.codigo
     
     def gen_rest_attrs(self):
+        """
+        Genera Atributos restante del objeto en instancia.
+        >> ("codigo", "contador", "duracion")
+        """
+
         self.duracion = self.fin - self.inicio
         
         result = AccionEspecifica.objects.filter(
@@ -765,11 +768,8 @@ class AccionEspecifica(EmblenBaseModel):
         
         if result:
             self.contador = result + 1
-            
-        if self.contador < 9:
-            self.codigo = self.programa.codigo + f"0{self.contador}"
-        else:
-            self.codigo = self.programa.codigo + f"{self.contador}"
+
+        self.codigo = self.programa.codigo + "{:02}".format(self.contador)
 
     class Meta:
         verbose_name_plural = "Acciones Especificas"
@@ -865,7 +865,7 @@ class TipoGasto(EmblenBaseModel):
         return self.nombre
 
     class Meta:
-        verbose_name_plural = "Tipos de Gasto"
+        verbose_name_plural = "Tipos de Gastos"
 
 
 class TipoOrganismo(EmblenBaseModel):
@@ -913,7 +913,7 @@ class AccionInterna(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    auxiliar = models.CharField(max_length=4)
+    auxiliar = models.IntegerField(default=1)
 
     transferencia = models.BooleanField(default=False)
 
@@ -923,41 +923,45 @@ class AccionInterna(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
+    def gen_rest_attrs(self):
+        """
+        Genera Atributos restante del objeto en instancia.
+        >> ("codigo", "auxiliar", "nivel")
+        """
+        result = AccionInterna.objects.filter(
+            accion_especifica=self.accion_especifica
+        ).aggregate(Max('auxiliar')).get("auxiliar__max")
+        
+        if result:
+            self.auxiliar = result + 1
+
+        cod_tipo = self.tipo_gasto.codigo
+        cod_aux = "{:04}".format(self.auxiliar)
+        cod_sector = self.accion_especifica\
+                        .programa\
+                        .responsable\
+                        .unidad_ejecutora\
+                        .dependencia\
+                        .sector.codigo
+
+        self.codigo = f"{cod_tipo}{cod_sector}{cod_aux}"
+        self.nivel = 3
+
     class Meta:
         verbose_name_plural = "Acciones Internas"
 
 
-class CCostoAccInt(EmblenBaseModel):
-
-    centro_costo = models.ForeignKey(
-        CentroCosto,
-        related_name="ccosto_accint",
-        on_delete=models.PROTECT
-    )
+class PartidaAccionInterna(EmblenBaseModel):
 
     accion_interna = models.ForeignKey(
         AccionInterna,
-        related_name="ccosto_accint",
-        on_delete=models.PROTECT
-    )
-
-    anio = models.CharField(max_length=4)
-
-    class Meta:
-        verbose_name_plural = "Centros de Costos - Acciones Internas"
-
-
-class CtasCCostoAInt(EmblenBaseModel):
-
-    ccosto_accint = models.ForeignKey(
-        CCostoAccInt,
-        related_name="ctas_ccosto_aint",
+        related_name="partida_accioninternas",
         on_delete=models.PROTECT
     )
 
     partida = models.ForeignKey(
         Partida,
-        related_name="ctas_ccosto_aint",
+        related_name="partida_accioninternas",
         on_delete=models.PROTECT
     )
 
@@ -967,7 +971,6 @@ class CtasCCostoAInt(EmblenBaseModel):
 
     mto_actualizado = models.DecimalField(max_digits=22,decimal_places=2)
 
-
     class Meta:
-        verbose_name_plural = "Cuentas - Centros de Costos - Acciones Internas"
-        unique_together = (("ccosto_accint", "partida", "anio"),)
+        verbose_name_plural = "Cuentas - Acciones Internas"
+        unique_together = (("accion_interna", "partida", "anio"),)

@@ -43,7 +43,7 @@ $(document).ready(function(){
     }
 
 
-    $('#'+modulo, ).attr('class','nav-link active-modulo');
+    $('#'+modulo, ).attr('class','nav-link active');
     $('#'+menu).attr('class','nav-link active-menu ');
     $('#'+menu).click();
     $('#'+opcion).attr('class','nav-link active-option-menu');

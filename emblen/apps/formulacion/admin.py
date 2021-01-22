@@ -59,6 +59,4 @@ admin.site.register(models.TipoOrganismo)
 
 admin.site.register(models.AccionInterna)
 
-admin.site.register(models.CCostoAccInt)
-
-admin.site.register(models.CtasCCostoAInt)
+admin.site.register(models.PartidaAccionInterna)

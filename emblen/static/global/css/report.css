@@ -8,6 +8,7 @@ body {
     line-height: 1.4;
     color: #000000;
     max-width: 320mm;
+    min-height: 280mm;
     margin: auto;
     box-shadow: 1px 2px 8px 8px rgba(0,0,0,0.16);
     background: white;
@@ -44,12 +45,6 @@ h5 {
 .table td { 
     border-top: 1.5px solid #000;
     padding: 0.4em;
-}
-
-.table .project td { 
-    border-top: none;
-    padding: 0.2em 0.5em;
-    page-break-before: auto;
 }
 
 .table thead th { 

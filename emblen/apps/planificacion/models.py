@@ -11,8 +11,8 @@ from apps.formulacion.models import (
     Programa,
     Partida,
     Parroquia,
-    CtasCCostoAInt
-    )
+    PartidaAccionInterna
+)
 
 
 class CodigoContable(EmblenBaseModel):
@@ -188,8 +188,8 @@ class Documento(EmblenBaseModel):
     #     on_delete=models.PROTECT
     # )
 
-    cta_ccosto_accint = models.ForeignKey(
-        CtasCCostoAInt,
+    partida_accioninterna = models.ForeignKey(
+        PartidaAccionInterna,
         related_name="documentos",
         on_delete=models.PROTECT
     )
@@ -229,8 +229,8 @@ class AcumuladosPresupuestario(EmblenBaseModel):
 
     mes = models.CharField(max_length=2)
 
-    cta_ccosto_accint = models.ForeignKey(
-        CtasCCostoAInt,
+    partida_accioninterna = models.ForeignKey(
+        PartidaAccionInterna,
         related_name="acumuladospresupuestarios",
         on_delete=models.PROTECT
     )
@@ -262,4 +262,4 @@ class AcumuladosPresupuestario(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Acumulados Presupuestario"
-        unique_together = (("cta_ccosto_accint", "mes", "anio"),)
+        unique_together = (("partida_accioninterna", "mes", "anio"),)

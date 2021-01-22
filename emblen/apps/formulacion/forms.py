@@ -50,4 +50,4 @@ class AccionEspecificaForm(forms.ModelForm):
 class AccionInternaForm(forms.ModelForm):
     class Meta:
         model = AccionInterna
-        exclude = "__all__"
+        exclude = ("codigo", "auxiliar", "nivel")

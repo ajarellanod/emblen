@@ -7,17 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'global/css/bootstrap/bootstrap.css' %}" type="text/css">
         <link rel="stylesheet" href="{% static 'global/css/report.css' %}" type="text/css">
-        <style>
-            #fixedButton {
-                position: fixed;
-                top: 30px;
-                left: 30px; 
-            }
-        </style>
         {% block head %}{% endblock head %}
     </head>
 <body>
-    <button type="button" onClick="window.print();" class="btn btn-primary" id="fixedButton">Imprimir</button>
     <div class="container-fluid">
         <div class="row">
             <div class="page col">
@@ -49,6 +41,30 @@
         </div>
     </div>
     
+    <script src="{% static 'global/vendor/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'global/js/emblenNotModule.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
 
+            let sumas = {};
+            $('.suma-monto').each(function(){
+                if (sumas[$(this).attr("suma-id")]) {
+                    sumas[$(this).attr("suma-id")] += parseFloat($(this).text());
+                }else{
+                    sumas[$(this).attr("suma-id")] = parseFloat($(this).text());
+                }
+            });
+
+            for (let key in sumas) {
+              $(`#suma-id-${key}`).text(sumas[key])
+            }
+
+            console.log(sumas);
+
+            $('.monto').each(function(){
+                $(this).text(textToCurrency($(this).text()));
+            });
+        });
+    </script>
     {% block script %}{% endblock script %}
 </body>

@@ -1,6 +1,14 @@
-{% extends 'base/steps.html' %}
+{% extends 'base/base.html' %}
 
 {% load widget_tweaks %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white;
+    }
+  </style>
+{% endblock head %}
 
 {% block menu %}
   {% include 'formulacion/menu.html' %}  
@@ -27,112 +35,94 @@
   {% endif %}
 {% endblock breadcrumb %}
 
-{% block stepwizard %}
-  <div class="stepwizard-step">
-      <a href="#step-1" type="button" class="btn btn-default btn-circle">
-          <i class="fas fa-info"></i>
-      </a>
-      <p class="form-control-label"></p>
-  </div>
 
-  <div class="stepwizard-step">
-      <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
-          <i class="fas fa-file"></i>
-      </a>
-      <p class="form-control-label"></p>
-  </div>
-{% endblock stepwizard %}
-
-{% block stepform %}
-<div class="setup-content" id="step-1">
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Acción Especifica</label>
-        {% render_field form.accion_especifica data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Codigo de la Acción Interna</label>
-        {% render_field form.codigo class="form-control" placeholder="Ingrese Codigo..." %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Nivel</label>
-        {% render_field form.nivel class="form-control"%}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Auxiliar</label>
-        {% render_field form.auxiliar class="form-control" placeholder="Ingrese Auxiliar..." %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <div class="form-check">
-          {% render_field form.transferencia class="form-check-input" %}
-          <label class="form-check-label form-control-label" for="id_transferencia">
-            Es Transnferencia
-          </label>
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">{{form.instance.nombre}}</h3>
+          {% else %}
+            <h3 class="mb-0">Crear Nuevo Acción Interna</h3>
+          {% endif %}
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-        <div class="form-group">
-          <button class="btn btn-primary nextBtn" type="button">
-            Continuar
-          </button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="setup-content" id="step-2">
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Tipo de Gasto</label>
-        {% render_field form.tipo_gasto data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Fuente de Financiamiento</label>
-        {% render_field form.fuente_financiamiento data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Tipo de Organismo</label>
-        {% render_field form.tipo_organismo data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Descripción</label>
-        {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-        <div class="form-group">
-          <button class="btn btn-primary" type="submit">
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
             Guardar
-          </button>
+          </a>
+          <a href="{% url 'formulacion:principal' %}" class="btn btn-sm btn-default">
+            Cancelar
+          </a>
         </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Detalles</h6>
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Acción Especifica</label>
+                {% render_field form.accion_especifica data-toggle="select" class="form-control" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Tipo de Gasto</label>
+                {% render_field form.tipo_gasto data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Tipo de Organismo</label>
+                {% render_field form.tipo_organismo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Fuente de Financiamiento</label>
+                {% render_field form.fuente_financiamiento data-toggle="select" class="form-control" %}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Descripción</label>
+                {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="form-check">
+                  {% render_field form.transferencia class="form-check-input" %}
+                  <label class="form-check-label form-control-label" for="id_transferencia">
+                    Es Transferencia
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-{% endblock stepform %}
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('#saveForm').on('click', function() {
+            $("#form").submit();
+        });
+    </script>
+{% endblock script %}

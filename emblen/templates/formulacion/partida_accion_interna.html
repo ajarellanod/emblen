@@ -1,0 +1,155 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %} Relacion Partida - Acción Interna {% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="#">Partida</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Acción Interna</i></a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Crear Relación</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'formulacion:partida_accion_interna' %}" token="{{ csrf_token }}" callback="true">
+                Crear
+              </a>
+              <a href="{% url 'formulacion:principal' %}" class="btn btn-sm btn-default">Cancelar</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h6 class="heading-small text-muted mb-4">Crear Relacion: Partida - Acción Interna</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+            </div>
+            <form method="POST" action="." id="form">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Acción Int</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_accion_interna" 
+                    name="accion_interna">
+                      <option>----------</option>
+                      {% for accion in acciones %}
+                        <option value="{{accion.id}}">{{accion.codigo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Partida</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_partida" name="partida">
+                      <option>----------</option>
+                      {% for partida in partidas %}
+                        <option value="{{partida.id}}">{{partida.cuenta}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    <input type="text" id="id_anio" maxlength="4" name="anio"
+                    class="form-control queryInput" placeholder="Ingrese Año...">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Monto Original</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="mto_original" id="id_mto_original">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Monto Actualizado</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="mto_actualizado" id="id_mto_actualizado">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Relaciones Concretadas</h3>
+        </div><!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Acción Int</th>
+                <th scope="col">Partida</th>
+                <th scope="col">Año</th>
+                <th scope="col">Original</th>
+                <th scope="col">Actualizado</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr id="ninguna">
+                <th colspan="5">
+                  Ninguna Relación Creada...
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    // HTML Objects
+    $("#id_anio").datepicker({
+      format: "yyyy",
+      viewMode: "years", 
+      minViewMode: "years"
+    });
+  </script>
+
+  <script>
+    var flag = true;
+    function callbackFunction(response){
+      if(flag){
+        $('#ninguna').hide();
+        flag = false;
+      }
+
+      let obj = response.part_acc;
+
+      console.log(response);
+      $('table > tbody:last-child').append(`
+        <tr>
+          <th>${obj.codigo_accion}</th>
+          <th>${obj.codigo_partida}</th>
+          <td>${obj.anio}</td>
+          <td>${textToCurrency(obj.mto_original)}</td>
+          <td>${textToCurrency(obj.mto_actualizado)}</td>
+        </tr>
+      `);
+    }
+  </script>
+{% endblock script %}
