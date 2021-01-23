@@ -6,7 +6,7 @@
   <a id="m_organizacion" class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
     <i class="fas fa-sitemap text-primary"></i>
     <!-- <i class="fas fa-project-diagram"></i> -->
-    <span class="nav-link-text">Organización Ppto.</span>
+    <span class="nav-link-text">Partidas</span>
   </a>
   <div class="collapse" id="navbar-dashboards">
     <ul class="nav nav-sm flex-column">
@@ -14,35 +14,8 @@
       {% if perms.formulacion.view_departamento %}
       <li class="nav-item">
         <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
-          <span class="sidenav-mini-icon"> UE </span>
-          <span class="sidenav-normal"> Unidades Ejecutoras </span>
-        </a>
-      </li>
-      {% endif %}
-      
-      {% if perms.formulacion.view_unidadejecutora %}
-      <li class="nav-item">
-        <a href="{% url 'formulacion:departamentos' %}" class="nav-link" id="m_despartamentos">
-          <span class="sidenav-mini-icon"> DP </span>
-          <span class="sidenav-normal"> Departamentos </span>
-        </a>
-      </li>
-      {% endif %}
-
-      {% if perms.formulacion.view_centrocosto %}
-      <li class="nav-item">
-        <a href="{% url 'formulacion:centros_costos' %}" class="nav-link" id="m_centros_costos">
-          <span class="sidenav-mini-icon"> CC </span>
-          <span class="sidenav-normal"> Centros Costos </span>
-        </a>
-      </li>
-      {% endif %}
-
-      {% if perms.formulacion.view_partida %}
-      <li class="nav-item">
-        <a href="{% url 'formulacion:partidas' %}" class="nav-link" id="m_partidas">
-          <span class="sidenav-mini-icon"> PT </span>
-          <span class="sidenav-normal"> Partidas </span>
+          <span class="sidenav-mini-icon"> CE </span>
+          <span class="sidenav-normal"> Crear en Ejercicio </span>
         </a>
       </li>
       {% endif %}
@@ -54,7 +27,7 @@
   <a id="m_cargaLey" class="nav-link" href="#navbar-dashboards2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards2">
     <i class="fas fa-balance-scale text-primary"></i>
     <!-- <i class="fas fa-gavel text-primary"></i> -->
-    <span class="nav-link-text">Carga de ley</span>
+    <span class="nav-link-text">Modificaciones</span>
   </a>
   <div class="collapse" id="navbar-dashboards2">
     <ul class="nav nav-sm flex-column">
@@ -62,8 +35,8 @@
       {% if perms.formulacion.view_programa %}
       <li class="nav-item">
         <a href="{% url 'formulacion:programas' %}" class="nav-link" id="m_programas">
-          <span class="sidenav-mini-icon"> PG </span>
-          <span class="sidenav-normal"> Programas </span>
+          <span class="sidenav-mini-icon"> CA </span>
+          <span class="sidenav-normal"> Credito Adicional </span>
         </a>
       </li>
       {% endif %}
@@ -71,32 +44,33 @@
       {% if perms.formulacion.view_accionespecifica %}
       <li class="nav-item">
         <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link" id="m_acc_especificas">
-          <span class="sidenav-mini-icon"> AE </span>
-          <span class="sidenav-normal"> Acc. Específicas </span>
+          <span class="sidenav-mini-icon"> D </span>
+          <span class="sidenav-normal"> Disminución </span>
         </a>
       </li>
       {% endif %}      
 
-    </ul>
-  </div>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
-    <i class="fas fa-hand-holding-usd text-primary"></i>
-    <span class="nav-link-text">Ingresos</span>
-  </a>
-  <div class="collapse" id="navbar-examples">
-    <ul class="nav nav-sm flex-column">
+      {% if perms.formulacion.view_programa %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:partidas' %}" class="nav-link">
-          <span class="sidenav-mini-icon"> C </span>
-          <span class="sidenav-normal"> Carga </span>
-
+        <a href="{% url 'formulacion:programas' %}" class="nav-link" id="m_programas">
+          <span class="sidenav-mini-icon"> T </span>
+          <span class="sidenav-normal"> Traspasos </span>
         </a>
       </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_accionespecifica %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link" id="m_acc_especificas">
+          <span class="sidenav-mini-icon"> R </span>
+          <span class="sidenav-normal"> Reversos </span>
+        </a>
+      </li>
+      {% endif %}      
     </ul>
   </div>
 </li>
+
 <li class="nav-item">
   <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables">
     <i class="far fa-file text-primary"></i>
@@ -107,21 +81,21 @@
       <li class="nav-item">
         <a href="{% url 'formulacion:partidas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> R1 </span>
-          <span class="sidenav-normal"> Reporte 1 </span>
+          <span class="sidenav-normal"> Modificaciones Ppto. </span>
         </a>
       </li>
       <li class="nav-item">
         <a href="{% url 'formulacion:partidas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> R2 </span>
-          <span class="sidenav-normal"> Reporte 2 </span>
+          <span class="sidenav-normal"> Distribución Ppto. </span>
         </a>
-      </li>  
+      </li>
       <li class="nav-item">
         <a href="{% url 'formulacion:partidas' %}" class="nav-link">
           <span class="sidenav-mini-icon"> R3 </span>
-          <span class="sidenav-normal"> Reporte 3 </span>
+          <span class="sidenav-normal"> Disponibilidad Ppto. </span>
         </a>
-      </li>    
+      </li>
       <li class="nav-item">
           <li class="nav-item">
             <a class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">

@@ -25,19 +25,35 @@ $(document).ready(function(){
         opcion = 'm_partidas';
       }
       
-      if(url.indexOf("programa") > -1){
+      if( (url.indexOf("programa") > -1) || (url.indexOf("programas") > -1) ){
         menu = 'm_cargaLey';
         opcion = 'm_programas';
       }
-      if(url.indexOf("unidad-especifica") > -1){
+      if( (url.indexOf("accion-especifica") > -1) || (url.indexOf("acciones-especificas") > -1) ){
         menu = 'm_cargaLey';
         opcion = 'm_acc_especificas';
       }
-
+      if(url.indexOf("estimacion") > -1){
+        menu = 'm_cargaLey';
+        opcion = 'm_estimaciones';
+      }
+      if( (url.indexOf("accion-interna") > -1)  || (url.indexOf("acciones-internas") > -1) ){
+        menu = 'm_cargaLey';
+        opcion = 'm_acc_internas';
+      }
+      if(url.indexOf("partida-accion-interna") > -1){
+        menu = 'm_cargaLey';
+        opcion = 'm_partidas_acc_internas';
+      }
+      if(url.indexOf("reporte") > -1){
+        menu = 'm_reportes';
+        opcion = 'm_r_formulacion';
+      }      
+      
     }
     else {
-      if(url.indexOf("formulacion") > -1){
-        modulo = 'm_formulacion';
+      if(url.indexOf("planificacion") > -1){
+        modulo = 'm_planificacion';
 
       }
     }
