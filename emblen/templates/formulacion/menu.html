@@ -106,7 +106,7 @@
 
       {% if perms.formulacion.view_accionespecifica %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:linea_programa' %}" class="nav-link" id="m_lineas_patria">
+        <a href="{% url 'formulacion:c_linea_programa' %}" class="nav-link" id="m_lineas_patria">
           <span class="sidenav-mini-icon"> LP </span>
           <span class="sidenav-normal"> Líneas de la Patria </span>
         </a>
@@ -115,7 +115,7 @@
 
       {% if perms.formulacion.view_accionespecifica %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:plan_desarrollo' %}" class="nav-link" id="m_plan_desarrollo_estadal">
+        <a href="{% url 'formulacion:c_plan_desarrollo' %}" class="nav-link" id="m_plan_desarrollo_estadal">
           <span class="sidenav-mini-icon"> PDE </span>
           <span class="sidenav-normal"> Planes de Desarrollo Estadal </span>
         </a>
@@ -151,9 +151,9 @@
   <div class="collapse" id="navbar-tables">
     <ul class="nav nav-sm flex-column">
       <li class="nav-item">
-        <a href="{% url 'formulacion:reporte' %}" class="nav-link" id="m_r_formulacion">
-          <span class="sidenav-mini-icon"> FM </span>
-          <span class="sidenav-normal"> Formulación </span>
+        <a href="{% url 'formulacion:re_creditos_asigandos' %}" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> CPA </span>
+          <span class="sidenav-normal"> Creditos Pre Asig </span>
         </a>
       </li>  
       <li class="nav-item">

@@ -26,6 +26,8 @@ from apps.formulacion.forms import (
     ProgramaForm, 
     AccionEspecificaForm,
     AccionInternaForm,
+    LineaProgramaForm,
+    PlanDesarrolloForm,
 )
 
 from apps.formulacion.models import (
@@ -45,19 +47,6 @@ from apps.formulacion.models import (
 class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "formulacion/principal.html"
     
-
-class ReporteTestView(LoginRequiredMixin, EmblenView):
-    template_name = "formulacion/r/creditos_presupuestarios.html"
-
-    def altget(self, request):
-        qs = AccionEspecifica.objects.filter(programa__anio=2021).select_related(
-            'programa__responsable__unidad_ejecutora__dependencia__sector'
-        ).prefetch_related(
-            'acciones_internas__partida_accioninternas'
-        )
-        
-        return {"acc_especificas": qs}
-
 
 # ----- Partidas -----
 
@@ -450,3 +439,31 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
             return {"part_acc": part_acc.data}
         else:
             return {"error": "No se pudo guardar"}
+
+
+# ----- Linea Programa -----
+
+class LineaProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_lineaprograma",)}
+    template_name = "formulacion/crear_linea_programa.html"
+    form_class = LineaProgramaForm
+    success_url = "formulacion:principal"
+
+    def form_valid(self, form):
+        linea_programa = form.save(commit=False)
+        linea_programa.gen_rest_attrs()
+        return super().form_valid(linea_programa)
+
+
+# ----- Plan de Desarrollo -----
+
+class PlanDesarrolloCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_plandesarrollo",)}
+    template_name = "formulacion/crear_plan_desarrollo.html"
+    form_class = PlanDesarrolloForm
+    success_url = "formulacion:principal"
+
+    def form_valid(self, form):
+        plan_desarrollo = form.save(commit=False)
+        plan_desarrollo.gen_rest_attrs()
+        return super().form_valid(plan_desarrollo)

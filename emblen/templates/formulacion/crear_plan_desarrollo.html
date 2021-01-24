@@ -1,0 +1,116 @@
+{% extends 'base/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white!important;
+    }
+  </style>
+{% endblock head %}
+
+{% block menu %}
+  {% include 'formulacion/menu.html' %}  
+{% endblock menu %}
+
+{% block title %}
+  {% if form.initial %}
+    Plan de Desarrollo - {{form.instance.codigo}}
+  {% else %}
+    Creación de Plan de Desarrollo
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:programas' %}">
+      Programas
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Plan de Desarrollo</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">{{form.instance.codigo}}</h3>
+          {% else %}
+            <h3 class="mb-0">Crear Nuevo Plan de Desarrollo</h3>
+          {% endif %}
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
+            Guardar
+          </a>
+          <a href="{% url 'formulacion:principal' %}" class="btn btn-sm btn-default">
+            Cancelar
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Detalles</h6>
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Programa</label>
+                {% render_field form.programa data-toggle="select" class="form-control" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Dimensión</label>
+                {% render_field form.dimension data-toggle="select" class="form-control" %}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Metas Generales</label>
+                {% render_field form.metas class="form-control" rows="5"%}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Metas Planeadas</label>
+                {% render_field form.plan_metas class="form-control" rows="5"%}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Solución</label>
+                {% render_field form.solucion class="form-control" rows="5"%}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('#saveForm').on('click', function() {
+            $("#form").submit();
+        });
+    </script>
+{% endblock script %}

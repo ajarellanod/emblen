@@ -417,7 +417,7 @@ class Programa(EmblenBaseModel):
 
     def gen_rest_attrs(self):
         """
-        Genera Atributos restante del objeto en instancia.
+        Genera Atributos Restante del Objeto en Instancia.
         >> ("codigo", "anio", "estado", "contador", "duracion")
         """
 
@@ -446,7 +446,7 @@ class Programa(EmblenBaseModel):
 
 class LineaPlan(EmblenBaseModel):
     
-    codigo = models.CharField(max_length=5)
+    codigo = models.CharField(max_length=2)
 
     descripcion = models.TextField()
 
@@ -461,7 +461,9 @@ class LineaPlan(EmblenBaseModel):
 
 class LineaPrograma(EmblenBaseModel):
     
-    codigo = models.CharField(max_length=5)
+    codigo = models.CharField(max_length=4)
+
+    auxiliar = models.IntegerField(default=1)
 
     programa = models.ForeignKey(
         Programa,
@@ -484,13 +486,30 @@ class LineaPrograma(EmblenBaseModel):
     def __str__(self):
         return self.codigo
 
+    def gen_rest_attrs(self):
+        """
+        Genera Atributos Restante del Objeto en Instancia.
+        >> ("codigo", "auxiliar")
+        """
+
+        result = LineaPrograma.objects.filter(
+            programa=self.programa
+        ).aggregate(Max('auxiliar')).get("auxiliar__max")
+
+        if result:
+            self.auxiliar = result + 1
+
+        self.codigo = "{:04}".format(self.auxiliar)
+
     class Meta:
         verbose_name_plural = "Lineas del Programa"
 
 
 class PlanDesarrollo(EmblenBaseModel):
     
-    codigo = models.CharField(max_length=5)
+    codigo = models.CharField(max_length=4)
+
+    auxiliar = models.IntegerField(default=1)
 
     programa = models.ForeignKey(
         Programa,
@@ -512,6 +531,21 @@ class PlanDesarrollo(EmblenBaseModel):
 
     def __str__(self):
         return self.codigo
+
+    def gen_rest_attrs(self):
+        """
+        Genera Atributos Restante del Objeto en Instancia.
+        >> ("codigo", "auxiliar")
+        """
+
+        result = PlanDesarrollo.objects.filter(
+            programa=self.programa
+        ).aggregate(Max('auxiliar')).get("auxiliar__max")
+
+        if result:
+            self.auxiliar = result + 1
+
+        self.codigo = "{:04}".format(self.auxiliar)
 
     class Meta:
         verbose_name_plural = "Planes de Desarrollo"
@@ -628,8 +662,6 @@ class AccionEspecifica(EmblenBaseModel):
     financiamiento_externo = models.BooleanField(default=True)
 
     bien_servicio = models.TextField()
-    
-    # =======================================================
 
     # Beneficiarios
 
@@ -644,8 +676,7 @@ class AccionEspecifica(EmblenBaseModel):
         choices=SEXO_BENEFICIARIO,
         default=NO_DEFINIDO
     )
-    
-    # =======================================================
+
 
     # Empleos Generados
 
@@ -657,8 +688,6 @@ class AccionEspecifica(EmblenBaseModel):
     
     indirecto_femenino = models.IntegerField()
 
-    # =======================================================
-
     # Responsables
 
     responsable = models.ForeignKey(
@@ -666,8 +695,6 @@ class AccionEspecifica(EmblenBaseModel):
         related_name="acciones_especificas",
         on_delete=models.PROTECT
     ) 
-
-    # =======================================================
 
     # Metas Físicas
 
@@ -699,15 +726,11 @@ class AccionEspecifica(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    # =======================================================
-
     # Distribución Física Trimestral
     trimestre_1 = models.DecimalField(max_digits=22,decimal_places=2)
     trimestre_2 = models.DecimalField(max_digits=22,decimal_places=2)
     trimestre_3 = models.DecimalField(max_digits=22,decimal_places=2)
     trimestre_4 = models.DecimalField(max_digits=22,decimal_places=2)
-
-    # =======================================================
 
     # Fuente Financimiento Externo
 
@@ -725,8 +748,6 @@ class AccionEspecifica(EmblenBaseModel):
 
     fase = models.CharField(max_length=100)
 
-    # =======================================================
-
     # Porcentaje Avance
 
     fecha_aprobacion_f_e = models.DateField()
@@ -742,8 +763,6 @@ class AccionEspecifica(EmblenBaseModel):
     estimado_anio_siguiente = models.DecimalField(max_digits=22,decimal_places=2)
 
     estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=2)
-
-    # =======================================================
     
     # Fields de Ayuda =========================
 
@@ -756,7 +775,7 @@ class AccionEspecifica(EmblenBaseModel):
     
     def gen_rest_attrs(self):
         """
-        Genera Atributos restante del objeto en instancia.
+        Genera Atributos Restante del Objeto en Instancia.
         >> ("codigo", "contador", "duracion")
         """
 
@@ -925,7 +944,7 @@ class AccionInterna(EmblenBaseModel):
 
     def gen_rest_attrs(self):
         """
-        Genera Atributos restante del objeto en instancia.
+        Genera Atributos Restante del Objeto en Instancia.
         >> ("codigo", "auxiliar", "nivel")
         """
         result = AccionInterna.objects.filter(

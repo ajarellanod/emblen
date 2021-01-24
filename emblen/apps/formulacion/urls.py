@@ -1,10 +1,9 @@
 from django.urls import path
 
-from apps.formulacion import views
+from apps.formulacion import views, reports
 
 urlpatterns = [
     path('', views.PrincipalView.as_view(), name='principal'),
-    path('reporte/', views.ReporteTestView.as_view(), name='reporte'),
 
     path('partidas/', views.PartidaListView.as_view(), name='partidas'),
     path('partida/crear/', views.PartidaCreateView.as_view(), name='c_partida'),
@@ -43,7 +42,15 @@ urlpatterns = [
 
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
 
-    path('linea-programa/', views.PartidaAccionInternaView.as_view(), name='linea_programa'),
+    path('linea-programa/', views.LineaProgramaCreateView.as_view(), name='c_linea_programa'),
 
-    path('plan-desarrollo/', views.PartidaAccionInternaView.as_view(), name='plan_desarrollo'),
+    path('plan-desarrollo/', views.PlanDesarrolloCreateView.as_view(), name='c_plan_desarrollo'),
 ]
+
+
+urlreports = [
+    path('r/creditos-asigandos/', reports.CreditosAsignadosReport.as_view(), name='re_creditos_asigandos'),
+]
+
+
+urlpatterns += urlreports

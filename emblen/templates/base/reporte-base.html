@@ -17,7 +17,7 @@
                     <div class="header-report">
                         <div class="row">
                             <div class="col-3 text-center mb-3 mb-md-0" style="font-size: 9px; font-weight: bold;">
-                                <img class="logo img-fluid mb-1" src="../../static/global/images/escudo-gris.png" style="max-height:50px;"/><br>
+                                <img class="logo img-fluid mb-1" src="{% static 'global/images/escudo-gris.png' %}" style="max-height:50px;"/><br>
                                 Republica Bolivariana de Venezuela<br>
                                 Gobernación del Estado Carabobo
                             </div>
@@ -26,8 +26,8 @@
                                 <span class="subtitle">{% block subtitle %}{% endblock subtitle %}</span>
                             </div>
                             <div class="col-3 text-center text-md-right pt-4">
-                                Fecha: {{ fecha }}<br>
-                                Hora: {{ hora }}
+                                Fecha: {% now "d/m/Y" %}<br>
+                                Hora: {% now "P" %}
                             </div>
                         </div>
                         <br><br> <!-- Separator -->
@@ -45,11 +45,10 @@
     <script src="{% static 'global/js/emblenNotModule.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-
             let sumas = {};
             $('.suma-monto').each(function(){
                 if (sumas[$(this).attr("suma-id")]) {
-                    sumas[$(this).attr("suma-id")] += parseFloat($(this).text());
+                    sumas[$(this).attr("suma-id")] = Math.round(((sumas[$(this).attr("suma-id")] + parseFloat($(this).text())) + Number.EPSILON) * 100) / 100;
                 }else{
                     sumas[$(this).attr("suma-id")] = parseFloat($(this).text());
                 }
@@ -58,8 +57,6 @@
             for (let key in sumas) {
               $(`#suma-id-${key}`).text(sumas[key])
             }
-
-            console.log(sumas);
 
             $('.monto').each(function(){
                 $(this).text(textToCurrency($(this).text()));

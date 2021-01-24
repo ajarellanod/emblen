@@ -7,7 +7,9 @@ from apps.formulacion.models import (
     CentroCosto,
     Programa,
     AccionEspecifica,
-    AccionInterna
+    AccionInterna,
+    LineaPrograma,
+    PlanDesarrollo
 )
 
 
@@ -51,3 +53,15 @@ class AccionInternaForm(forms.ModelForm):
     class Meta:
         model = AccionInterna
         exclude = ("codigo", "auxiliar", "nivel")
+
+
+class LineaProgramaForm(forms.ModelForm):
+    class Meta:
+        model = LineaPrograma
+        exclude = ("codigo", "auxiliar")
+
+
+class PlanDesarrolloForm(forms.ModelForm):
+    class Meta:
+        model = PlanDesarrollo
+        exclude = ("codigo", "auxiliar")
