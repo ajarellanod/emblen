@@ -104,6 +104,24 @@
       </li>
       {% endif %}
 
+      {% if perms.formulacion.view_accionespecifica %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:linea_programa' %}" class="nav-link" id="m_lineas_patria">
+          <span class="sidenav-mini-icon"> LP </span>
+          <span class="sidenav-normal"> Líneas de la Patria </span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_accionespecifica %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:plan_desarrollo' %}" class="nav-link" id="m_plan_desarrollo_estadal">
+          <span class="sidenav-mini-icon"> PDE </span>
+          <span class="sidenav-normal"> Planes de Desarrollo Estadal </span>
+        </a>
+      </li>
+      {% endif %}
+
     </ul>
   </div>
 </li>

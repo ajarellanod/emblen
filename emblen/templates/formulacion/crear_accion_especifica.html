@@ -81,7 +81,7 @@
           {% if form.initial %}
             <input type="text" name="programa" value="{{form.instance.programa}}" readonly="true" class="form-control" required="" id="id_programa">
           {% else %}
-            {% render_field form.programa class="form-control" %}
+            {% render_field form.programa data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
         </div>
       </div>
@@ -91,7 +91,7 @@
           {% if form.initial %}
             <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control" required="" id="id_responsable">
           {% else %}
-            {% render_field form.responsable class="form-control" %}
+            {% render_field form.responsable data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
         </div>
       </div>
@@ -137,7 +137,7 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Condición de Programa</label>
-          {% render_field form.condicion class="form-control" %}
+          {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
       <div class="col">
@@ -234,13 +234,13 @@
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Unidad de Medida</label>
-        {% render_field form.unidad_medida class="form-control" %}
+        {% render_field form.unidad_medida data-toggle="select" class="form-control" %}
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Sector Desarrollador</label>
-        {% render_field form.sector class="form-control" %}
+        {% render_field form.sector data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
       </div>
     </div>
     <div class="col">
@@ -256,13 +256,13 @@
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Tipo de Beneficiario</label>
-        {% render_field form.tipo_beneficiario class="form-control" %}
+        {% render_field form.tipo_beneficiario data-toggle="select" class="form-control" %}
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Sexo del Beneficiario</label>
-        {% render_field form.sexo_beneficiario class="form-control" %}
+        {% render_field form.sexo_beneficiario data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
       </div>
     </div>
   </div>
@@ -314,13 +314,13 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Estatus de Financiamiento</label>
-          {% render_field form.estatus_financiamiento_externo class="form-control" %}
+          {% render_field form.estatus_financiamiento_externo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Tipo de Area de Inversión</label>
-          {% render_field form.tipo_area_inversion class="form-control" %}
+          {% render_field form.tipo_area_inversion data-toggle="select" class="form-control" %}
         </div>
       </div>
       <div class="col">
@@ -386,18 +386,38 @@
   </div>
   <hr class="my-4">
   <h6 class="heading-small text-muted mb-4">Porcentaje Avance</h6>
-  <div class="row">
+  <div class="input-daterange datepicker row align-items-center">
     <div class="col">
+
       <div class="form-group">
-        <label class="form-control-label">Fecha de Aprobación</label>
-        {% render_field form.fecha_aprobacion_f_e class="form-control inputDate" placeholder="Ingrese Fecha..." %}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+            </div>
+            {% if form.initial %}
+              {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación" readonly="true" %}
+            {% else %}
+              {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación" %}
+            {% endif %}
+        </div>
       </div>
+
     </div>
     <div class="col">
+
       <div class="form-group">
-        <label class="form-control-label">Inicio de la Ejecución Fisica</label>
-        {% render_field form.inicio_ejecucion_fisica_f_e class="form-control inputDate" placeholder="Ingrese Fecha..." %}
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+            </div>
+            {% if form.initial %}
+              {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha de Inicio de la Ejecución Fisica" readonly="true" %}
+            {% else %}
+              {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha Inicio de la Ejecución Fisica" %}
+            {% endif %}
+        </div>
       </div>
+
     </div>
   </div>
   <div class="row">

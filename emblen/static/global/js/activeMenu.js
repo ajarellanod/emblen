@@ -45,6 +45,14 @@ $(document).ready(function(){
         menu = 'm_cargaLey';
         opcion = 'm_partidas_acc_internas';
       }
+      if(url.indexOf("linea-programa") > -1){
+        menu = 'm_cargaLey';
+        opcion = 'm_lineas_patria';
+      }
+      if(url.indexOf("plan-desarrollo") > -1){
+        menu = 'm_cargaLey';
+        opcion = 'm_plan_desarrollo_estadal';
+      }
       if(url.indexOf("reporte") > -1){
         menu = 'm_reportes';
         opcion = 'm_r_formulacion';

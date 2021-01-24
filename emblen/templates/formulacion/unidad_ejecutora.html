@@ -70,13 +70,13 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label" for="id_descripcion">Dependencia</label>
-                {% render_field form.dependencia class="form-control" %}
+                {% render_field form.dependencia data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label" for="id_descripcion">Unidad Ejecutora Adscrita</label>
-                {% render_field form.adscrito class="form-control" %}
+                {% render_field form.adscrito data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
               </div>
             </div>
           </div>

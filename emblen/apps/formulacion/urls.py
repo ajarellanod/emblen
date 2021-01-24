@@ -42,4 +42,8 @@ urlpatterns = [
     path('accion-interna/crear/', views.AccionInternaCreateView.as_view(), name='c_accion_interna'),
 
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
+
+    path('linea-programa/', views.PartidaAccionInternaView.as_view(), name='linea_programa'),
+
+    path('plan-desarrollo/', views.PartidaAccionInternaView.as_view(), name='plan_desarrollo'),
 ]
