@@ -1,10 +1,6 @@
-{% extends 'base/steps.html' %}
+{% extends 'formulacion/_steps.html' %}
 
 {% load widget_tweaks %}
-
-{% block menu %}
-  {% include 'formulacion/menu.html' %}  
-{% endblock menu %}
 
 {% block title %}
   {% if form.initial %}
@@ -21,7 +17,6 @@
   {% else %}
     <li class="breadcrumb-item"><a href="#">Creación de Programa</i></a></li>
   {% endif %}
-  
 {% endblock breadcrumb %}
 
 {% block title_card %}

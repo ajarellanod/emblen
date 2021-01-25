@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'formulacion/_base.html' %}
 
 {% load static %}
 
@@ -6,9 +6,7 @@
   Lista de Departamentos
 {% endblock title %}
 
-{% block menu %}
-  {% include 'formulacion/menu.html' %}  
-{% endblock menu %}
+
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>

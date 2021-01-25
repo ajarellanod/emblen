@@ -129,3 +129,44 @@ class EmblenFormView(EmblenView):
 
     def form_invalid(self, form):
         return {"form": form}
+
+
+class EmblenReport(View):
+    view_template = False
+    report_template = False
+    with_modal = False
+
+    def validate_attrs(self):
+        if not self.view_template and not self.report_template:
+            raise AttributeError("EmblenReport attributes are not set.")
+
+    def send_response(self, request, response, method="get"):
+        self.validate_attrs() # Validate all need attrs are set
+        if isinstance(response, dict):
+            if method == "get": 
+                return render(request, self.view_template, response)
+            elif method == "post":
+                return render(request, self.report_template, response)
+            else:
+                raise Http404()
+        else:            
+            return response
+
+    def get(self, request, *args, **kwargs):
+        response = self.altget(request, *args, **kwargs)
+        return self.send_response(request, response)
+
+    def post(self, request, *args, **kwargs):
+        response = self.altpost(request, *args, **kwargs)
+        return self.send_response(request, response, method="post")
+            
+    def altget(self, request, *args, **kwargs):
+        if self.with_modal:
+            raise Http404()
+        return render(request, self.view_template)
+
+    def altpost(self, request, *args, **kwargs):
+        raise Http404()
+
+    class Meta:
+        abstract = True
