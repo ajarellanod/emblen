@@ -37,6 +37,5 @@ class PartidaAccionInternaSerializer(serializers.ModelSerializer):
         model = PartidaAccionInterna
         fields = [
             'id', 'accion_interna', 'partida',
-            'anio', 'mto_original', 'mto_actualizado',
-            'codigo_accion', 'codigo_partida'
+            'anio', 'mto_original','codigo_accion', 'codigo_partida'
         ]

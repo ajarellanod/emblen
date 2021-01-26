@@ -123,7 +123,10 @@ class Proveedor(EmblenBaseModel):
         
 
 class CuentaProveedor(EmblenBaseModel):
-    """Este modelo debería ir en otro Módulo, que debería ser donde se vayan a gestionar los proveedores"""
+    """
+    Este modelo debería ir en otro Módulo,
+    que debería ser donde se vayan a gestionar los proveedores
+    """
 
     """Id del proveedor"""
     proveedor = models.ForeignKey(
@@ -222,8 +225,10 @@ class Documento(EmblenBaseModel):
 
 
 class AcumuladosPresupuestario(EmblenBaseModel):
-    
-    """ En este modelo se deben guardar los acumulados de los cambios que se le vayan haciendo al presupuesto POR MES"""
+    """ 
+    En este modelo se deben guardar los acumulados de los cambios
+    que se le vayan haciendo al presupuesto POR MES
+    """
     
     anio = models.CharField(max_length=4)
 

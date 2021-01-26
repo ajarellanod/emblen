@@ -2,12 +2,20 @@
 
 {% load static %}
 
-
-
-{% block title %} Estimación {% endblock title %}
+{% block title %} Crear Estimación {% endblock title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="#">Estimación</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Estimar</a></li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_especificas' %}">
+      Acciones Especificas
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:partidas' %}">
+      Partidas
+    </a>
+  </li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -17,7 +25,7 @@
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Crear Relación</h3>
+              <h3 class="mb-0">Crear Estimación</h3>
             </div>
             <div class="col text-right">
               <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'formulacion:estimacion' %}" token="{{ csrf_token }}" callback="true">
@@ -28,7 +36,7 @@
           </div>
         </div>
         <div class="card-body">
-          <h6 class="heading-small text-muted mb-4">Crear Estimación</h6>
+          <h6 class="heading-small text-muted mb-4">Campos a Estimar</h6>
           <div class="pl-lg-4">
             <div class="row">
             </div>
@@ -64,7 +72,7 @@
                   <div class="form-group">
                     <label class="form-control-label" for="id_anio">Año</label>
                     <input type="text" id="id_anio" maxlength="4" name="anio"
-                    class="form-control queryInput" placeholder="Ingrese Año...">
+                    class="form-control queryInput" autocomplete="off" placeholder="Ingrese Año...">
                   </div>
                 </div>
                 <div class="col">

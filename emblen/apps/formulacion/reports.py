@@ -19,6 +19,6 @@ class CreditosAsignadosReport(LoginRequiredMixin, EmblenReport):
             ).prefetch_related(
                 'acciones_internas__partida_accioninternas'
             )
-            return {"acc_especificas": result}
+            return {"acc_especificas": result, "anio": anio}
         else:
             return redirect("formulacion:principal")

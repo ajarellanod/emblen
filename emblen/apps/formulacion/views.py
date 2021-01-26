@@ -435,7 +435,7 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
     def jsonpost(self, request):
         part_acc = PartidaAccionInternaSerializer(data=request.POST)
         if part_acc.is_valid():
-            part_acc.save()
+            part_acc.save(mto_actualizado=part_acc.validated_data["mto_original"])
             return {"part_acc": part_acc.data}
         else:
             return {"error": "No se pudo guardar"}

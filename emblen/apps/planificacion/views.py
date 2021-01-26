@@ -10,8 +10,9 @@ from apps.base.views import (
     EmblenDeleteView,
     EmblenFormView
 )
-# Create your views here.
-# ----- Planificacion -----
+
+
+# ----- Principal -----
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "planificacion/principal.html"

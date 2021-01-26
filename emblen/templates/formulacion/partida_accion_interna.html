@@ -4,11 +4,19 @@
 
 
 
-{% block title %} Relacion Partida - Acción Interna {% endblock title %}
+{% block title %} Partidas - Acciones Internas {% endblock title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="#">Partida</i></a></li>
-  <li class="breadcrumb-item"><a href="#">Acción Interna</i></a></li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:partidas' %}">
+      Partidas
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_internas' %}">
+      Acciones Internas
+    </a>
+  </li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -29,7 +37,7 @@
           </div>
         </div>
         <div class="card-body">
-          <h6 class="heading-small text-muted mb-4">Crear Relacion: Partida - Acción Interna</h6>
+          <h6 class="heading-small text-muted mb-4">Campos Requeridos</h6>
           <div class="pl-lg-4">
             <div class="row">
             </div>
@@ -38,7 +46,7 @@
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-control-label" for="id_cuenta">Acción Int</label>
+                    <label class="form-control-label" for="id_cuenta">Acción Interna</label>
                     <select class="form-control queryInput" data-toggle="select" id="id_accion_interna" 
                     name="accion_interna">
                       <option>----------</option>
@@ -59,25 +67,19 @@
                     </select>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_anio">Año</label>
-                    <input type="text" id="id_anio" maxlength="4" name="anio"
-                    class="form-control queryInput" placeholder="Ingrese Año...">
-                  </div>
-                </div>
               </div>
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-control-label" for="id_monto">Monto Original</label>
-                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="mto_original" id="id_mto_original">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    <input type="text" id="id_anio" maxlength="4" name="anio"
+                    class="form-control queryInput" autocomplete="off" placeholder="Ingrese Año...">
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-group">
-                    <label class="form-control-label" for="id_monto">Monto Actualizado</label>
-                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="mto_actualizado" id="id_mto_actualizado">
+                    <label class="form-control-label" for="id_mto_original">Monto</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="mto_original" id="id_mto_original">
                   </div>
                 </div>
               </div>
@@ -95,11 +97,10 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Acción Int</th>
+                <th scope="col">Acción Interna</th>
                 <th scope="col">Partida</th>
                 <th scope="col">Año</th>
-                <th scope="col">Original</th>
-                <th scope="col">Actualizado</th>
+                <th scope="col">Monto</th>
               </tr>
             </thead>
             <tbody class="list">
@@ -139,13 +140,13 @@
       let obj = response.part_acc;
 
       console.log(response);
+
       $('table > tbody:last-child').append(`
         <tr>
           <th>${obj.codigo_accion}</th>
           <th>${obj.codigo_partida}</th>
           <td>${obj.anio}</td>
           <td>${textToCurrency(obj.mto_original)}</td>
-          <td>${textToCurrency(obj.mto_actualizado)}</td>
         </tr>
       `);
     }

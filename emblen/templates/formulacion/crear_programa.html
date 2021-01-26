@@ -71,7 +71,7 @@
         <div class="form-group">
           <label class="form-control-label">Tipo de Programa</label>
           {% if form.initial %}
-            <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" required="" id="id_nivel">
+            <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control"  required="" id="id_nivel">
           {% else %}
             {% render_field form.nivel data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
@@ -81,7 +81,7 @@
         <div class="form-group">
           <label class="form-control-label">Departamento Responsable</label>
           {% if form.initial %}
-            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" required="" id="id_responsable">
+            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control"  required="" id="id_responsable">
           {% else %}
             {% render_field form.responsable data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
@@ -94,36 +94,45 @@
         </div>
       </div>
     </div>
-    <div class="input-daterange datepicker row align-items-center">
-      <div class="col">
+    {% if form.initial %}
+      <div class="row">
+        <div class="col">
           <div class="form-group">
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                  </div>
-                  {% if form.initial %}
-                    {% render_field form.inicio class="form-control" placeholder="Fecha de Inicio" readonly="true" %}
-                  {% else %}
+            <label class="form-control-label">Fecha de Inicio</label>
+            {% render_field form.inicio class="form-control inputDate" placeholder="Fecha de Inicio" readonly="true" %}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Fecha de Fin</label>
+            {% render_field form.fin class="form-control inputDate" placeholder="Fecha de Final" readonly="true" %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="input-daterange datepicker row align-items-center">
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
                     {% render_field form.inicio class="form-control" placeholder="Fecha de Inicio" %}
-                  {% endif %}
-              </div>
-          </div>
-      </div>
-      <div class="col">
-          <div class="form-group">
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                  </div>
-                  {% if form.initial %}
-                    {% render_field form.fin class="form-control" placeholder="Fecha de Final" readonly="true" %}
-                  {% else %}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
                     {% render_field form.fin class="form-control" placeholder="Fecha de Final" %}
-                  {% endif %}
-              </div>
-          </div>
+                </div>
+            </div>
+        </div>
       </div>
-    </div>
+    {% endif %}
     <div class="row">
       <div class="col">
         <div class="form-group">

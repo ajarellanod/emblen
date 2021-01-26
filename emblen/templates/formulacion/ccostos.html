@@ -24,7 +24,7 @@
           </div>
           <div class="col-6 text-right">
             <a id="btn_partidaNew" href="{% url 'formulacion:c_centro_costo' %}" class="btn btn-sm btn-primary">
-              Nuevo
+              Crear Centro de Costo
             </a>
           </div>
         </div>
@@ -34,9 +34,9 @@
         <table class="table align-items-center" > <!-- table-bordered -->
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center" style="width: 5%;" data-sort="nivel">Nivel</th>
-              <th scope="col" class="sort text-center" style="width: 20%;" data-sort="cuenta">Código</th>
-              <th scope="col" class="sort text-center" style="width: 45%;" data-sort="descripcion">Nombre</th>
+              <th scope="col" class="text-center" style="width: 5%;">Nivel</th>
+              <th scope="col" class="text-center" style="width: 20%;">Código</th>
+              <th scope="col" class="text-center" style="width: 45%;">Nombre</th>
               {% if perms.formulacion.delete_centrocosto %}
               <th scope="col" class="text-center" style="width: 5%;" ><i class="fas fa-cogs"></i></th>
               {% endif %}
@@ -45,17 +45,17 @@
           <tbody>
             {% for ccosto in page_obj %}
               <tr>
-                <td scope="row" class="nivel text-center">
+                <td scope="row" class="text-center">
                   {{ ccosto.nivel }}
                 </td>
-                <td class="cuenta text-center">
+                <td class="text-center">
                   {{ ccosto.codigo }}
                 </td>
                 <th scope="row" class="nombre text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
                       <a href="{% url 'formulacion:v_centro_costo' ccosto.id %}">
-                        <span class="name mb-0 text-sm">{{ ccosto.nombre }}</span>
+                        <span class="mb-0 text-sm">{{ ccosto.nombre }}</span>
                       </a>
                     </div>
                   </div>

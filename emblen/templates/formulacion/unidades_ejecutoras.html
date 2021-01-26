@@ -35,14 +35,10 @@
         <table class="table align-items-center table-hover" >
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center" data-sort="nombre">
-                Nombre
-              </th>
-              <th scope="col" class="sort text-center" data-sort="dependencia">Dependencia</th>
-              <th scope="col" class="sort text-center" data-sort="unidad_ejecutora">
-                Adscrito a
-              </th>
-              <th scope="col" class="sort text-center " data-sort="codigo">Codigo</th>
+              <th scope="col" class="text-center">Nombre</th>
+              <th scope="col" class="text-center" >Dependencia</th>
+              <th scope="col" class="text-center">Adscrito a</th>
+              <th scope="col" class="text-center ">Codigo</th>
               {% if perms.formulacion.delete_unidadejecutora %}
               <th scope="col" class="text-center" style="width: 5%;"><i class="fas fa-cogs"></i></th>
               {% endif %}
@@ -60,13 +56,17 @@
                     </div>
                   </div>
                 </th>
-                <td class="cuenta text-center">
+                <td class="text-center">
                   {{ unidad.dependencia }}
                 </td>
-                <td class="descripcion text-center">
-                  {{ unidad.adscrito }}
+                <td class="text-center">
+                  {% if unidad.adscrito %}
+                    {{ unidad.adscrito }}
+                  {% else %}
+                    No esta adscrito
+                  {% endif %}
                 </td>
-                <td class="saldo text-center"> 
+                <td class="text-center"> 
                   {{ unidad.codigo }}
                 </td>
                 {% if perms.formulacion.delete_unidadejecutora %}
