@@ -59,7 +59,8 @@ class Documento(EmblenBaseModel):
     beneficiario = models.ForeignKey(
         Beneficiario,
         related_name="documentos",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True
     )
 
     monto = models.DecimalField(max_digits=22,decimal_places=4)

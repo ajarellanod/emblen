@@ -87,7 +87,7 @@ class Beneficiario(EmblenBaseModel):
 
     usuario_inscripcion = models.ForeignKey(
         User,
-        related_name="beneficiario",
+        related_name="beneficiarios",
         on_delete=models.PROTECT
     )
 
