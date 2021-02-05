@@ -42,7 +42,7 @@ from apps.formulacion.models import (
 )
 
 
-# ----- Formulacion -----
+# ----- Formulación -----
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "formulacion/principal.html"

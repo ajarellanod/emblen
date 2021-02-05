@@ -14,23 +14,30 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="{% url 'ejecucion:principal' %}" id="m_ejecucion">
     <i class="fas fa-sign-in-alt"></i>
     <span class="nav-link-text">Ejecución</span>
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="fas fa-money-bill-wave"></i>
-    <span class="nav-link-text">Tesoreria</span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link " href="#">
+  <a class="nav-link " href="{% url 'contabilidad:principal' %}" id="m_contabilidad">
     <i class="fas fa-book"></i>
     <span class="nav-link-text">Contabilidad</span>
   </a>
 </li>
+<li class="nav-item">
+  <a class="nav-link " href="{% url 'compras:principal' %}" id="m_compras">
+    <i class="fas fa-book"></i>
+    <span class="nav-link-text">Compras</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'tesoreria:principal' %}" id="m_tesoreria">
+    <i class="fas fa-money-bill-wave"></i>
+    <span class="nav-link-text">Tesorería</span>
+  </a>
+</li>
+
 
 <!-- División -->
 <hr class="my-3">

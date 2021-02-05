@@ -1,0 +1,106 @@
+{% extends 'base/menu.html' %}
+
+{% block options %}
+<!-- Opciones del Menú -->
+<li class="nav-item">
+  <a id="m_organizacion" class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+    <i class="fas fa-sitemap text-primary"></i>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text">Ordenes de Pago</span>
+  </a>
+  <div class="collapse" id="navbar-dashboards">
+    <ul class="nav nav-sm flex-column">
+      {% if perms.formulacion.view_departamento %}
+        <li class="nav-item">
+          <a class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">
+            <span class="sidenav-mini-icon"> C </span>
+            <span class="sidenav-normal"> Crear </span>
+          </a>
+          <div class="collapse" id="navbar-tables2">
+            <ul class="nav nav-sm flex-column">
+
+              {% if perms.formulacion.view_departamento %}
+              <li class="nav-item">
+                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                  <span class="sidenav-mini-icon"> DE </span>
+                  <span class="sidenav-normal"> Directa Especial </span>
+                </a>
+              </li>
+              {% endif %}
+        
+              {% if perms.formulacion.view_departamento %}
+              <li class="nav-item">
+                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                  <span class="sidenav-mini-icon"> CAU </span>
+                  <span class="sidenav-normal"> Causado </span>
+                </a>
+              </li>
+              {% endif %}
+        
+              {% if perms.formulacion.view_departamento %}
+              <li class="nav-item">
+                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                  <span class="sidenav-mini-icon"> FTR </span>
+                  <span class="sidenav-normal"> Fondo de Terceros </span>
+                </a>
+              </li>
+              {% endif %}
+
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+
+        {% if perms.formulacion.view_departamento %}
+        <li class="nav-item">
+          <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+            <span class="sidenav-mini-icon"> RV </span>
+            <span class="sidenav-normal"> Reversar </span>
+          </a>
+        </li>
+        {% endif %}      
+     
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_reportes" class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables">
+    <i class="far fa-file text-primary"></i>
+    <span class="nav-link-text">Reportes</span>
+  </a>
+  <div class="collapse" id="navbar-tables">
+    <ul class="nav nav-sm flex-column">
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> ROP </span>
+          <span class="sidenav-normal"> Reimprimir Orden de Pago</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> ROP </span>
+          <span class="sidenav-normal"> Anexo Orden de Pago</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> OP </span>
+          <span class="sidenav-normal"> Ordenes de Pagos</span>
+        </a>
+      </li>  
+      {% endif %}
+         
+    </ul>
+  </div>
+</li>
+<hr class="my-5">
+<hr class="my-3">
+{% endblock options %}

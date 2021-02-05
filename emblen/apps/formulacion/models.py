@@ -816,6 +816,8 @@ class Partida(EmblenBaseModel):
 
     saldo = models.DecimalField(max_digits=22,decimal_places=2,null=True)
 
+    publicacion = models.CharField(max_length=3)
+
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
         return self.cuenta[0:self.NIVELES[self.nivel]]

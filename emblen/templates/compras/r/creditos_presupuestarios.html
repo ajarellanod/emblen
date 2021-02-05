@@ -1,0 +1,151 @@
+{% extends 'base/reporte-base.html' %}
+
+{% block title %}
+    {% block rtitle %}
+        Creditos Presupuestarios Asignados    
+    {% endblock rtitle %}
+{% endblock title %}
+
+{% block subtitle %}
+    Presupuesto de Gastos {{anio}}
+{% endblock subtitle %}
+
+{% block head %}
+    <style type="text/css">
+        .table .project td { 
+            border-top: none;
+            padding: 0.2em 0.5em;
+            page-break-before: auto;
+        }
+    </style>
+{% endblock head %}
+
+{% block body %}
+    {% for especifica in acc_especificas %}
+        <div class="group-report">
+            <!-- Proyecto -->
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <tbody class="project">
+                            <tr>
+                                <td><strong>Sector</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.codigo|slice:":2" }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    {{ especifica.programa.responsable.unidad_ejecutora.dependencia.sector.descripcion }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependencia</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.codigo|slice:"2:4" }}
+                                    </strong>
+                                </td>
+                                <td>
+                                {{ especifica.programa.responsable.unidad_ejecutora.dependencia.descripcion }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tipo</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.codigo|slice:"4:6" }}
+                                    </strong>
+                                </td>
+                                {% if especifica.programa.nivel == 1 %}
+                                    <td>Proyecto</td>
+                                {% else %}
+                                    <td>Acción Centralizada</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td><strong>Programa</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.codigo|slice:"6:8" }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    {{ especifica.programa.detalle }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap"><strong>Acción Especifica</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.codigo|slice:"8:" }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    {{ especifica.descripcion }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap"><strong>Centro de Costo</strong></td>
+                                <td>
+                                    <strong>
+                                        {{ especifica.centro_costo.codigo }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    {{ especifica.centro_costo.nombre }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Especifica -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="align-middle text-center">Pt</th>
+                    <th class="align-middle text-center">Rmo</th>
+                    <th class="align-middle text-center">Gen</th>
+                    <th class="align-middle text-center">Esp</th>
+                    <th class="align-middle text-center">Sub</th>
+                    <th class="align-middle text-center">Aux</th>
+                    <th class="align-middle text-center">Descripción de la Partida</th>
+                    <th class="align-middle text-center">Acción Interna</th>
+                    <th class="align-middle text-center">Fuente Fin</th>
+                    <th class="align-middle text-center">Descripción de la Acción Interna</th>
+                    <th class="align-middle text-center">Monto Asignado</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for interna in especifica.acciones_internas.get_queryset %}
+                        {% for rel in interna.partida_accioninternas.get_queryset %}
+                            <tr>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:":1" }}</td>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:"1:3" }}</td>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:"3:5" }}</td>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:"5:7" }}</td>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:"7:9" }}</td>
+                                <td class="text-center">{{ rel.partida.cuenta|slice:"9:" }}</td>
+                                <td class="text-justify">{{ rel.partida.descripcion }}</td>
+                                <td class="text-center">{{ rel.accion_interna.codigo }}</td>
+                                <td class="text-center">{{ rel.accion_interna.fuente_financiamiento }}</td>
+                                <td class="text-justify">{{ rel.accion_interna.descripcion }}</td>
+                                <td class="text-right text-nowrap monto suma-monto" suma-id="{{especifica.id}}">{{ rel.mto_original }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="10" class="text-right">
+                            <strong>
+                                Monto Total:
+                            </strong>
+                        </td>
+                        <td class="text-right monto" id="suma-id-{{especifica.id}}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr><!-- Divider -->
+    {% endfor %}
+{% endblock body %}

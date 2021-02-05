@@ -59,13 +59,31 @@ $(document).ready(function(){
       }      
       
     }
-    else {
-      if(url.indexOf("planificacion") > -1){
+    else if(url.indexOf("planificacion") > -1){
         modulo = 'm_planificacion';
 
-      }
+    
     }
+    else if(url.indexOf("ejecucion") > -1){
+      modulo = 'm_ejecucion';
 
+  
+    }
+    else if(url.indexOf("contabilidad") > -1){
+      modulo = 'm_contabilidad';
+
+  
+    }
+    else if(url.indexOf("compras") > -1){
+      modulo = 'm_compras';
+
+  
+    }
+    else if(url.indexOf("tesoreria") > -1){
+      modulo = 'm_tesoreria';
+
+  
+    }
 
     $('#'+modulo, ).attr('class','nav-link active');
     $('#'+menu).attr('class','nav-link active-menu ');
