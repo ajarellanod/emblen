@@ -4,62 +4,197 @@
 <!-- Opciones del Menú -->
 <li class="nav-item">
   <a id="m_organizacion" class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
-    <i class="fas fa-sitemap text-primary"></i>
+    <i class="fas fa-landmark text-primary"></i>
     <!-- <i class="fas fa-project-diagram"></i> -->
-    <span class="nav-link-text">Ordenes de Pago</span>
+    <span class="nav-link-text">Banca</span>
   </a>
   <div class="collapse" id="navbar-dashboards">
     <ul class="nav nav-sm flex-column">
+
       {% if perms.formulacion.view_departamento %}
-        <li class="nav-item">
-          <a class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">
-            <span class="sidenav-mini-icon"> C </span>
-            <span class="sidenav-normal"> Crear </span>
-          </a>
-          <div class="collapse" id="navbar-tables2">
-            <ul class="nav nav-sm flex-column">
-
-              {% if perms.formulacion.view_departamento %}
-              <li class="nav-item">
-                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
-                  <span class="sidenav-mini-icon"> DE </span>
-                  <span class="sidenav-normal"> Directa Especial </span>
-                </a>
-              </li>
-              {% endif %}
-        
-              {% if perms.formulacion.view_departamento %}
-              <li class="nav-item">
-                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
-                  <span class="sidenav-mini-icon"> CAU </span>
-                  <span class="sidenav-normal"> Causado </span>
-                </a>
-              </li>
-              {% endif %}
-        
-              {% if perms.formulacion.view_departamento %}
-              <li class="nav-item">
-                <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
-                  <span class="sidenav-mini-icon"> FTR </span>
-                  <span class="sidenav-normal"> Fondo de Terceros </span>
-                </a>
-              </li>
-              {% endif %}
-
-            </ul>
-          </div>
-        </li>
-        {% endif %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> B </span>
+          <span class="sidenav-normal"> Bancos </span>
+        </a>
+      </li>
+      {% endif %} 
 
         {% if perms.formulacion.view_departamento %}
         <li class="nav-item">
           <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
-            <span class="sidenav-mini-icon"> RV </span>
-            <span class="sidenav-normal"> Reversar </span>
+            <span class="sidenav-mini-icon"> CTS </span>
+            <span class="sidenav-normal"> Cuentas </span>
           </a>
         </li>
         {% endif %}      
      
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_impuestos" class="nav-link" href="#navbar-impuestos" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-impuestos">
+    <i class="fas fa-file-invoice-dollar text-primary"></i>
+    <span class="nav-link-text">Impuestos</span>
+  </a>
+  <div class="collapse" id="navbar-impuestos">
+    <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a id="m_impuesto1" class="nav-link" href="#navbar-tables1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables1">
+          <span class="sidenav-mini-icon"> IVA </span>
+          <span class="sidenav-normal"> IVA </span>
+        </a>
+        <div class="collapse" id="navbar-tables1">
+          <ul class="nav nav-sm flex-column">
+
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> RF </span>
+                <span class="sidenav-normal"> Registrar Factura </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> RV </span>
+                <span class="sidenav-normal"> Reversar Comprobante </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> CP </span>
+                <span class="sidenav-normal"> Cierre del Periodo </span>
+              </a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a id="m_impuesto2" class="nav-link" href="#navbar-table3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-table3">
+          <span class="sidenav-mini-icon"> SLR </span>
+          <span class="sidenav-normal"> ISLR </span>
+        </a>
+        <div class="collapse" id="navbar-table3">
+          <ul class="nav nav-sm flex-column">
+
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> RF </span>
+                <span class="sidenav-normal"> Registrar Factura </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> RV </span>
+                <span class="sidenav-normal"> Reversar Comprobante </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> CP </span>
+                <span class="sidenav-normal"> Cierre del Periodo </span>
+              </a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </li>
+      {% endif %}
+
+    </ul>
+  </div>
+</li>
+
+
+<li class="nav-item">
+  <a id="m_recepcion" class="nav-link" href="#navbar-recepcion" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-recepcion">
+    <i class="fas fa-file-import text-primary"></i>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text">Recepción</span>
+  </a>
+  <div class="collapse" id="navbar-recepcion">
+    <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> OP </span>
+          <span class="sidenav-normal"> Orden de Pago </span>
+        </a>
+      </li>
+      {% endif %} 
+
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_documentos" class="nav-link" href="#navbar-documentos" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-documentos">
+    <i class="fas fa-file-invoice text-primary"></i>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text">Documentos Bancarios</span>
+  </a>
+  <div class="collapse" id="navbar-documentos">
+    <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> T </span>
+          <span class="sidenav-normal"> Transferencias </span>
+        </a>
+      </li>
+      {% endif %} 
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> CPS </span>
+          <span class="sidenav-normal"> Cargos por Servicios </span>
+        </a>
+      </li>
+      {% endif %} 
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> ING </span>
+          <span class="sidenav-normal"> Ingresos </span>
+        </a>
+      </li>
+      {% endif %} 
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> RV </span>
+          <span class="sidenav-normal"> Reversos </span>
+        </a>
+      </li>
+      {% endif %} 
+
     </ul>
   </div>
 </li>
@@ -71,11 +206,21 @@
   </a>
   <div class="collapse" id="navbar-tables">
     <ul class="nav nav-sm flex-column">
+
       {% if perms.formulacion.view_departamento %}
       <li class="nav-item">
         <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
-          <span class="sidenav-mini-icon"> ROP </span>
-          <span class="sidenav-normal"> Reimprimir Orden de Pago</span>
+          <span class="sidenav-mini-icon"> OP </span>
+          <span class="sidenav-normal"> Documentos</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> L </span>
+          <span class="sidenav-normal"> Libros</span>
         </a>
       </li>
       {% endif %}
@@ -83,8 +228,8 @@
       {% if perms.formulacion.view_departamento %}
       <li class="nav-item">
         <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
-          <span class="sidenav-mini-icon"> ROP </span>
-          <span class="sidenav-normal"> Anexo Orden de Pago</span>
+          <span class="sidenav-mini-icon"> D </span>
+          <span class="sidenav-normal"> Disponibilidad Bancaria</span>
         </a>
       </li>  
       {% endif %}
@@ -92,15 +237,72 @@
       {% if perms.formulacion.view_departamento %}
       <li class="nav-item">
         <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
-          <span class="sidenav-mini-icon"> OP </span>
-          <span class="sidenav-normal"> Ordenes de Pagos</span>
+          <span class="sidenav-mini-icon"> ING </span>
+          <span class="sidenav-normal"> Ingresos</span>
         </a>
       </li>  
       {% endif %}
-         
+   
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> RR </span>
+          <span class="sidenav-normal"> Relacion de Retenciones</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> AP </span>
+          <span class="sidenav-normal"> Anexo de Pagados</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a id="m_crear_OP" class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">
+          <span class="sidenav-mini-icon"> PG </span>
+          <span class="sidenav-normal"> Pagados </span>
+        </a>
+        <div class="collapse" id="navbar-tables2">
+          <ul class="nav nav-sm flex-column">
+
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> CTT </span>
+                <span class="sidenav-normal"> Contratistas </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> PRV </span>
+                <span class="sidenav-normal"> Proveedores </span>
+              </a>
+            </li>
+            {% endif %}
+      
+            {% if perms.formulacion.view_departamento %}
+            <li class="nav-item">
+              <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <span class="sidenav-mini-icon"> CTD </span>
+                <span class="sidenav-normal"> Contratados </span>
+              </a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </li>
+      {% endif %}
     </ul>
   </div>
 </li>
-<hr class="my-5">
-<hr class="my-3">
+
 {% endblock options %}
