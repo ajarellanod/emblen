@@ -1,0 +1,139 @@
+{% extends 'base/menu.html' %}
+
+{% block options %}
+<!-- Opciones del Menú -->
+<li class="nav-item">
+  <a id="m_P_U_Cuentas" class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+    <i class="fas fa-sitemap text-primary"></i>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text">Plan Único</span>
+  </a>
+  <div class="collapse" id="navbar-dashboards">
+    <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'contabilidad:principal' %}" class="nav-link" id="m_cuentas"> 
+          <span class="sidenav-mini-icon"> CT </span>
+          <span class="sidenav-normal"> Cuentas </span>
+        </a>
+      </li>
+      {% endif %}    
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_P_U_Cuentas" class="nav-link" href="#navbar-comprobantes" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+    <span class="fa-stack text-primary" style="font-size: 0.6em; width: 0em;">
+      <i class="far fa-file fa-stack-2x"></i>
+      <i class="fas fa-check-double fa-stack-1x fa-inverse text-primary" style="width: 1.5em;"></i>
+    </span>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text" style="padding-left: 30px;">Comprobantes</span>
+  </a>
+  <div class="collapse" id="navbar-comprobantes">
+    <ul class="nav nav-sm flex-column">  
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'contabilidad:principal' %}" class="nav-link" id="m_comprobantes" >
+          <span class="sidenav-mini-icon"> C </span>
+          <span class="sidenav-normal"> Comprobantes </span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'contabilidad:principal' %}" class="nav-link" id="m_reclasificar">
+          <span class="sidenav-mini-icon"> RC </span>
+          <span class="sidenav-normal"> Reclasificar </span>
+        </a>
+      </li>
+      {% endif %}
+
+  
+     
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_Procesos" class="nav-link" href="#navbar-procesos" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
+    <i class="fas fa-cogs text-primary"></i>
+    <!-- <i class="fas fa-project-diagram"></i> -->
+    <span class="nav-link-text">Procesos</span>
+  </a>
+  <div class="collapse" id="navbar-procesos">
+    <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'contabilidad:principal' %}" class="nav-link" id="m_cuentas"> 
+          <span class="sidenav-mini-icon"> CA </span>
+          <span class="sidenav-normal"> Cierre Anual </span>
+        </a>
+      </li>
+      {% endif %}    
+    </ul>
+  </div>
+</li>
+
+<li class="nav-item">
+  <a id="m_reportes_CONT" class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables">
+    <i class="far fa-file text-primary"></i>
+    <span class="nav-link-text">Reportes</span>
+  </a>
+  <div class="collapse" id="navbar-tables">
+    <ul class="nav nav-sm flex-column">
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> PUC </span>
+          <span class="sidenav-normal"> Plan Único de Cuentas</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> CMP </span>
+          <span class="sidenav-normal"> Comprobantes Contables</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> MA </span>
+          <span class="sidenav-normal"> Mayor Auxiliar</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> BG </span>
+          <span class="sidenav-normal"> Balance General</span>
+        </a>
+      </li>  
+      {% endif %}
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> A </span>
+          <span class="sidenav-normal"> Analítico</span>
+        </a>
+      </li>  
+      {% endif %}
+         
+    </ul>
+  </div>
+</li>
+<hr class="my-4">
+{% endblock options %}

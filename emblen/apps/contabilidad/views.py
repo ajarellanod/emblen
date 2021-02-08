@@ -11,8 +11,8 @@ from apps.base.views import (
     EmblenFormView
 )
 
-
-# ----- Planificación -----
+# ----- Contabilidad -----
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
-    template_name = "planificacion/principal.html"
+    template_name = "contabilidad/principal.html"
+    

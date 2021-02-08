@@ -803,6 +803,23 @@ class AccionEspecifica(EmblenBaseModel):
         verbose_name_plural = "Acciones Especificas"
 
 
+class Publicacion(EmblenBaseModel):
+    """ 
+    Almanecena las Publicaciones de Ley
+    """
+    codigo = models.IntegerField()
+
+    descripcion = models.CharField(max_length=100)
+
+    anio = models.CharField(max_length=4)
+
+    class Meta:
+        verbose_name_plural = "Publicaciones"
+
+    def __str__(self):
+        return self.codigo
+
+
 class Partida(EmblenBaseModel):
     """ 
     Almanecena las partidas presupuestarias de Recursos y Egresos.
@@ -829,6 +846,13 @@ class Partida(EmblenBaseModel):
         null=True,
         blank=True
     )
+
+    # publicacion = models.ForeignKey(
+    #     Publicacion,
+    #     related_name="partidas",
+    #     on_delete=models.PROTECT,
+    #     default=0
+    # )
 
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
