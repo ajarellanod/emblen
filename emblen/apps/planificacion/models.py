@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.functions import Substr
 from django.db.models import Max
+from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.base.models import EmblenBaseModel
-from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.formulacion.models import (
     Programa,
