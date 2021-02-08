@@ -38,7 +38,8 @@ from apps.formulacion.models import (
     Programa,
     AccionEspecifica,
     Estimacion,
-    AccionInterna
+    AccionInterna,
+    LineaPrograma
 )
 
 
@@ -88,7 +89,6 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
     """
     Se crean las partidas de nivel 6 por medio de los auxiliares
     """
-
     # Variables Necesarias
     permissions = {"all": ("formulacion.add_partida",)}
     template_name = "formulacion/crear_partida.html"
@@ -102,10 +102,8 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
 
     def altpost(self, request):
         # Se reciben los formularios para guardar una nueva partida
-
         # Comprobando que hayan enviado el saldo
-        if request.POST.get("saldo") is not None:
-
+        if request.POST.get("cuenta") is not None:
             #Creando el formulario y validandolo
             partida_form = PartidaForm(data=request.POST)
             if partida_form.is_valid():
@@ -120,7 +118,6 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
 
     def jsonpost(self, request):
         # Se manda un json con las partidas serializadas
-
         try:
             # Obteniendo la partida
             id_partida = int(request.POST.get("data"))
@@ -226,7 +223,7 @@ class DepartamentoView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_departamento",)}
     template_name = "formulacion/departamento.html"
     form_class = DepartamentoForm
-    instance_model = Departamento
+    update_form = True
     success_url = "formulacion:departamentos"
 
 
@@ -257,7 +254,7 @@ class UnidadEjecutoraView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_unidadejecutora",)}
     template_name = "formulacion/unidad_ejecutora.html"
     form_class = UnidadEjecutoraForm
-    instance_model = UnidadEjecutora
+    update_form = True
     success_url = "formulacion:unidades_ejecutoras"
 
 
@@ -295,7 +292,7 @@ class ProgramaListView(EmblenPermissionsMixin, ListView):
 class ProgramaView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.view_programa",)}
     template_name = "formulacion/crear_programa.html"
-    instance_model = Programa
+    update_form = True
     form_class = ProgramaForm
     success_url = "formulacion:programas"
 
@@ -339,32 +336,29 @@ class AccionEspecificaListView(EmblenPermissionsMixin, ListView):
     permissions = {"all": ("formulacion.view_accionespecifica",)}
     template_name = "formulacion/acciones_especificas.html"
     success_url = "formulacion:acciones_especificas"
-    queryset = AccionEspecifica.objects.all().order_by("codigo")
     paginate_by = 8
+
+    def get_queryset(self):
+        programa = self.request.GET.get('programa')
+        if programa:
+            return AccionEspecifica.objects.filter(programa=programa).order_by("codigo")
+        return AccionEspecifica.objects.order_by("codigo")
 
 
 class AccionEspecificaView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.change_accionespecifica",)}
     template_name = "formulacion/crear_accion_especifica.html"
-    instance_model = AccionEspecifica
+    update_form = True
     form_class = AccionEspecificaForm
     success_url = "formulacion:acciones_especificas"
-    
-    def altpost(self, request, pk, *args, **kwargs):
-        accion = get_object_or_404(self.instance_model, pk=pk)
-        new_request = request.POST.copy()
-        new_request.update({
-            "programa": accion.programa, 
-            "responsable": accion.responsable.id
+        
+    def get_data(self, data, instance):
+        new_data = data.copy()
+        new_data.update({
+            "programa": instance.programa, 
+            "responsable": instance.responsable.id
         })
-
-        form = self.form_class(instance=accion, data=new_request)
-
-        if form.is_valid():
-            form.save()
-            return redirect(self.success_url)
-        else:
-            return {"form":form}
+        return super().get_data(new_data, instance)
 
 
 class AccionEspecificaCreateView(EmblenPermissionsMixin, EmblenFormView):
@@ -443,6 +437,31 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
 
 # ----- Linea Programa -----
 
+class LineaProgramaListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_lineaprograma",)}
+    template_name = "formulacion/lineas_programas.html"
+    paginate_by = 8
+
+    def get_queryset(self):
+        programa = self.request.GET.get('programa')
+        if programa:
+            return LineaPrograma.objects.filter(programa=programa).order_by("codigo")
+        return LineaPrograma.objects.order_by("codigo")
+
+
+class LineaProgramaView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.change_lineaprograma",)}
+    template_name = "formulacion/crear_linea_programa.html"
+    form_class = LineaProgramaForm
+    update_form = True
+    success_url = "formulacion:principal"
+
+    def get_data(self, data, instance):
+        new_data = data.copy()
+        new_data.update({"programa": instance.programa})
+        return super().get_data(new_data, instance)
+
+
 class LineaProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_lineaprograma",)}
     template_name = "formulacion/crear_linea_programa.html"
@@ -453,6 +472,12 @@ class LineaProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
         linea_programa = form.save(commit=False)
         linea_programa.gen_rest_attrs()
         return super().form_valid(linea_programa)
+
+
+class LineaProgramaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_lineaprograma",)}
+    model = LineaPrograma
+    success_url = "formulacion:lineas_programas"
 
 
 # ----- Plan de Desarrollo -----

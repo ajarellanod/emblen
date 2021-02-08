@@ -42,7 +42,10 @@ urlpatterns = [
 
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
 
-    path('linea-programa/', views.LineaProgramaCreateView.as_view(), name='c_linea_programa'),
+    path('lineas-programas/', views.LineaProgramaListView.as_view(), name='lineas_programas'),
+    path('linea-programa/<int:pk>/', views.LineaProgramaView.as_view(), name='v_linea_programa'),
+    path('linea-programa/crear/', views.LineaProgramaCreateView.as_view(), name='c_linea_programa'),
+    path('linea-programa/<int:pk>/eliminar/', views.LineaProgramaDeleteView.as_view(), name='e_linea_programa'),
 
     path('plan-desarrollo/', views.PlanDesarrolloCreateView.as_view(), name='c_plan_desarrollo'),
 ]

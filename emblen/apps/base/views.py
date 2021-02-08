@@ -84,13 +84,15 @@ class EmblenFormView(EmblenView):
     
     form_class = False
     success_url = False
+    update_form = False
     instance_model = False
 
     def validate_attrs(self):
         if not self.form_class and not self.success_url:
             raise ValueError("Form and/or SuccessURL don't set")
 
-        if self.instance_model:
+        if self.update_form:
+            self.instance_model = self.form_class._meta.model
             return True
         else:
             return False
@@ -99,8 +101,11 @@ class EmblenFormView(EmblenView):
         self.form_class = form
         return self.form_class
 
-    def get_data(self, request):
-        return request.POST
+    def get_data(self, data, instance=False):
+        if not instance:
+            return {'data': data}
+
+        return {'instance': instance, 'data': data}
 
     def altget(self, request, *args, **kwargs):
         if self.validate_attrs():
@@ -114,9 +119,9 @@ class EmblenFormView(EmblenView):
     def altpost(self, request, *args, **kwargs):
         if self.validate_attrs():
             obj = get_object_or_404(self.instance_model, pk=kwargs["pk"])
-            form = self.form_class(instance=obj, data=self.get_data(request))
+            form = self.form_class(**self.get_data(request.POST, instance=obj))
         else:
-            form = self.form_class(data=self.get_data(request))
+            form = self.form_class(**self.get_data(request.POST))
 
         if form.is_valid():
             return self.form_valid(form)

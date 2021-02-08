@@ -703,7 +703,9 @@ class AccionEspecifica(EmblenBaseModel):
     parroquia = models.ForeignKey(
         Parroquia,
         related_name="acciones_especificas",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
 
     sector = models.ForeignKey(
@@ -737,16 +739,23 @@ class AccionEspecifica(EmblenBaseModel):
     estatus_financiamiento_externo = models.ForeignKey(
         EstatusFinanciamientoExterno,
         related_name="acciones_especificas",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
 
     tipo_area_inversion = models.ForeignKey(
         TipoAreaInversion,
         related_name="acciones_especificas",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
     )
 
-    fase = models.CharField(max_length=100)
+    fase = models.CharField(
+        max_length=100,
+        blank=True,
+    )
 
     # Porcentaje Avance
 
@@ -814,7 +823,12 @@ class Partida(EmblenBaseModel):
 
     nivel = models.IntegerField()
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=2,null=True)
+    saldo = models.DecimalField(
+        max_digits=22,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
 
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""

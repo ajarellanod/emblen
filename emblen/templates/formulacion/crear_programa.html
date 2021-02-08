@@ -19,6 +19,35 @@
   {% endif %}
 {% endblock breadcrumb %}
 
+{% block right_buttons %}
+  {% if form.initial %} 
+    {% if form.instance.acciones_especificas %}
+      <a href="{% url 'formulacion:acciones_especificas' %}?programa={{form.instance.id}}"
+      class="btn btn-sm btn-neutral">
+        Acciones Especificas
+      </a>
+    {% else %}
+      <a href="{% url 'formulacion:c_accion_especifica' %}" class="btn btn-sm btn-neutral">
+        Crear Accion Especifica
+      </a>
+    {% endif %}
+
+    {% if form.instance.lineas_programas %}
+      <a href="{% url 'formulacion:lineas_programas' %}?programa={{form.instance.id}}" 
+      class="btn btn-sm btn-neutral">
+        Lineas de Programa
+      </a>
+    {% else %}
+      <a href="{% url 'formulacion:c_linea_programa' %}" class="btn btn-sm btn-neutral">
+        Crear Linea de Programa
+      </a>
+    {% endif %}
+
+    
+    <a href="#" class="btn btn-sm btn-neutral">Plan de Desarrollo</a>
+  {% endif %}
+{% endblock right_buttons %}
+
 {% block title_card %}
   {% if form.initial %}
     Programa - {{form.instance.codigo}}

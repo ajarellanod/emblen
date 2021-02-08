@@ -98,37 +98,45 @@
         </div>
       </div>
     </div>
-    <div class="input-daterange datepicker row align-items-center">
-      <div class="col">
-        <div class="form-group">
-          <div class="input-group">
-              <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-              </div>
-              {% if form.initial %}
-                {% render_field form.inicio class="form-control" placeholder="Ingrese Fecha de Inicio" readonly="true" %}
-              {% else %}
-                {% render_field form.inicio class="form-control" placeholder="Ingrese Fecha de Inicio" %}
-              {% endif %}
+    {% if form.initial %}
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Fecha de Inicio</label>
+            {% render_field form.inicio class="form-control inputDate" placeholder="Fecha de Inicio" readonly="true" %}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Fecha de Fin</label>
+            {% render_field form.fin class="form-control inputDate" placeholder="Fecha de Final" readonly="true" %}
           </div>
         </div>
       </div>
-
-      <div class="col">
-        <div class="form-group">
-          <div class="input-group">
-              <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-              </div>
-              {% if form.initial %}
-                {% render_field form.fin class="form-control" placeholder="Ingrese Fecha de Final" readonly="true" %}
-              {% else %}
-                {% render_field form.fin class="form-control" placeholder="Ingrese Fecha de Final" %}
-              {% endif %}
-          </div>
+    {% else %}
+      <div class="input-daterange datepicker row align-items-center">
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field form.inicio class="form-control" placeholder="Fecha de Inicio" %}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    {% render_field form.fin class="form-control" placeholder="Fecha de Final" %}
+                </div>
+            </div>
         </div>
       </div>
-    </div>
+    {% endif %}
     <div class="row">
       <div class="col">
         <div class="form-group">
@@ -136,6 +144,14 @@
           {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Centro de Costo</label>
+          {% render_field form.centro_costo data-toggle="select" class="form-control" %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Descripción</label>
@@ -309,14 +325,16 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Estatus de Financiamiento</label>
-          {% render_field form.estatus_financiamiento_externo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
           <label class="form-control-label">Tipo de Area de Inversión</label>
           {% render_field form.tipo_area_inversion data-toggle="select" class="form-control" %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Estatus de Financiamiento</label>
+          {% render_field form.estatus_financiamiento_externo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
       <div class="col">
