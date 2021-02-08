@@ -13,12 +13,12 @@ role="dialog" aria-labelledby="modal-form" aria-hidden="true">
             <div class="mb-1">
               Seleccione el Año a Consultar
             </div>
-            <form method="post" action="{% url 'formulacion:re_creditos_asigandos' %}">
+            <form method="post" target="_blank" action="{% url 'formulacion:re_creditos_asigandos' %}">
               {% csrf_token %}
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <input type="text" id="id_anio_modal" maxlength="4" name="anio_modal"
+                    <input type="text" id="id_anio_modal" maxlength="4" name="anio"
                     class="form-control" autocomplete="off" placeholder="Seleccione Año...">
                   </div>
                 </div>

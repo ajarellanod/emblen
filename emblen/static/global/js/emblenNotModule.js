@@ -108,3 +108,8 @@ function checkOverflow(el){
 
    return isOverflowing;
 }
+
+
+function goBack() {
+  window.history.go(-1); return false;
+}

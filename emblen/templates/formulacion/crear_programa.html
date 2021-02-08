@@ -21,7 +21,7 @@
 
 {% block right_buttons %}
   {% if form.initial %} 
-    {% if form.instance.acciones_especificas %}
+    {% if form.instance.acciones_especificas.get_queryset %}
       <a href="{% url 'formulacion:acciones_especificas' %}?programa={{form.instance.id}}"
       class="btn btn-sm btn-neutral">
         Acciones Especificas
@@ -32,7 +32,7 @@
       </a>
     {% endif %}
 
-    {% if form.instance.lineas_programas %}
+    {% if form.instance.lineas_programas.get_queryset %}
       <a href="{% url 'formulacion:lineas_programas' %}?programa={{form.instance.id}}" 
       class="btn btn-sm btn-neutral">
         Lineas de Programa
