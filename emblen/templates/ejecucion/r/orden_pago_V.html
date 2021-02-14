@@ -1,4 +1,4 @@
-<div class="modal fade" id="creditos-presupuestarios-asig" tabindex="-1" 
+<div class="modal fade" id="re_orden_pago" tabindex="-1" 
 role="dialog" aria-labelledby="modal-form" aria-hidden="true">
   <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
@@ -6,25 +6,25 @@ role="dialog" aria-labelledby="modal-form" aria-hidden="true">
         <div class="card bg-secondary shadow border-0">
           <div class="card-header bg-white">
             <div class="text-muted text-center mb-1">
-              Creditos Presupuestarios Asignados
+              Orden de Pago
             </div>
           </div>
           <div class="card-body px-lg-5 py-lg-5">
             <div class="mb-1">
-              Seleccione el Año a Consultar
+              Nº Orden de Pago
             </div>
-            <form method="post" action="{% url 'formulacion:re_creditos_asigandos' %}">
+            <form method="post" target="_blank" action="{% url 'ejecucion:re_orden_pago' %}">
               {% csrf_token %}
               <div class="row">
                 <div class="col">
                   <div class="form-group">
-                    <input type="text" id="id_anio_modal" maxlength="4" name="anio_modal"
-                    class="form-control" autocomplete="off" placeholder="Seleccione Año...">
+                    <input type="text" id="id_anio_modal" maxlength="4" name="orden"
+                    class="form-control" autocomplete="off" placeholder="EJ: 0092" required>
                   </div>
                 </div>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary my-4">Correr Reporte</button>
+                <button type="submit" class="btn btn-primary my-4">Generar Orden</button>
               </div>
             </form>
           </div>

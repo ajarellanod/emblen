@@ -6,12 +6,12 @@ role="dialog" aria-labelledby="modal-form" aria-hidden="true">
         <div class="card bg-secondary shadow border-0">
           <div class="card-header bg-white">
             <div class="text-muted text-center mb-1">
-              Creditos Presupuestarios Asignados
+              Créditos Presupuestarios Asignados
             </div>
           </div>
           <div class="card-body px-lg-5 py-lg-5">
             <div class="mb-1">
-              Seleccione el Año a Consultar
+              Ingrese el Año a Consultar
             </div>
             <form method="post" target="_blank" action="{% url 'formulacion:re_creditos_asigandos' %}">
               {% csrf_token %}
@@ -19,7 +19,7 @@ role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                 <div class="col">
                   <div class="form-group">
                     <input type="text" id="id_anio_modal" maxlength="4" name="anio"
-                    class="form-control" autocomplete="off" placeholder="Seleccione Año...">
+                    class="form-control" autocomplete="off" placeholder="Ingrese Año...">
                   </div>
                 </div>
               </div>

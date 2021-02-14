@@ -847,12 +847,11 @@ class Partida(EmblenBaseModel):
         blank=True
     )
 
-    # publicacion = models.ForeignKey(
-    #     Publicacion,
-    #     related_name="partidas",
-    #     on_delete=models.PROTECT,
-    #     default=0
-    # )
+    publicacion = models.ForeignKey(
+        Publicacion,
+        related_name="partidas",
+        on_delete=models.PROTECT
+    )
 
     def sin_ceros(self):
         """Retorna la cuenta sin ceros a la derecha"""
@@ -985,14 +984,12 @@ class AccionInterna(EmblenBaseModel):
         Genera Atributos Restante del Objeto en Instancia.
         >> ("codigo", "auxiliar", "nivel")
         """
-        result = AccionInterna.objects.filter(
-            accion_especifica=self.accion_especifica
-        ).aggregate(Max('auxiliar')).get("auxiliar__max")
+        result = AccionInterna.objects.aggregate(Max('auxiliar')).get("auxiliar__max")
         
         if result:
             self.auxiliar = result + 1
 
-        cod_tipo = self.tipo_gasto.codigo
+        cod_tipo = self.tipo_gasto.id
         cod_aux = "{:04}".format(self.auxiliar)
         cod_sector = self.accion_especifica\
                         .programa\

@@ -1,0 +1,481 @@
+{% extends 'base/reporte-base.html' %}
+
+{% block title %}
+    {% block rtitle %}
+        ORDEN DE PAGO
+    {% endblock rtitle %}
+{% endblock title %}
+
+{% block subtitle %}
+
+{% endblock subtitle %}
+
+{% block head %}
+    <style type="text/css">
+        .table .project td { 
+            border-top: none;
+            padding: 0.2em 0.5em;
+            page-break-before: auto;
+        }
+        .table>:not(caption)>*>* {
+            padding: 0px;
+            /* border: 1px solid #000000; */
+        }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+    <div class="group-report">
+        <!-- Proyecto -->
+        <div class="row">
+            <div class="col">
+
+                <div class="container">
+                    <div class="offset-3 col-7">
+                        <table class="table">
+                            <thead>
+                                <!-- <tr>
+                                    <th>
+                                        <img src="/Desktop/escudo-gris.png" alt="logo1" width="100px" height="50px" class="float-start">
+                                    </th>
+                                    <th>
+                                        <img src="/Desktop/invialca.png" alt="logo1" width="100px" height="50px" class="float-end">
+                                    </th>
+                                </tr> -->
+                                <tr>
+                                    <td class="text-center" style="border: none;">
+                                        <p><b>INSTITUTO AUTÓNOMO PARA LA ADMINISTRACIÓN, MANTENIMIENTO Y CONSERVACIÓN DE LA VIALIDAD.<br>CARABOBO TE QUIERO</b></p>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+
+
+        
+
+        
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">AÑO</th>
+                        <th scope="col" class="text-center">CLASE DE OP</th>
+                        <th scope="col" class="text-center">FUENTE DE FINANCIAMIENTO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td scope="col" class="text-center">2021</td>
+                        <td class="text-center" >PRESTACIÓN DE SERVICIOS</td>
+                        <td>RECURSOS PROPIOS</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+            <div class=" offset-1 col-3">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col" colspan="2" class="text-center">Nº DE LA ORDEN DE PAGO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td scope="col" class="text-center">2021</td>
+                        <td scope="col" class="text-center">{{orden}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">UNIDAD DE ORIGEN:</th>
+                        <th scope="col">DIRECCIÓN DE ADMINISTRACIÓN Y FINANZAS</th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+            <div class=" offset-1 col-3">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col" class="text-center">13</th>
+                        <th scope="col" class="text-center">02</th>
+                        <th scope="col" class="text-center">2021</th>
+                      </tr>
+                    </thead>
+                  </table>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="3" class="text-center">ORDEN DE PAGO A FAVOR DE</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Nº DE RIF / C.I.</th>
+                            <th scope="col" class="text-center">IDENTFICACIÓN DEL BENEFICIARIO</th>
+                            <th scope="col" class="text-center">MONTO DE ORDEN DE PAGO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="col" class="text-center">J314678566</th>
+                        <th scope="col">EWINET, C.A.</th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                        </tr>
+                    </tbody>  
+                  </table>
+            </div>
+            <div class=" offset-1 col-3">
+                <table class="table table-bordered border-dark">
+                                     
+                  </table>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="7" class="text-center">DOCUMENTOS A PAGAR</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">TIPO</th>
+                            <th scope="col" class="text-center">Nº DOCUMENTO</th>
+                            <th scope="col" class="text-center">Nº CONTROL</th>
+                            <th scope="col" class="text-center">FECHA</th>
+                            <th scope="col" class="text-center">BASE IMPONIBLE</th>
+                            <th scope="col" class="text-center">IVA (16%)</th>
+                            <th scope="col" class="text-center">MONTO DEL DOCUMENTO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td scope="col" class="text-center">FACTURA</td>
+                        <td scope="col" class="text-center">00031172</td>
+                        <td scope="col" class="text-center">00-030907</td>
+                        <td scope="col" class="text-center">04/01/2021</th>
+                        <td><span style="float:right">777.590.000,00</span></td>
+                        <td><span style="float:right">124.414.400,00</span></td>
+                        <th><span style="float:right">902.004.400,00</span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="7" scope="col" class="text-center">DESCRIPCIÓN</th>
+                        </tr> 
+                        <tr>
+                            <td colspan="7" scope="col">PAGO MES DE ENERO DEL CONTRATO 002/2021 REFERENTE AL SERVICIO DE INTERNET PARA LAS INSTALACIONES DEL INSTITUTO AUTÓNOMO PARA LA ADMINISTRACIÓN, MANTENIMIENTO Y CONSERVACIÓN DE LA VIALIDAD DEL ESTADO CARABOBO, PARA EL EJERCICIO ECONÓMICO FINANCIERO 2021. </td>
+                        </tr>                                                
+                    </tbody>  
+                  </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="9" class="text-center">IMPUTACIÓN PRESUPUESTARIA</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">AÑO</th>
+                            <th scope="col" class="text-center">PROYECTO / ACC. CENT.</th>
+                            <th scope="col" class="text-center">ACCIÓN<br>ESPECÍFICA</th>
+                            <th scope="col" class="text-center">PARTIDA</th>
+                            <th scope="col" class="text-center">GEN</th>
+                            <th scope="col" class="text-center">ESP</th>
+                            <th scope="col" class="text-center">SUB E</th>
+                            <th scope="col" class="text-center">IDENTIFICACIÓN DE PARTIDA</th>
+                            <th scope="col" class="text-center">MONTO IMPUTADO (EN BS)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="col" class="text-center">2021</td>
+                            <td scope="col" class="text-center">07010202000</td>
+                            <td scope="col" class="text-center">07010202001</td>
+                            <td scope="col" class="text-center">4.03</th>
+                            <td scope="col" class="text-center">04</th>
+                            <td scope="col" class="text-center">05</th>
+                            <td scope="col" class="text-center">00</th>
+                            <td scope="col">Servicio de comunicaciones</th>
+                            <th><span style="float:right">777.590.000,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col" class="text-center">2021</td>
+                            <td scope="col" class="text-center">07010202000</td>
+                            <td scope="col" class="text-center">07010202001</td>
+                            <td scope="col" class="text-center">4.03</th>
+                            <td scope="col" class="text-center">18</th>
+                            <td scope="col" class="text-center">01</th>
+                            <td scope="col" class="text-center">00</th>
+                            <td scope="col">Impuesto al Valor Agregado</th>
+                            <th><span style="float:right">124.414.400,00</span></th>
+                        </tr>    
+                        <tr style="border:0px #ffffff;">
+                            <td scope="col" colspan="9"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col" colspan="7">&nbsp;</th>
+                            <th scope="col" class="text-center">TOTAL IMPUTACIONES Bs.</th>
+                            <th><span style="float:right">902.004.400,00</span></th>
+                        </tr>                                                                    
+                    </tbody>  
+                  </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="5" class="text-center">RETENCIONES / DEDUCCIONES</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">CÓDIGO CUENTA</th>
+                            <th scope="col" class="text-center">IDENTIFICACIÓN DE CUENTA</th>
+                            <th scope="col" class="text-center">BASE IMPONIBLE</th>
+                            <th scope="col" class="text-center">%</th>
+                            <th scope="col" class="text-center">MONTO A RETENER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="col">2.1.4.99.01.01</td>
+                            <td scope="col">Retenciones a Contratistas por concepto de ISLR</td>
+                            <th><span style="float:right">777.590.000,00</span></th>
+                            <td scope="col" class="text-center">2</th>
+                            <th><span style="float:right">15.551.800,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col">2.1.4.99.01.02</td>
+                            <td scope="col">Retenciones a Contratistas por concepto de IVA</td>
+                            <th><span style="float:right">124.414.400,00</span></th>
+                            <td scope="col" class="text-center">75</th>
+                            <th><span style="float:right">93.310.800,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col">2.1.4.99.01.03</td>
+                            <td scope="col">Retenciones a Contratistas por concepto de Impuesto 10 x 1000</td>
+                            <th><span style="float:right">777.590.000,00</span></th>
+                            <td scope="col" class="text-center">10x1000</th>
+                            <th><span style="float:right">7.775.900,00</span></th>
+                        </tr> 
+                        <tr style="border:0px #ffffff;">
+                            <td scope="col" colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td scope="col" colspan="2">&nbsp;</td>
+                            <th scope="col" colspan="2" class="text-center">TOTAL RETENCIONES Bs.</th>
+                            <th><span style="float:right">116.638.500,00</span></th>
+                        </tr>  
+                        <tr>
+                            <td scope="col" colspan="2">&nbsp;</td>
+                            <th scope="col" colspan="2" class="text-center">NETO A PAGAR Bs.</th>
+                            <th><span style="float:right">785.365.900,00</span></th>
+                        </tr>                                                                                          
+                    </tbody>  
+                  </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="6" class="text-center">CLASIFICACIÓN CONTABLE</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">CUC</th>
+                            <th scope="col" class="text-center">CÓDIGO CONTABLE</th>
+                            <th scope="col" class="text-center">IDENTIFICACIÓN DE CUENTA CONTABLE</th>
+                            <th scope="col" class="text-center">C</th>
+                            <th scope="col" class="text-center">DEBE</th>
+                            <th scope="col" class="text-center">HABER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">6.1.3.03.05</td>
+                            <td scope="col">Servicio de Comunicaciones</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right">777.590.000,00</span></th>
+                            <th><span style="float:right"></span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">6.1.3.17.01</td>
+                            <td scope="col">IMPUESTO AL VALOR AREGADO</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right">124.414.400,00</span></th>
+                            <th><span style="float:right"></span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">2.1.4.99.01.01</td>
+                            <td scope="col">RETENCIONES POR PAGAR POR CONCEPTO DE IMPUESTO SOBRE LA RENTA</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right"></span></th>
+                            <th><span style="float:right">15.551.800,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">2.1.4.99.01.02</td>
+                            <td scope="col">RETENCIONES POR PAGAR POR CONCEPTO DE IMPUESTO AL VALOR AREGADO</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right"></span></th>
+                            <th><span style="float:right">93.310.800,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">2.1.4.99.01.03</td>
+                            <td scope="col">RETENCIONES POR PAGAR POR CONCEPTO DE IMPUESTO DEL UNO POR MIL (1X1000)</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right"></span></th>
+                            <th><span style="float:right">7.775.900,00</span></th>
+                        </tr> 
+                        <tr>
+                            <td scope="col"></td>
+                            <td scope="col">2.1.1.04.02.02.02</td>
+                            <td scope="col">CUENTAS POR PAGAR A CONTRATISTAS A CORTO PLAZO - CONTRATO 2021-002</td>
+                            <td scope="col" class="text-center"></th>
+                            <th><span style="float:right"></span></th>
+                            <th><span style="float:right">785.365.900,00</span></th>
+                        </tr> 
+
+                        <tr style="border:0px #ffffff;">
+                            <td scope="col" colspan="6"></td>
+                        </tr>
+                        <tr>
+                            <td scope="col" colspan="2">&nbsp;</td>
+                            <th colspan="2"><span style="float:right">TOTAL CONTABILIZADO</span></th>
+                            <th><span style="float:right">902.004.400,00</span></th>
+                            <th><span style="float:right">902.004.400,00</span></th>
+                        </tr>  
+                                                                                 
+                    </tbody>  
+                  </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="5" class="text-center">CONFORMACIÓN DE FIRMAS AUTORIZADAS</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">ELABORADO POR</th>
+                            <th scope="col" class="text-center">VERIFICADO POR</th>
+                            <th scope="col" class="text-center">CONTABILIZADO POR</th>
+                            <th scope="col" class="text-center">AUTORIZADO POR</th>
+                            <th scope="col" class="text-center">APROBADO POR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="col"> <br><br><br><br><br> </td>
+                            <td scope="col"> &nbsp; </td>
+                            <td scope="col"> &nbsp; </td>
+                            <td scope="col"> &nbsp; </td>
+                            <td scope="col"> &nbsp; </td>
+                        </tr> 
+                        <tr>
+                            <th scope="col" class="text-center">JEFE DE ADMINISTRACIÓN Y FINANZAS</th>
+                            <th scope="col" class="text-center">JEFE DE PRESUPUESTO</th>
+                            <th scope="col" class="text-center">JEFE DE CONTABILIDAD</th>
+                            <th scope="col" class="text-center">DIRECTOR DE ADMINISTRACIÓN Y FINANZAS</th>
+                            <th scope="col" class="text-center">PRESIDENTE</th>
+                        </tr> 
+                                                                                 
+                    </tbody>  
+                  </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-bordered border-dark">
+                    <thead>
+                      <tr class="bg-light" >
+                        <th scope="col" colspan="3" class="text-center">RECIBÍ CONFORME</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">NOMBRE Y APELLIDO</th>
+                            <th scope="col" >
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </th>
+                            <th scope="col" rowspan="2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="col" class="text-center">C.I. / RIF</th>
+                            <th scope="col"> </th>
+                        </tr>                         
+                    </thead>
+                  </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <p>
+                    CÓDIGO DEL ENTE: 570024 <br>
+                    ÓRGANO DE ADSCRIPCIÓN: SECRETARÍA DE INFRAESTRUCTURA
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+        <hr><!-- Divider -->
+
+{% endblock body %}
