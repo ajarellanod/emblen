@@ -1,0 +1,98 @@
+{% extends 'formulacion/_base.html' %}
+
+{% load static %}
+
+{% block title %}
+  Lista de Ordenes de Pagos - Directa Especial
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'ejecucion:principal' %}">Ejecución</a></li>
+  <li class="breadcrumb-item"><a href="#">Ordenes de Pagos</a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+<div class="row">
+  <!-- Light table -->
+  <div class="col">
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col-6">
+            <h3 class="mb-0">Ordenes de Pagos</h3>
+          </div>
+          <div class="col-6 text-right">
+            <a id="btn_partidaNew" href="{% url 'ejecucion:c_orden_pago' %}" 
+            class="btn btn-sm btn-primary">
+              Crear Orden de Pago
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Light table -->
+      <div class="table-responsive" id="tablaPartidas">
+        <table class="table align-items-center table-hover" >
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class="sort text-center">Nº Orden Pago</th>
+              <th scope="col" class="sort text-center">Año</th>
+              <th scope="col" class="sort text-center ">Tipo</th>
+              <th scope="col" class="sort text-center">Clase</th>
+              <th scope="col" class="sort text-center">Unidad Origen</th>
+              <th scope="col" class="sort text-center">Fuente de financiamiento</th>
+              <th scope="col" class="sort text-center">Monto</th>
+              {% if perms.ejecucion.delete_ordenespago %}
+              <th scope="col" class="text-center" style="width:5%;"><i class="fas fa-cogs"></i></th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for orden in page_obj %}
+              <tr>
+                <th scope="row" class="nivel text-center">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <a href="{% url 'formulacion:v_accion_especifica' accion.id %}">
+                        <span class="name mb-0 text-sm">{{ orden.orden_pago }}</span>
+                      </a>
+                    </div>
+                  </div>
+                </th>
+                <td class="text-center">
+                  {{ orden.anio }}
+                </td>
+                <td class="text-center">
+                  {{ orden.tipo }}
+                </td>
+                <td class="text-center"> 
+                  {{ orden.clase }}
+                </td>
+                <td class="text-center"> 
+                  {{ orden.unidad_origen }}
+                </td>
+                <td class="text-center"> 
+                  {{ orden.fuente_financiamiento }}
+                </td>
+                <td class="text-center"> 
+                  {{ orden.monto }}
+                </td>
+                {% if perms.formulacion.delete_accionespecifica %}
+                <td class="text-right">
+                  <a href="{% url 'formulacion:e_accion_especifica' accion.id %}"
+                  class="btn btn-sm btn-default">
+                    Eliminar
+                  </a>
+                </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- Card footer -->
+      {% include 'base/_paginador.html' %}  
+    </div>
+  </div>
+</div>
+{% endblock body %}

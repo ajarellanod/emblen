@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from apps.base.views import EmblenReport
 
-from apps.ejecucion.models import OrdenesPago
+from apps.ejecucion.models import OrdenPago
 
 
 class OrdenPagoReport(LoginRequiredMixin, EmblenReport):

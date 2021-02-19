@@ -1,25 +1,38 @@
 from django import forms
 
 from apps.ejecucion.models import (
-    TiposOrdenPago,
-    OrdenesPago,
-    DetallesOrdenesPago
+    TipoOrdenPago,
+    ClaseOrdenPago,
+    TipoDocumento,
+    DocumentoPagar,
+    OrdenPago,
+    DeduccionOrdenPago,
+    DetalleOrdenPago
 )
 
 
-class TiposOrdenPagoForm(forms.ModelForm):
+class TipoOrdenPagoForm(forms.ModelForm):
     class Meta:
-        model = TiposOrdenPago
+        model = TipoOrdenPago
         fields = "__all__"
 
 
-class OrdenesPagoForm(forms.ModelForm):
+class OrdenPagoForm(forms.ModelForm):
     class Meta:
-        model = OrdenesPago
-        fields = "__all__"
+        model = OrdenPago
+        fields = ("orden_pago","anio", "tipo","fecha", "clase","contador",
+        "unidad_origen","fuente_financiamiento","monto","beneficiario", "descripcion","monto_imponible",
+        "saldo", "monto_deduciones", "saldo_deducciones", "estatus")
+  
+    # documento
+    # comprobante
+    # comprobante_reverso
+    # elaborador
+    # verificador
+    # anulador
+    # reversor
 
-
-class DetallesOrdenesPagoForm(forms.ModelForm):
+class DetalleOrdenPagoForm(forms.ModelForm):
     class Meta:
-        model = DetallesOrdenesPago
+        model = DetalleOrdenPago
         fields = "__all__"

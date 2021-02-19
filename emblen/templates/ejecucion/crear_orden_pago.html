@@ -1,0 +1,269 @@
+{% extends 'ejecucion/_steps.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+  {% if form.initial %}
+    Orden de Pago - {{form.instance.orden_pago}}
+  {% else %}
+    Creación de Orden de Pago
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'ejecucion:ordenes_pagos' %}">
+        Ordenes de Pago
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.orden_pago}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Orden de Pago</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+{% block title_card %}
+  {% if form.initial %}
+    Orden de Pago  - {{form.instance.orden_pago}}
+  {% else %}
+    Creación de Orden de Pago
+  {% endif %}
+{% endblock title_card %}
+
+{% block stepwizard %}
+  <div class="stepwizard-step">
+      <a href="#step-1" type="button" class="btn btn-default btn-circle">
+          <i class="fas fa-info"></i>
+      </a>
+      <p class="form-control-label">Orden de Pago</p>
+  </div>
+
+  <div class="stepwizard-step">
+      <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+          <i class="fas fa-info"></i>
+      </a>
+      <p class="form-control-label">Detalles de Pago</p>
+  </div>
+
+  <div class="stepwizard-step">
+      <a href="#step-3" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+          <i class="fas fa-poll-h"></i>
+      </a>
+      <p class="form-control-label">Imputación</p>
+  </div>
+
+  <div class="stepwizard-step">
+      <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+          <i class="fas fa-file"></i>
+      </a>
+      <p class="form-control-label">Reten. / Deduc.</p>
+  </div>
+ <!--
+  <div class="stepwizard-step">
+      <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
+          <i class="fas fa-briefcase"></i>
+      </a>
+      <p class="form-control-label">Empleos</p>
+  </div> -->
+{% endblock stepwizard %}
+
+{% block stepform %}
+<div class="setup-content" id="step-1">
+
+  <div class="row">
+    <div class="offset-10 col-2">
+      <div class="form-group">
+        {% render_field form.orden.estatus class="form-control" value=ordenpago data-toggle="select" data-minimum-results-for-search="Infinity" %}
+      </div>
+    </div>
+  </div>
+    <div class="row">
+
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Tipo</label>
+          {% render_field form.tipo class="form-control" placeholder="Clase" readonly="true" data-toggle="select" data-minimum-results-for-search="Infinity" %}
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Año</label>
+          {% render_field form.anio maxlength="4" id="anio_op" class="form-control" placeholder="Año" readonly="true" %}
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Nº Orden de Pago</label>
+          {% render_field form.orden_pago class="form-control" value=ordenpago type="text" placeholder="Nº Orden" %}
+        </div>
+      </div>
+
+      <div class="col input-daterange datepicker">
+        <div class="form-group">
+          <label class="form-control-label">Fecha</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                </div>
+                {% render_field form.fecha id="fecha_op" class="form-control" placeholder="Fecha" %}
+            </div>
+        </div>
+      </div>
+
+    </div>
+  
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Clase de OP</label>
+          {% render_field form.clase class="form-control" type="text" placeholder="Clase de OP" data-toggle="select" data-minimum-results-for-search="Infinity"  %}
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Fuente Financiamiento</label>
+          {% render_field form.fuente_financiamiento data-toggle="select" class="form-control" %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Unidad de Origen</label>
+          {% render_field form.unidad_origen class="form-control" type="text" placeholder="Clase de OP" data-toggle="select" data-minimum-results-for-search="Infinity"  %}
+        </div>
+      </div>
+      </div>
+
+    <!-- <hr class="my-4">
+    <h6 class="heading-small text-muted mb-4">Detalles de Pago</h6> -->
+
+    <div class="row">
+      <div class="col">
+          <div class="form-group">
+            <button class="btn btn-primary nextBtn" type="button">
+              Continuar
+            </button>
+          </div>
+      </div>
+    </div>
+</div>
+
+<div class="setup-content" id="step-2">
+  <div class="row">
+
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Beneficiario</label>
+        {% render_field form.beneficiario data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Descripción</label>
+        {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Monto</label>
+        {% render_field form.monto class="form-control" placeholder="Ingrese Monto" %}
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Monto Imponible</label>
+        {% render_field form.monto_imponible class="form-control" placeholder="0" %}
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Saldo</label>
+        {% render_field form.saldo class="form-control" placeholder="0" %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Monto Deducciones</label>
+        {% render_field form.monto_deduciones class="form-control" placeholder="Ingrese Monto de Deducciones" %}
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Saldo Deducciones</label>
+        {% render_field form.saldo_deducciones class="form-control" placeholder="0" %}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary nextBtn" type="button">
+            Continuar
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+  <!-- <div class="row">
+    <div class="col">
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">
+            Enviar
+          </button>
+        </div>
+    </div>
+  </div> -->
+
+{% endblock stepform %}
+
+{% block stepscript %}
+
+<script type="text/javascript">
+  // HTML Objects
+  $("#anio_op").datepicker({
+    format: "yyyy",
+    viewMode: "years", 
+    minViewMode: "years"
+  }).datepicker("setDate", new Date());
+
+  $("#fecha_op").datepicker({
+	dateFormat: 'dd/mm/yy',
+    }).datepicker("setDate", new Date());
+
+</script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#id_extension_territorial").on("change", function(){
+        $("#divParroquia").toggle();
+      });
+
+      $("#id_financiamiento_externo").on("change", function(){
+        console.log("click");
+        $("#divFinExt").toggle();
+      });
+    });
+  </script>
+{% endblock stepscript %}
