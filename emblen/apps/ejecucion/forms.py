@@ -3,11 +3,7 @@ from django import forms
 from apps.ejecucion.models import (
     TipoOrdenPago,
     ClaseOrdenPago,
-    TipoDocumento,
-    DocumentoPagar,
-    OrdenPago,
-    DeduccionOrdenPago,
-    DetalleOrdenPago
+    OrdenPago
 )
 
 
@@ -21,9 +17,9 @@ class OrdenPagoForm(forms.ModelForm):
     class Meta:
         model = OrdenPago
         fields = ("orden_pago","anio", "tipo","fecha", "clase","contador",
-        "unidad_origen","fuente_financiamiento","monto","beneficiario", "descripcion","monto_imponible",
+        "unidad_origen","fuente_financiamiento","monto", "descripcion",
         "saldo", "monto_deduciones", "saldo_deducciones", "estatus")
-  
+
     # documento
     # comprobante
     # comprobante_reverso
@@ -31,8 +27,3 @@ class OrdenPagoForm(forms.ModelForm):
     # verificador
     # anulador
     # reversor
-
-class DetalleOrdenPagoForm(forms.ModelForm):
-    class Meta:
-        model = DetalleOrdenPago
-        fields = "__all__"

@@ -13,8 +13,15 @@ from apps.usuarios.models import (
 )
 
 from apps.formulacion.models import (
-    Partida,
     Parroquia
+)
+
+from apps.contabilidad.models import (
+    CuentaContable
+)
+
+from apps.ejecucion.models import (
+    OrdenPago
 )
 
 class Banco(EmblenBaseModel):
@@ -38,11 +45,11 @@ class Banco(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    partida = models.ForeignKey(
-        Partida,
+    cuenta_contable = models.ForeignKey(
+        CuentaContable,
         related_name="bancos",
         on_delete=models.PROTECT
-    ) #Partida contable de las DEDUCCIONES Solamente las que inician con *2* 
+    ) #Cuenta contable de las DEDUCCIONES Solamente las que inician con *2* 
 
     persona_contacto = models.CharField(max_length=100)
 
@@ -110,11 +117,11 @@ class Cuenta(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    partida = models.ForeignKey(
-        Partida,
+    cuenta_contable = models.ForeignKey(
+        CuentaContable,
         related_name="cuentas",
         on_delete=models.PROTECT
-    ) #Partida contable de las DEDUCCIONES Solamente las que inician con *2* 
+    ) #Cuenta contable de las DEDUCCIONES Solamente las que inician con *2* 
 
     saldo_ultima_conc = models.DecimalField(max_digits=22,decimal_places=4) 
     fecha_ultima_conc = models.DateField()
@@ -127,3 +134,84 @@ class Cuenta(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Cuentas Bancarias"
+
+
+class TipoImpuesto(EmblenBaseModel):
+    """ Se guardarán los Tipos de Impuestos"""
+
+    cuenta_contable = models.ForeignKey(
+        CuentaContable,
+        related_name="tipos_impuestos",
+        on_delete=models.PROTECT
+    ) #Cuenta Contable de las DEDUCCIONES Solamente las que inician con *2* 
+
+    porcentaje = models.DecimalField(max_digits=22,decimal_places=4)
+
+    descripcion = models.CharField(max_length=300)
+    
+    indicador_iva = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.descripcion
+
+    class Meta:
+        verbose_name_plural = "Tipos de Impuestos"
+
+
+class Pago(EmblenBaseModel):
+    """ Se guardarán los Pagos realizados"""
+
+    cuenta_contable = models.ForeignKey(
+        CuentaContable,
+        related_name="pagos",
+        on_delete=models.PROTECT
+    ) #Cuenta Contable de las DEDUCCIONES Solamente las que inician con *2* 
+
+    descripcion = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.descripcion
+
+    class Meta:
+        verbose_name_plural = "Pagos"
+
+
+class RetencionDeduccion(EmblenBaseModel):
+    """ Se guardarán las Deducciones a Pagar de las ordenes de pago que tengan que tenerlas = ODP_CUENTAS"""
+    #ESTA TABLA DEJALA PENDIENTE - DEJAME ANALIZAR SI ES NECESARIA PARA ALGO DIFERENTE QUE GUARDAR EL DETALLE DE LAS DEDUCCIONES
+    # SI NO SE UTILIZA PARA OTRA COSA, NO ES NECESARIO PORQUE EN LA SIGUIENTE TABLA TENEMOS LA MISMA INFORMACION
+    #NO LA TOMES EN CUENTA
+    #NO ES TAN NECESARIA HASTA EL MOMENTO, PODEMOS DADOP EL CASO QUE SE NECESITE PARA ALGO MÁS SE PUEDE CREAR UNA VISTA
+    #CON LA CONSULTA REQUERIDA DE LA TABLA DE DETALLES DE ORDENES DE PAGO 
+
+    orden_pago = models.ForeignKey(
+        OrdenPago,
+        related_name="retenciones_deducciones",
+        on_delete=models.PROTECT
+    )
+
+    tipo_impuesto = models.ForeignKey(
+        TipoImpuesto,
+        related_name="retenciones_deducciones",
+        on_delete=models.PROTECT
+    ) #Cuenta Contable de las DEDUCCIONES Solamente las que inician con *2* 
+    
+    monto = models.DecimalField(max_digits=22,decimal_places=4) #monto a pagar de la deducción
+    
+    saldo = models.DecimalField(max_digits=22,decimal_places=4) #Monto pendiente por pagar de la deducción
+    #el saldo queda en 0 posteriormente que en Tesorería realizan el pago
+
+    pago = models.ForeignKey(
+        Pago,
+        related_name="retenciones_deducciones",
+        on_delete=models.PROTECT,
+        null = True
+    )
+    #Id del pago que haga referencia a la deuda
+
+    def __str__(self):
+        return self.orden_pago
+
+    class Meta:
+        verbose_name_plural = "Retenciones y Deducciones"
+

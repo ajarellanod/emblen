@@ -1,7 +1,9 @@
 from django import forms
 
 from apps.contabilidad.models import (
-    Comprobante
+    CuentaContable,
+    Comprobante,
+    AsientoContable
 )
 
 

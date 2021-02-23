@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 from .models import (
-    TiposDocumento,
-    Documento,
+    TipoModificacion,
+    Modificacion,
     AcumuladosPresupuestario
 )
 
 # Register your models here.
-admin.site.register(TiposDocumento)
-admin.site.register(Documento)
+admin.site.register(TipoModificacion)
+admin.site.register(Modificacion)
 admin.site.register(AcumuladosPresupuestario)

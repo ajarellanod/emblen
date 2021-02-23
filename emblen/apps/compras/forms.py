@@ -1,15 +1,24 @@
 from django import forms
 
 from apps.compras.models import (
-    TiposBeneficiario,
+    TipoBeneficiario,
     Beneficiario,
+    CuentaBeneficiario,
+    TipoDocumento,
+    DocumentoPagar,
+    DetalleDocumentoPagar,
+    TipoContrato,
+    Contrato,
+    BeneficiarioContrato,
+    PartidaContrato,
+    TipoCompromiso,
     Compromiso
 )
 
 
-class TiposBeneficiarioForm(forms.ModelForm):
+class TipoBeneficiarioForm(forms.ModelForm):
     class Meta:
-        model = TiposBeneficiario
+        model = TipoBeneficiario
         fields = "__all__"
 
 

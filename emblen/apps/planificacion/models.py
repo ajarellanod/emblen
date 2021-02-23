@@ -8,18 +8,11 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from apps.base.models import EmblenBaseModel
 
 from apps.formulacion.models import (
-    Programa,
-    Partida,
-    Parroquia,
     PartidaAccionInterna
 )
 
-from apps.compras.models import (
-    Beneficiario
-)
 
-
-class TiposDocumento(EmblenBaseModel):
+class TipoModificacion(EmblenBaseModel):
     
     codigo = models.CharField(max_length=2)
 
@@ -33,11 +26,14 @@ class TiposDocumento(EmblenBaseModel):
         return self.nombre
 
     class Meta:
-        verbose_name_plural = "Tipos de Documentos"
+        verbose_name_plural = "Tipos de Modificaciones"
 
 
-class Documento(EmblenBaseModel):
-
+class Modificacion(EmblenBaseModel):
+    """ 
+    En este modelo se deben guardar los cambios/modificaciones (afectaciones)
+    que se le vayan haciendo al presupuesto
+    """
     anio = models.CharField(max_length=4)
 
     numero = models.CharField(max_length=10)
@@ -49,36 +45,33 @@ class Documento(EmblenBaseModel):
     )
 
     tipo_documento = models.ForeignKey(
-        TiposDocumento,
+        TipoModificacion,
         related_name="documentos",
         on_delete=models.PROTECT
     )
 
+    documento_referenciado = models.IntegerField() 
+    #No se coloca como FK de la tabla compromiso porque puede ser otro tipo de documento
+    #Como Nota de debito ND o otro que no crean un compromiso pero tiene un codigo de referencia
+
     fecha = models.DateField()
-
-    beneficiario = models.ForeignKey(
-        Beneficiario,
-        related_name="documentos",
-        on_delete=models.PROTECT,
-        null=True
-    )
-
+    
     monto = models.DecimalField(max_digits=22,decimal_places=4)
 
     saldo = models.DecimalField(max_digits=22,decimal_places=4)
 
-    descripcion = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=300)
 
     def __str__(self):
         return self.numero
 
     class Meta:
-        verbose_name_plural = "Documentos"
+        verbose_name_plural = "Modificaciones"
 
 
 class AcumuladosPresupuestario(EmblenBaseModel):
     """ 
-    En este modelo se deben guardar los acumulados de los cambios
+    En este modelo se deben guardar los Acumulados de los cambios (afectaciones)
     que se le vayan haciendo al presupuesto POR MES
     """
     

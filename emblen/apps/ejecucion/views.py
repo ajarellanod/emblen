@@ -13,14 +13,12 @@ from apps.base.views import (
 
 from apps.ejecucion.forms import (
     TipoOrdenPagoForm,
-    OrdenPagoForm,
-    DetalleOrdenPagoForm
+    OrdenPagoForm
 )
 
 from apps.ejecucion.models import (
     TipoOrdenPago,
-    OrdenPago,
-    DetalleOrdenPago
+    OrdenPago
 )
 
 # ----- Ejecución -----
@@ -49,7 +47,7 @@ class OrdenPagoCreateView(EmblenPermissionsMixin, EmblenFormView):
     template_name = "ejecucion/crear_orden_pago.html"
     form_class = OrdenPagoForm
     success_url = "ejecucion:ordenes_pagos"
-    
+
     def form_valid(self, form):
         ordenes_pago = form.save(commit=False)
         ordenes_pago.gen_rest_attrs()
