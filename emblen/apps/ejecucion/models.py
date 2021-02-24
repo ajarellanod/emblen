@@ -148,25 +148,31 @@ class OrdenPago(EmblenBaseModel):
     verificador = models.ForeignKey(
         User,
         related_name="verificador_ordenes_pago",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )
 
     anulador = models.ForeignKey(
         User,
         related_name="anulador_ordenes_pago",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )  
 
     reversor = models.ForeignKey(
         User,
         related_name="revisor_ordenes_pago",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
     )    
 
     contador = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.orden_pago
+        return str(self.orden_pago)
 
     def gen_rest_attrs(self):
         """
