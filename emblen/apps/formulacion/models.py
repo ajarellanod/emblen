@@ -261,11 +261,13 @@ class Programa(EmblenBaseModel):
 
     FEMENINO = 0
     MASCULINO = 1
-    NO_DEFINIDO = 2
+    AMBOS = 2
+    NO_DEFINIDO = 3
 
     SEXO_BENEFICIARIO = (
         (FEMENINO, "Femenino"),
         (MASCULINO, "Masculino"),
+        (AMBOS, "Ambos"),
         (NO_DEFINIDO, "No Definido")
     )
     
@@ -377,6 +379,12 @@ class Programa(EmblenBaseModel):
         choices=SEXO_BENEFICIARIO,
         default=NO_DEFINIDO
     )
+
+    beneficiario_masculino = models.IntegerField(null=True,blank=True)
+
+    beneficiario_femenino = models.IntegerField(null=True,blank=True)
+
+    beneficiario_total = models.IntegerField()
     
     # Empleos Generados =======================================
 
