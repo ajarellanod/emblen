@@ -282,7 +282,8 @@ class Programa(EmblenBaseModel):
 
     # Información Básica =====================================
 
-    anio = models.CharField(max_length=4)
+    anio = models.CharField(max_length=4) #Debería tomarse automaticamente le año que esté con condición *Formulación*
+    #                                       En la tabla EjercicioPresupuestario
 
     codigo = models.CharField(max_length=11)
 
@@ -1028,3 +1029,32 @@ class PartidaAccionInterna(EmblenBaseModel):
     class Meta:
         verbose_name_plural = "Cuentas - Acciones Internas"
         unique_together = (("accion_interna", "partida", "anio"),)
+
+class EjercicioPresupuestario(EmblenBaseModel):
+
+    FORMULACION = 0
+    EJECUCION = 1
+    COMPLEMENTARIO = 2
+    CERRADO = 3
+
+    CONDICION = (
+        (FORMULACION, "Formulación"),
+        (EJECUCION, "Ejecución"),
+        (COMPLEMENTARIO, "Complementario"),
+        (CERRADO, "Cerrado")
+    )
+
+    anio = models.CharField(max_length=4)
+    
+    condicion = models.IntegerField(
+        "Condición de Ejercicio Presupuestario", 
+        choices=CONDICION,
+        default=FORMULACION
+    )
+
+    def __str__(self):
+        return self.anio
+
+    class Meta:
+        verbose_name_plural = "Ejercicios Presupuestarios"
+        unique_together = (("anio"),)
