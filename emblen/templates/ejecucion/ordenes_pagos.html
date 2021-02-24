@@ -53,7 +53,7 @@
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:v_accion_especifica' accion.id %}">
+                      <a href="#">
                         <span class="name mb-0 text-sm">{{ orden.orden_pago }}</span>
                       </a>
                     </div>
@@ -77,9 +77,9 @@
                 <td class="text-center"> 
                   {{ orden.monto }}
                 </td>
-                {% if perms.formulacion.delete_accionespecifica %}
+                {% if perms.ejecucion.delete_orden_pago %}
                 <td class="text-right">
-                  <a href="{% url 'formulacion:e_accion_especifica' accion.id %}"
+                  <a href="#"
                   class="btn btn-sm btn-default">
                     Eliminar
                   </a>
