@@ -8,4 +8,4 @@ from apps.planificacion.models import (
 class ModificacionForm(forms.ModelForm):
     class Meta:
         model = Modificacion
-        fields = ("partida_accioninterna", "descripcion", "monto", )
+        fields = ("partida_accioninterna", "descripcion", "monto", "tipo_modificacion")

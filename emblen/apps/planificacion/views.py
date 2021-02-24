@@ -25,9 +25,9 @@ class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "planificacion/principal.html"
     
 
-class ModificacionView(EmblenPermissionsMixin, EmblenView):
+class ModificacionView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("planificacion.add_modificacion",)}
-    template_name = "formulacion/crear_modificacion.html"
+    template_name = "planificacion/crear_modificacion.html"
     form_class = ModificacionForm
     success_url = "formulacion:programas"
 
@@ -36,4 +36,3 @@ class ModificacionView(EmblenPermissionsMixin, EmblenView):
         modificacion.gen_rest_attrs()
         return super().form_valid(modificacion)
     
-

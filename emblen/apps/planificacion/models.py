@@ -16,10 +16,17 @@ class TipoModificacion(EmblenBaseModel):
     
     DISMINUCION = 'D'
     AUMENTO = 'A'
+    TRASPASO = 'T'
+    
+    TIPO_MODIFICACION = (
+        (DISMINUCION, 'Disminucion'),
+        (AUMENTO, 'Aumento'),
+        (TRASPASO, 'Traspaso')
+    )
     
     TIPO_AFECTACION = (
         (DISMINUCION, 'Disminucion'),
-        (AUMENTO, 'Aumento')
+        (AUMENTO, 'Aumento'),
     )
     
     codigo = models.CharField(max_length=2)
@@ -28,7 +35,9 @@ class TipoModificacion(EmblenBaseModel):
 
     descripcion = models.CharField(max_length=200)
 
-    tipo_afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
+    modificacion = models.CharField(max_length=1, choices=TIPO_MODIFICACION)
+    
+    afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
 
     def __str__(self):
         return self.nombre
@@ -39,7 +48,7 @@ class TipoModificacion(EmblenBaseModel):
 
 class Modificacion(EmblenBaseModel):
     """ 
-    En este modelo se deben guardar los cambios/modificaciones (afectaciones)
+    En este modelo se deben guardar los afectaciones
     que se le vayan haciendo al presupuesto
     """
     anio = models.CharField(max_length=4)
@@ -48,19 +57,17 @@ class Modificacion(EmblenBaseModel):
 
     partida_accioninterna = models.ForeignKey(
         PartidaAccionInterna,
-        related_name="documentos",
+        related_name="modificaciones",
         on_delete=models.PROTECT
     )
 
-    tipo_documento = models.ForeignKey(
+    tipo_modificacion = models.ForeignKey(
         TipoModificacion,
-        related_name="documentos",
+        related_name="modificaciones",
         on_delete=models.PROTECT
     )
 
     documento_referenciado = models.IntegerField() 
-    #No se coloca como FK de la tabla compromiso porque puede ser otro tipo de documento
-    #Como Nota de debito ND o otro que no crean un compromiso pero tiene un codigo de referencia
     
     monto = models.DecimalField(max_digits=22,decimal_places=4)
 
@@ -112,10 +119,8 @@ class AcumuladosPresupuestario(EmblenBaseModel):
     saldo = models.DecimalField(max_digits=22,decimal_places=4)
 
     descripcion = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.numero
-
+    
     class Meta:
         verbose_name_plural = "Acumulados Presupuestario"
         unique_together = (("partida_accioninterna", "mes", "anio"),)
+

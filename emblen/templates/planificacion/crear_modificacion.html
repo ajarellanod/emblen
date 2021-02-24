@@ -8,11 +8,11 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a href="{% url 'formulacion:acciones_especificas' %}">
+        <a href="#">
             Acciones Internas
         </a>
     </li>
-    <li class="breadcrumb-item"><a href="#">Creación de Acción Interna</a></li>
+    <li class="breadcrumb-item"><a href="#">Creación de Modificación</a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -49,8 +49,8 @@
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="form-control-label">Tipo de Accion</label>
-                {% render_field form.monto data-toggle="select" class="form-control"%}
+                <label class="form-control-label">Monto de la Afecatción</label>
+                {% render_field form.monto placeholder="Ingrese Monto" class="form-control inputCurrency" type="text" %}
               </div>
             </div>
           </div>
