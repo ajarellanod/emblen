@@ -104,7 +104,6 @@ class EmblenFormView(EmblenView):
     def get_data(self, data, instance=False):
         if not instance:
             return {'data': data}
-
         return {'instance': instance, 'data': data}
 
     def altget(self, request, *args, **kwargs):

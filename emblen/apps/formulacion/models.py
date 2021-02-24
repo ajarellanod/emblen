@@ -1030,6 +1030,7 @@ class PartidaAccionInterna(EmblenBaseModel):
         verbose_name_plural = "Cuentas - Acciones Internas"
         unique_together = (("accion_interna", "partida", "anio"),)
 
+
 class EjercicioPresupuestario(EmblenBaseModel):
 
     FORMULACION = 0

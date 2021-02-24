@@ -77,7 +77,7 @@
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_accionespecifica %}
+      {% if perms.formulacion.view_estimacion %}
       <li class="nav-item">
         <a href="{% url 'formulacion:estimacion' %}" class="nav-link" id="m_estimaciones">
           <span class="sidenav-mini-icon"> E </span>
@@ -86,7 +86,7 @@
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_accionespecifica %}
+      {% if perms.formulacion.view_accioninterna %}
       <li class="nav-item">
         <a href="{% url 'formulacion:acciones_internas' %}" class="nav-link" id="m_acc_internas">
           <span class="sidenav-mini-icon"> AI </span>
@@ -95,29 +95,11 @@
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_accionespecifica %}
+      {% if perms.formulacion.view_partidaaccioninterna %}
       <li class="nav-item">
         <a href="{% url 'formulacion:partida_accion_interna' %}" class="nav-link" id="m_partidas_acc_internas">
           <span class="sidenav-mini-icon"> PAI </span>
           <span class="sidenav-normal"> Partidas Acc. Internas </span>
-        </a>
-      </li>
-      {% endif %}
-
-      {% if perms.formulacion.view_accionespecifica %}
-      <li class="nav-item">
-        <a href="{% url 'formulacion:c_linea_programa' %}" class="nav-link" id="m_lineas_patria">
-          <span class="sidenav-mini-icon"> LP </span>
-          <span class="sidenav-normal"> Líneas de la Patria </span>
-        </a>
-      </li>
-      {% endif %}
-
-      {% if perms.formulacion.view_accionespecifica %}
-      <li class="nav-item">
-        <a href="{% url 'formulacion:c_plan_desarrollo' %}" class="nav-link" id="m_plan_desarrollo_estadal">
-          <span class="sidenav-mini-icon"> PDE </span>
-          <span class="sidenav-normal"> Planes de Desarrollo Estadal </span>
         </a>
       </li>
       {% endif %}

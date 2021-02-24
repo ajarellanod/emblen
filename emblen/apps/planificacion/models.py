@@ -14,13 +14,21 @@ from apps.formulacion.models import (
 
 class TipoModificacion(EmblenBaseModel):
     
+    DISMINUCION = 'D'
+    AUMENTO = 'A'
+    
+    TIPO_AFECTACION = (
+        (DISMINUCION, 'Disminucion'),
+        (AUMENTO, 'Aumento')
+    )
+    
     codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
 
     descripcion = models.CharField(max_length=200)
 
-    tipo_afectacion = models.CharField(max_length=2) #A = Aumenta -- D = disminuye 
+    tipo_afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
 
     def __str__(self):
         return self.nombre
@@ -53,8 +61,6 @@ class Modificacion(EmblenBaseModel):
     documento_referenciado = models.IntegerField() 
     #No se coloca como FK de la tabla compromiso porque puede ser otro tipo de documento
     #Como Nota de debito ND o otro que no crean un compromiso pero tiene un codigo de referencia
-
-    fecha = models.DateField()
     
     monto = models.DecimalField(max_digits=22,decimal_places=4)
 

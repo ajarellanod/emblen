@@ -4,5 +4,5 @@ from apps.planificacion import views
 
 
 urlpatterns = [
-        path('', views.PrincipalView.as_view(), name='principal'),
+    path('', views.PrincipalView.as_view(), name='principal'),
 ]
