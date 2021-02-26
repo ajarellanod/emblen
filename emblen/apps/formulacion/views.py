@@ -28,6 +28,7 @@ from apps.formulacion.forms import (
     AccionInternaForm,
     LineaProgramaForm,
     PlanDesarrolloForm,
+    EjercicioPresupuestarioForm
 )
 
 from apps.formulacion.models import (
@@ -39,7 +40,8 @@ from apps.formulacion.models import (
     AccionEspecifica,
     Estimacion,
     AccionInterna,
-    LineaPrograma
+    LineaPrograma,
+    EjercicioPresupuestario
 )
 
 
@@ -161,7 +163,7 @@ class CentroCostoListView(EmblenPermissionsMixin, ListView):
     paginate_by = 8
     template_name = "formulacion/ccostos.html"
     success_url = "formulacion:centros_costos"
-    
+
     
 class CentroCostoDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
     """Vista para borrar los centros de costo"""
@@ -359,6 +361,7 @@ class AccionEspecificaCreateView(EmblenPermissionsMixin, EmblenFormView):
     template_name = "formulacion/crear_accion_especifica.html"
     form_class = AccionEspecificaForm
     success_url = "formulacion:acciones_especificas"
+
     
     def form_valid(self, form):
         accion_especifica = form.save(commit=False)
@@ -394,18 +397,42 @@ class EstimacionView(EmblenPermissionsMixin, EmblenView):
 
 
 # ----- Acción Interna -----
+class AccionInternaListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_accioninterna",)}
+    queryset = AccionInterna.objects.all().order_by("accion_especifica","codigo")
+    template_name = "formulacion/acciones_internas.html"
+    success_url = "formulacion:acciones_internas"
+    paginate_by = 8
+
 
 class AccionInternaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_accioninterna",)}
     template_name = "formulacion/crear_accion_interna.html"
     form_class = AccionInternaForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:acciones_internas"
 
     def form_valid(self, form):
         accion_interna = form.save(commit=False)
         accion_interna.gen_rest_attrs()
         return super().form_valid(accion_interna)
 
+class AccionInternaView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.change_accioninterna",)}
+    template_name = "formulacion/crear_accion_interna.html"
+    form_class = AccionInternaForm
+    update_form = True
+    success_url = "formulacion:acciones_internas"
+
+    def get_data(self, data, instance):
+        new_data = data.copy()
+        new_data.update({"accion_interna": instance.accion_interna})
+        return super().get_data(new_data, instance)
+
+class AccionInternaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_accioninterna",)}
+    model = AccionInterna
+    success_url = "formulacion:acciones_internas"
+    
 
 # ----- PartidaAccionInterna -----
 

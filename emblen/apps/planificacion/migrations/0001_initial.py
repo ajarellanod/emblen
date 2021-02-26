@@ -23,7 +23,8 @@ class Migration(migrations.Migration):
                 ('codigo', models.CharField(max_length=2)),
                 ('nombre', models.CharField(max_length=100)),
                 ('descripcion', models.CharField(max_length=200)),
-                ('tipo_afectacion', models.CharField(max_length=2)),
+                ('modificacion', models.CharField(choices=[('D', 'Disminución'), ('A', 'Aumento'), ('T','Traspaso')], max_length=1)),
+                ('afectacion', models.CharField(choices=[('D', 'Disminución'), ('A', 'Aumento'), ('T','Traspaso')], max_length=1)),
             ],
             options={
                 'verbose_name_plural': 'Tipos de Modificaciones',
@@ -43,8 +44,8 @@ class Migration(migrations.Migration):
                 ('monto', models.DecimalField(decimal_places=4, max_digits=22)),
                 ('saldo', models.DecimalField(decimal_places=4, max_digits=22)),
                 ('descripcion', models.CharField(max_length=300)),
-                ('partida_accioninterna', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='documentos', to='formulacion.partidaaccioninterna')),
-                ('tipo_documento', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='documentos', to='planificacion.tipomodificacion')),
+                ('partida_accioninterna', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='modificaciones', to='formulacion.partidaaccioninterna')),
+                ('tipo_modificacion', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='modificaciones', to='planificacion.tipomodificacion')),
             ],
             options={
                 'verbose_name_plural': 'Modificaciones',

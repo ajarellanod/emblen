@@ -23,6 +23,21 @@
   {% endif %}
 {% endblock breadcrumb %}
 
+{% block right_buttons %}
+  {% if form.initial %} 
+    {% if form.instance.estimaciones.get_queryset %}
+      <a href="{% url 'formulacion:estimaciones' %}?accion_especifica={{form.instance.id}}"
+      class="btn btn-sm btn-neutral">
+        Estimaciones
+      </a>
+    {% else %}
+      <a href="{% url 'formulacion:estimacion' %}" class="btn btn-sm btn-neutral">
+        Crear Estimaciones
+      </a>
+    {% endif %}
+  {% endif %}
+{% endblock right_buttons %}
+
 {% block title_card %}
   {% if form.initial %}
     Acción Especifica - {{form.instance.codigo}}
@@ -36,40 +51,41 @@
       <a href="#step-1" type="button" class="btn btn-default btn-circle">
           <i class="fas fa-info"></i>
       </a>
-      <p class="form-control-label">Información</p>
+      <p class="form-control-label">Acc. Específica</p>
   </div>
 
   <div class="stepwizard-step">
       <a href="#step-2" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
           <i class="fas fa-info"></i>
       </a>
-      <p class="form-control-label">Información</p>
+      <p class="form-control-label">Objetivos</p>
   </div>
 
   <div class="stepwizard-step">
       <a href="#step-3" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
           <i class="fas fa-poll-h"></i>
       </a>
-      <p class="form-control-label">Resultados</p>
+      <p class="form-control-label">F. Externo</p>
   </div>
 
   <div class="stepwizard-step">
       <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
           <i class="fas fa-file"></i>
       </a>
-      <p class="form-control-label">Info Extra</p>
+      <p class="form-control-label">Resultados I</p>
   </div>
 
   <div class="stepwizard-step">
       <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
           <i class="fas fa-briefcase"></i>
       </a>
-      <p class="form-control-label">Empleos</p>
+      <p class="form-control-label">Resultados II</p>
   </div>
 {% endblock stepwizard %}
 
 {% block stepform %}
 <div class="setup-content" id="step-1">
+  <h6 class="heading-small text-muted mb-4">Información Principal</h6>
     <div class="row">
       <div class="col">
         <div class="form-group">
@@ -83,18 +99,14 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Departamento Responsable</label>
-          {% if form.initial %}
-            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control" required="" id="id_responsable">
-          {% else %}
-            {% render_field form.responsable data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
-          {% endif %}
+          <label class="form-control-label">Condición de Programa</label>
+          {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
-      <div class="col" id="divParroquia">
+      <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Seleccione Parroquia</label>
-          {% render_field form.parroquia class="form-control" data-toggle="select" %}
+          <label class="form-control-label">Centro de Costo</label>
+          {% render_field form.centro_costo data-toggle="select" class="form-control" %}
         </div>
       </div>
     </div>
@@ -140,14 +152,25 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Condición de Programa</label>
-          {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+          <label class="form-control-label">Sector Desarrollador</label>
+          {% render_field form.sector data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Centro de Costo</label>
-          {% render_field form.centro_costo data-toggle="select" class="form-control" %}
+          <label class="form-control-label">Departamento Responsable</label>
+          {% if form.initial %}
+            <input type="text" name="responsable" value="{{form.instance.responsable}}" readonly="true" class="form-control" required="" id="id_responsable">
+          {% else %}
+            {% render_field form.responsable data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+          {% endif %}
+        </div>
+      </div>      
+
+      <div class="col" id="divParroquia">
+        <div class="form-group">
+          <label class="form-control-label">Seleccione Parroquia</label>
+          {% render_field form.parroquia class="form-control" data-toggle="select" %}
         </div>
       </div>
     </div>
@@ -158,12 +181,7 @@
           {% render_field form.descripcion class="form-control" rows="5" placeholder="Ingrese Descripción..." %}
         </div>
       </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Especifico</label>
-          {% render_field form.especifico class="form-control" rows="5" placeholder="Ingrese Especifo..." %}
-        </div>
-      </div>
+
     </div>
     <div class="row">
       <div class="col">
@@ -189,11 +207,20 @@
 </div>
 
 <div class="setup-content" id="step-2">
+  <h6 class="heading-small text-muted mb-4">Descripción de Objetivos detallados</h6>
   <div class="row">
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Detalle de la Accion</label>
         {% render_field form.detallada class="form-control" rows="5" placeholder="Ingrese Detalle..." %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Objetivo Especifico</label>
+        {% render_field form.especifico class="form-control" rows="5" placeholder="Ingrese Especifo..." %}
       </div>
     </div>
     <div class="col">
@@ -241,43 +268,117 @@
 </div>
 
 <div class="setup-content" id="step-3">
-  <h6 class="heading-small text-muted mb-4">Metas Fisicas</h6>
+  <h6 class="heading-small text-muted mb-4">Financiamiento Externo</h6>
+
   <div class="row">
     <div class="col">
       <div class="form-group">
-        <label class="form-control-label">Unidad de Medida</label>
-        {% render_field form.unidad_medida data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Sector Desarrollador</label>
-        {% render_field form.sector data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Plazo de Ejecución</label>
-        {% render_field form.plazo_ejecucion class="form-control" placeholder="Ingresar Plazo de Ejecución..." %}
+        <div class="form-check">
+          {% render_field form.financiamiento_externo class="form-check-input" %}
+          <label class="form-check-label form-control-label" for="id_financiamiento_externo">
+            Posee Financiamiento Externo
+          </label>
+        </div>
       </div>
     </div>
   </div>
-  <hr class="my-4">
-  <h6 class="heading-small text-muted mb-4">Beneficiario</h6>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Tipo de Beneficiario</label>
-        {% render_field form.tipo_beneficiario data-toggle="select" class="form-control" %}
+  <div id="divFinExt">
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Tipo de Area de Inversión</label>
+          {% render_field form.tipo_area_inversion data-toggle="select" class="form-control" %}
+        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Sexo del Beneficiario</label>
-        {% render_field form.sexo_beneficiario data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Estatus de Financiamiento</label>
+          {% render_field form.estatus_financiamiento_externo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Fase del Financiamiento</label>
+          {% render_field form.fase class="form-control" placeholder="Ingrese la Fase" %}
+        </div>
+      </div>
+    </div>
+  
+    <div class="row align-items-center">
+      <div class="input-daterange datepicker col">
+
+        <div class="form-group">
+          <label class="form-control-label">Fecha Aprobación Consejo Estadal</label>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              {% if form.initial %}
+                {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación Consejo Estadal" readonly="true" %}
+              {% else %}
+                {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación Consejo Estadal" %}
+              {% endif %}
+          </div>
+        </div>
+
+      </div>
+      <div class="input-daterange datepicker col">
+
+        <div class="form-group">
+          <label class="form-control-label">Fecha Inicio de Ejecución Física</label>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+              </div>
+              {% if form.initial %}
+                {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha de Inicio de la Ejecución Fisica" readonly="true" %}
+              {% else %}
+                {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha Inicio de la Ejecución Fisica" %}
+              {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Ejecución Fisica</label>
+          {% render_field form.ejecucion_fisica class="form-control" placeholder="Ingrese Porcentaje..." %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Ejecución Financiera</label>
+          {% render_field form.ejecucion_financiera class="form-control" placeholder="Ingrese Porcentaje..." %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Ejecutado Año Anterior</label>
+          {% render_field form.ejecutado_anio_anterior value="0" class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Estimado Año Siguiente</label>
+          {% render_field form.estimado_anio_siguiente value="0" class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="form-control-label">Estimado Año en Ejercicio</label>
+          {% render_field form.estimado_anio_ejercicio value="0" class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
+        </div>
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col">
         <div class="form-group">
@@ -290,6 +391,25 @@
 </div>
 
 <div class="setup-content" id="step-4">
+  <h6 class="heading-small text-muted mb-4">Resultados esperados del Programa</h6>
+  <hr class="my-4">
+  <h6 class="heading-small text-muted mb-4">Metas Fisicas</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Unidad de Medida</label>
+        {% render_field form.unidad_medida data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Plazo de Ejecución</label>
+        {% render_field form.plazo_ejecucion class="form-control" placeholder="Ingresar Plazo de Ejecución..." %}
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
   <h6 class="heading-small text-muted mb-4">Distribución Meta Física Trimestral</h6>
   <div class="row">
     <div class="col">
@@ -319,44 +439,7 @@
       </div>
     </div>
   </div>
-  <div id="divFinExt">
-    <hr class="my-4">
-    <h6 class="heading-small text-muted mb-4">Financiamiento Externo</h6>
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Tipo de Area de Inversión</label>
-          {% render_field form.tipo_area_inversion data-toggle="select" class="form-control" %}
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Estatus de Financiamiento</label>
-          {% render_field form.estatus_financiamiento_externo data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="form-control-label">Fase del Financiamiento</label>
-          {% render_field form.fase class="form-control" placeholder="Ingrese la Fase" %}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <div class="form-check">
-          {% render_field form.financiamiento_externo class="form-check-input" %}
-          <label class="form-check-label form-control-label" for="id_financiamiento_externo">
-            Financiamiento Externo
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="row">
     <div class="col">
         <div class="form-group">
@@ -369,7 +452,43 @@
 </div>
 
 <div class="setup-content" id="step-5">
+  <h6 class="heading-small text-muted mb-4">Beneficiarios Directos</h6>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Tipo de Beneficiario</label>
+        {% render_field form.tipo_beneficiario data-toggle="select" class="form-control" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Sexo del Beneficiario</label>
+        {% render_field form.sexo_beneficiario data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Beneficiarios Masculinos</label>
+        {% render_field form.beneficiario_masculino class="form-control" type="text" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Beneficiarios Femenino</label>
+        {% render_field form.beneficiario_femenino class="form-control" type="text" %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label class="form-control-label">Total</label>
+        {% render_field form.beneficiario_total class="form-control" type="text" readonly="true" %}
+      </div>
+    </div>    
+  </div> 
   <h6 class="heading-small text-muted mb-4">Empleos Generados</h6>
+  
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -398,76 +517,7 @@
       </div>
     </div>
   </div>
-  <hr class="my-4">
-  <h6 class="heading-small text-muted mb-4">Porcentaje Avance</h6>
-  <div class="input-daterange datepicker row align-items-center">
-    <div class="col">
 
-      <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-            </div>
-            {% if form.initial %}
-              {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación" readonly="true" %}
-            {% else %}
-              {% render_field form.fecha_aprobacion_f_e class="form-control" placeholder="Ingrese Fecha de Aprobación" %}
-            {% endif %}
-        </div>
-      </div>
-
-    </div>
-    <div class="col">
-
-      <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-            </div>
-            {% if form.initial %}
-              {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha de Inicio de la Ejecución Fisica" readonly="true" %}
-            {% else %}
-              {% render_field form.inicio_ejecucion_fisica_f_e class="form-control" placeholder="Ingrese Fecha Inicio de la Ejecución Fisica" %}
-            {% endif %}
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Ejecución Fisica</label>
-        {% render_field form.ejecucion_fisica class="form-control" placeholder="Ingrese Porcentaje..." %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Ejecución Financiera</label>
-        {% render_field form.ejecucion_financiera class="form-control" placeholder="Ingrese Porcentaje..." %}
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Ejecutado Año Anterior</label>
-        {% render_field form.ejecutado_anio_anterior class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Estimado Año Siguiente</label>
-        {% render_field form.estimado_anio_siguiente class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Estimado Año en Ejercicio</label>
-        {% render_field form.estimado_anio_ejercicio class="form-control inputCurrency" type="text" placeholder="Ingrese Monto..." %}
-      </div>
-    </div>
-  </div>
   <div class="row">
     <div class="col">
         <div class="form-group">
@@ -483,14 +533,77 @@
 {% block stepscript %}
   <script type="text/javascript">
     $(document).ready(function(){
+
+      $("#id_inicio").datepicker({
+        dateFormat: 'dd/mm/yy',
+      });
+
+      if($("#id_financiamiento_externo").is(":checked")) {
+          $("#divFinExt").show();
+      }
+      else {
+        $("#divFinExt").hide();
+      } 
+
       $("#id_extension_territorial").on("change", function(){
         $("#divParroquia").toggle();
       });
 
+
       $("#id_financiamiento_externo").on("change", function(){
-        console.log("click");
         $("#divFinExt").toggle();
       });
+
+      $("#id_sexo_beneficiario").on("change", function(){
+        let sexo = $("#id_sexo_beneficiario").val();
+
+        if (sexo=='0'){
+          // Femenino
+          $("#id_beneficiario_femenino").removeAttr("readonly");
+          $("#id_beneficiario_masculino").attr("readonly","true");
+          $("#id_beneficiario_masculino").val("0");
+          $("#id_beneficiario_total").attr("readonly","true");
+        }
+
+        if (sexo=='1'){
+          // Masculino
+          $("#id_beneficiario_femenino").attr("readonly","true");
+          $("#id_beneficiario_femenino").val("0");
+          $("#id_beneficiario_masculino").removeAttr("readonly");
+          $("#id_beneficiario_total").attr("readonly","true");
+        }
+
+        if (sexo=='2'){
+          // Ambos
+          $("#id_beneficiario_masculino").removeAttr("readonly");
+          $("#id_beneficiario_femenino").removeAttr("readonly");
+          $("#id_beneficiario_total").attr("readonly","true");
+        }
+
+        if (sexo=='3'){
+          // No Definido
+          $("#id_beneficiario_masculino").val("0");
+          $("#id_beneficiario_femenino").val("0");
+          $("#id_beneficiario_masculino").attr("readonly","true");
+          $("#id_beneficiario_femenino").attr("readonly","true");
+          $("#id_beneficiario_total").removeAttr("readonly");
+        }
+      });  
+    
+      $("#id_beneficiario_femenino").on("focusout", function(){
+        let cant_f = parseFloat($("#id_beneficiario_femenino").val());
+        let cant_m = parseFloat($("#id_beneficiario_masculino").val());
+        let suma =cant_f+cant_m;
+        $("#id_beneficiario_total").val(suma);
+      });
+
+      $("#id_beneficiario_masculino").on("focusout", function(){
+        let cant_f = parseFloat($("#id_beneficiario_femenino").val());
+        let cant_m = parseFloat($("#id_beneficiario_masculino").val());
+        let suma =cant_f+cant_m;
+        $("#id_beneficiario_total").val(suma);
+      });
+
     });
   </script>
 {% endblock stepscript %}

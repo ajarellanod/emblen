@@ -26424,3 +26424,9 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget tab
     font-size: 14px!important;
 }
 
+.input-tablas{
+    outline: none!important;
+    border: 0!important;
+    background-color: transparent!important;
+    box-shadow:none!important;
+}

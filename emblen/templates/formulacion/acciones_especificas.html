@@ -36,6 +36,7 @@
           <thead class="thead-light">
             <tr>
               <th scope="col" class="sort text-center">Codigo</th>
+              <th scope="col" class="sort text-center" style="width:40%;">Descripción</th>
               <th scope="col" class="sort text-center">Departamento Responsable</th>
               <th scope="col" class="sort text-center ">Fecha de Inicio</th>
               <th scope="col" class="sort text-center">Fecha de Fin</th>
@@ -56,6 +57,10 @@
                     </div>
                   </div>
                 </th>
+                <td class="text-center" >
+                  <input type="text" class="form-control input-tablas" value='{{ accion.descripcion }}' readonly>
+                  <!-- {{ accion.detalle|slice:"0:80" }} -->
+                </td>                
                 <td class="text-center">
                   {{ accion.responsable }}
                 </td>

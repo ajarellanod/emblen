@@ -90,7 +90,7 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Año</label>
-          {% render_field form.anio maxlength="4" id="anio_op" class="form-control" placeholder="Año" readonly="true" %}
+          {% render_field form.anio maxlength="4" class="form-control" placeholder="Año" readonly="true" %}
         </div>
       </div>
 
@@ -108,7 +108,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                 </div>
-                {% render_field form.fecha id="fecha_op" class="form-control" placeholder="Fecha" %}
+                {% render_field form.fecha class="form-control" placeholder="Fecha" %}
             </div>
         </div>
       </div>
@@ -242,13 +242,13 @@
 
 <script type="text/javascript">
   // HTML Objects
-  $("#anio_op").datepicker({
+  $("#id_anio").datepicker({
     format: "yyyy",
     viewMode: "years", 
     minViewMode: "years"
   }).datepicker("setDate", new Date());
 
-  $("#fecha_op").datepicker({
+  $("#id_fecha").datepicker({
 	dateFormat: 'dd/mm/yy',
     }).datepicker("setDate", new Date());
 

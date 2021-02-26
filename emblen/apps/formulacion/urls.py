@@ -37,8 +37,10 @@ urlpatterns = [
 
     path('estimacion/', views.EstimacionView.as_view(), name='estimacion'),
 
-    path('acciones-internas/', views.AccionInternaCreateView.as_view(), name='acciones_internas'),
+    path('acciones-internas/', views.AccionInternaListView.as_view(), name='acciones_internas'),
+    path('accion-interna/<int:pk>/', views.AccionInternaView.as_view(), name='v_accion_interna'),
     path('accion-interna/crear/', views.AccionInternaCreateView.as_view(), name='c_accion_interna'),
+    path('accion-interna/<int:pk>/eliminar/', views.AccionInternaDeleteView.as_view(), name='e_accion_interna'),
 
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
 

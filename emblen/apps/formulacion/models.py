@@ -351,13 +351,13 @@ class Programa(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    indicador_situacion = models.TextField()
+    indicador_situacion = models.TextField(null=True,blank=True)
 
-    indicador_fuente = models.TextField()
+    indicador_fuente = models.TextField(null=True,blank=True)
 
-    indicador_formula = models.TextField()
+    indicador_formula = models.TextField(null=True,blank=True)
 
-    indicador_objetivo = models.TextField()
+    indicador_objetivo = models.TextField(null=True,blank=True)
 
     # Distribución Meta Física Trimestral ===================
 
@@ -377,7 +377,7 @@ class Programa(EmblenBaseModel):
     sexo_beneficiario = models.IntegerField(
         "Sexo del Beneficiario", 
         choices=SEXO_BENEFICIARIO,
-        default=NO_DEFINIDO
+        default=AMBOS
     )
 
     beneficiario_masculino = models.IntegerField(null=True,blank=True)
@@ -462,8 +462,8 @@ class LineaPlan(EmblenBaseModel):
     tipo = models.CharField(max_length=1) #N = Nacional - E = Estadal 
 
     def __str__(self):
-        return self.codigo
-
+        # return self.codigo
+        return '%s - %s' %(self.codigo,self.descripcion) 
     class Meta:
         verbose_name_plural = "Lineas del Plan"
 
@@ -628,14 +628,16 @@ class AccionEspecifica(EmblenBaseModel):
 
     FEMENINO = 0
     MASCULINO = 1
-    NO_DEFINIDO = 2
+    AMBOS = 2
+    NO_DEFINIDO = 3
 
     SEXO_BENEFICIARIO = (
         (FEMENINO, "Femenino"),
         (MASCULINO, "Masculino"),
+        (AMBOS, "Ambos"),
         (NO_DEFINIDO, "No Definido")
     )
-    
+     
     programa = models.ForeignKey(
         Programa,
         related_name="acciones_especificas",
@@ -654,17 +656,17 @@ class AccionEspecifica(EmblenBaseModel):
 
     descripcion = models.TextField()
 
-    detallada = models.TextField()
+    detallada = models.TextField(null=True,blank=True)
 
-    especifico = models.TextField()
+    especifico = models.TextField(null=True,blank=True)
 
     inicio = models.DateField()
 
     fin = models.DateField()
 
-    impacto_social = models.TextField()
+    impacto_social = models.TextField(null=True,blank=True)
 
-    articulacion = models.TextField()
+    articulacion = models.TextField(null=True,blank=True)
 
     vinculacion = models.BooleanField(default=True)
 
@@ -683,9 +685,14 @@ class AccionEspecifica(EmblenBaseModel):
     sexo_beneficiario = models.IntegerField(
         "Sexo del Beneficiario", 
         choices=SEXO_BENEFICIARIO,
-        default=NO_DEFINIDO
+        default=AMBOS
     )
+    
+    beneficiario_masculino = models.IntegerField(null=True,blank=True)
 
+    beneficiario_femenino = models.IntegerField(null=True,blank=True)
+
+    beneficiario_total = models.IntegerField()   
 
     # Empleos Generados
 
@@ -768,19 +775,19 @@ class AccionEspecifica(EmblenBaseModel):
 
     # Porcentaje Avance
 
-    fecha_aprobacion_f_e = models.DateField()
+    fecha_aprobacion_f_e = models.DateField(null=True,blank=True)
 
-    inicio_ejecucion_fisica_f_e = models.DateField()
+    inicio_ejecucion_fisica_f_e = models.DateField(null=True,blank=True)
  
-    ejecucion_fisica = models.FloatField()
+    ejecucion_fisica = models.FloatField(null=True,blank=True)
 
-    ejecucion_financiera = models.FloatField()
+    ejecucion_financiera = models.FloatField(null=True,blank=True)
 
-    ejecutado_anio_anterior = models.DecimalField(max_digits=22,decimal_places=2)
+    ejecutado_anio_anterior = models.DecimalField(max_digits=22,decimal_places=2,null=True,blank=True)
     
-    estimado_anio_siguiente = models.DecimalField(max_digits=22,decimal_places=2)
+    estimado_anio_siguiente = models.DecimalField(max_digits=22,decimal_places=2,null=True,blank=True)
 
-    estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=2)
+    estimado_anio_ejercicio = models.DecimalField(max_digits=22,decimal_places=2,null=True,blank=True)
     
     # Fields de Ayuda =========================
 
@@ -806,7 +813,7 @@ class AccionEspecifica(EmblenBaseModel):
         if result:
             self.contador = result + 1
 
-        self.codigo = self.programa.codigo + "{:02}".format(self.contador)
+        self.codigo = self.programa.codigo + "{:03}".format(self.contador)
 
     class Meta:
         verbose_name_plural = "Acciones Especificas"
@@ -879,12 +886,14 @@ class Partida(EmblenBaseModel):
 
         return queryset
         
+    def __str__(self):
+        return '%s - %s' %(self.cuenta,self.descripcion)
+
     class Meta:
         ordering = ('-creado',)
         verbose_name_plural = "Partidas"
 
-    def __str__(self):
-        return self.cuenta
+
        
 
 class Estimacion(EmblenBaseModel):
@@ -914,10 +923,10 @@ class Estimacion(EmblenBaseModel):
         return f"{self.accion_especifica} - {self.partida}"
         
     def save(self, *args, **kwargs):
-        if self.partida.nivel > 1:
+        if self.partida.nivel == 2:
             super(Estimacion, self).save(*args, **kwargs)
         else:
-            raise ValueError("La Partida no puede ser de nivel 1")
+            raise ValueError("La Partida no puede ser de otro Nivel que no sea el 2")
 
 
 class TipoGasto(EmblenBaseModel):
@@ -980,6 +989,8 @@ class AccionInterna(EmblenBaseModel):
 
     auxiliar = models.IntegerField(default=1)
 
+    auxiliar_inv = models.IntegerField(default=1)
+
     transferencia = models.BooleanField(default=False)
 
     tipo_organismo = models.ForeignKey(
@@ -998,8 +1009,16 @@ class AccionInterna(EmblenBaseModel):
         if result:
             self.auxiliar = result + 1
 
+        result_inv = AccionInterna.objects.aggregate(Max('auxiliar_inv')).get("auxiliar_inv__max")
+
+        if result_inv:
+            self.auxiliar_inv = result_inv + 1
+
         cod_tipo = self.tipo_gasto.id
-        cod_aux = "{:04}".format(self.auxiliar)
+        if cod_tipo==1:
+            cod_aux = "{:04}".format(self.auxiliar_inv)
+        if cod_tipo==2:
+            cod_aux = "{:04}".format(self.auxiliar)            
         cod_sector = self.accion_especifica\
                         .programa\
                         .responsable\
