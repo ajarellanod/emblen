@@ -16,13 +16,6 @@ class TipoModificacion(EmblenBaseModel):
     
     DISMINUCION = 'D'
     AUMENTO = 'A'
-    TRASPASO = 'T'
-    
-    TIPO_MODIFICACION = (
-        (DISMINUCION, 'Disminucion'),
-        (AUMENTO, 'Aumento'),
-        (TRASPASO, 'Traspaso')
-    )
     
     TIPO_AFECTACION = (
         (DISMINUCION, 'Disminucion'),
@@ -34,8 +27,6 @@ class TipoModificacion(EmblenBaseModel):
     nombre = models.CharField(max_length=100)
 
     descripcion = models.CharField(max_length=200)
-
-    modificacion = models.CharField(max_length=1, choices=TIPO_MODIFICACION)
     
     afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
 
@@ -67,16 +58,19 @@ class Modificacion(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
-    documento_referenciado = models.IntegerField() 
+    documento_referenciado = models.IntegerField(null=True, blank=True) 
     
-    monto = models.DecimalField(max_digits=22,decimal_places=4)
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=4)
+    saldo = models.DecimalField(max_digits=22,decimal_places=2, null=True, blank=True)
 
     descripcion = models.CharField(max_length=300)
 
     def __str__(self):
         return self.numero
+
+    def gen_rest_attrs(self):
+        pass
 
     class Meta:
         verbose_name_plural = "Modificaciones"
