@@ -43,6 +43,12 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
+                <label class="form-control-label">Tipo de Modificación</label>
+                {% render_field form.tipo_modificacion  data-toggle="select" class="form-control" type="text" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
                 <label class="form-control-label">Cuenta a Afectar</label>
                 {% render_field form.partida_accioninterna data-toggle="select" class="form-control" %}
               </div>
