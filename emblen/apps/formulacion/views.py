@@ -50,7 +50,7 @@ from apps.formulacion.models import (
 
 class PrincipalView(LoginRequiredMixin, EmblenView):
     template_name = "formulacion/principal.html"
-
+    
     anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=1)
     anio_formulacion = EjercicioPresupuestario.objects.filter(condicion=0)
 
@@ -74,6 +74,7 @@ class PrincipalView(LoginRequiredMixin, EmblenView):
 
     def altget(self, request):
         return {'anio_ejercicio': self.anio_ejercicio, 'anio_formulacion': self.anio_formulacion, 'proyectos': self.proyectos, 'acc_centralizadas': self.acc_centralizadas, 'acc_esp_proyectos': self.acc_esp_proyectos, 'acc_esp_acc_centralizadas': self.acc_esp_acc_centralizadas, 'max_proyecto': self.max_proyecto, 'max_especifica': self.max_especifica}
+
 
 # ----- Partidas -----
 
@@ -386,11 +387,13 @@ class AccionEspecificaCreateView(EmblenPermissionsMixin, EmblenFormView):
     form_class = AccionEspecificaForm
     success_url = "formulacion:acciones_especificas"
 
-    
+
     def form_valid(self, form):
         accion_especifica = form.save(commit=False)
         accion_especifica.gen_rest_attrs()
         return super().form_valid(accion_especifica)
+
+
 
 
 class AccionEspecificaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):

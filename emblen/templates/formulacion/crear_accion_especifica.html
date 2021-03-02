@@ -98,7 +98,7 @@
           {% if form.initial %}
             <input type="text" name="programa" value="{{form.instance.programa}}" readonly="true" class="form-control" required="" id="id_programa">
           {% else %}
-            {% render_field form.programa data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              {% render_field form.programa data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
         </div>
       </div>

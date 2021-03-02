@@ -35,8 +35,13 @@
 {% endblock right_buttons %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'formulacion:acciones_especificas' %}">
+<li class="breadcrumb-item">
+  <a href="{% url 'formulacion:principal' %}">
+    Formulación
+  </a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_internas' %}">
       Acciones Internas
     </a>
   </li>
@@ -54,7 +59,7 @@
       <div class="row align-items-center">
         <div class="col-8">
           {% if form.initial %}
-            <h3 class="mb-0">{{form.instance.nombre}}</h3>
+            <h3 class="mb-0">Acción Interna: {{form.instance.codigo}}</h3>
           {% else %}
             <h3 class="mb-0">Crear Nuevo Acción Interna</h3>
           {% endif %}
