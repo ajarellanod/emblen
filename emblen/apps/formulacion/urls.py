@@ -36,6 +36,8 @@ urlpatterns = [
     path('accion-especifica/<int:pk>/eliminar/', views.AccionEspecificaDeleteView.as_view(), name='e_accion_especifica'),
 
     path('estimacion/', views.EstimacionView.as_view(), name='estimacion'),
+    path('estimacion/<int:pk>', views.Estimacion2View.as_view(), name='estimacion2'),
+    path('estimacion/<int:pk>/eliminar/', views.EstimacionDeleteView.as_view(), name='e_estimacion'),
 
     path('acciones-internas/', views.AccionInternaListView.as_view(), name='acciones_internas'),
     path('accion-interna/<int:pk>/', views.AccionInternaView.as_view(), name='v_accion_interna'),
@@ -50,6 +52,11 @@ urlpatterns = [
     path('linea-programa/<int:pk>/eliminar/', views.LineaProgramaDeleteView.as_view(), name='e_linea_programa'),
 
     path('plan-desarrollo/', views.PlanDesarrolloCreateView.as_view(), name='c_plan_desarrollo'),
+
+    path('ejercicios-presupuestarios/', views.EjercicioPresupuestarioListView.as_view(), name='ejercicios_presupuestarios'),
+    path('ejercicio-presupuestario/<int:pk>/', views.EjercicioPresupuestarioView.as_view(), name='v_ejercicio_presupuestario'),
+    path('ejercicio-presupuestario/crear/', views.EjercicioPresupuestarioCreateView.as_view(), name='c_ejercicio_presupuestario'),
+    path('ejercicio-presupuestario/<int:pk>/eliminar/', views.EjercicioPresupuestarioDeleteView.as_view(), name='e_ejercicio_presupuestario'),
 ]
 
 

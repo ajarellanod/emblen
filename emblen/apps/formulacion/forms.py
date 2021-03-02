@@ -70,4 +70,4 @@ class PlanDesarrolloForm(forms.ModelForm):
 class EjercicioPresupuestarioForm(forms.ModelForm):
     class Meta:
         model = EjercicioPresupuestario
-        fields = ("anio",)
+        fields = ("anio","condicion")

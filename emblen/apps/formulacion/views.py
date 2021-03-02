@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView
 from django.http import JsonResponse, Http404
 from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin
+from django.db.models import Max
 
 from apps.base.views import (
     EmblenView,
@@ -47,9 +48,32 @@ from apps.formulacion.models import (
 
 # ----- Formulación -----
 
-class PrincipalView(LoginRequiredMixin, TemplateView):
+class PrincipalView(LoginRequiredMixin, EmblenView):
     template_name = "formulacion/principal.html"
-    
+
+    anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=1)
+    anio_formulacion = EjercicioPresupuestario.objects.filter(condicion=0)
+
+    proyectos = Programa.objects.filter(nivel=1).count()
+    acc_esp_proyectos = AccionEspecifica.objects.filter(programa__nivel = 1).count()
+
+    acc_centralizadas = Programa.objects.filter(nivel=2).count()
+    acc_esp_acc_centralizadas = AccionEspecifica.objects.filter(programa__nivel = 2).count()
+
+    max_proyecto1 = Programa.objects.filter(
+            nivel=1
+        ).aggregate(Max('id'))
+
+    max_proyecto = Programa.objects.filter(id = max_proyecto1['id__max'])
+
+    max_especifica1 = Programa.objects.filter(
+            nivel=2
+        ).aggregate(Max('id'))
+
+    max_especifica = Programa.objects.filter(id = max_especifica1['id__max'])
+
+    def altget(self, request):
+        return {'anio_ejercicio': self.anio_ejercicio, 'anio_formulacion': self.anio_formulacion, 'proyectos': self.proyectos, 'acc_centralizadas': self.acc_centralizadas, 'acc_esp_proyectos': self.acc_esp_proyectos, 'acc_esp_acc_centralizadas': self.acc_esp_acc_centralizadas, 'max_proyecto': self.max_proyecto, 'max_especifica': self.max_especifica}
 
 # ----- Partidas -----
 
@@ -334,7 +358,7 @@ class AccionEspecificaListView(EmblenPermissionsMixin, ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        programa = self.request.GET.get('programa')
+        programa = self.request.GET.get("programa")
         if programa:
             return AccionEspecifica.objects.filter(programa=programa).order_by("codigo")
         return AccionEspecifica.objects.order_by("codigo")
@@ -384,8 +408,9 @@ class EstimacionView(EmblenPermissionsMixin, EmblenView):
 
     def altget(self, request):
         acciones = AccionEspecifica.objects.all()
-        partidas = Partida.objects.exclude(nivel=1)
-        return {"acciones": acciones, "partidas": partidas}
+        partidas = Partida.objects.filter(nivel=2,cuenta__startswith="4").order_by("cuenta")
+        anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=0)
+        return {"acciones": acciones, "partidas": partidas, "anio_ejercicio": anio_ejercicio}
 
     def jsonpost(self, request):
         estimacion = EstimacionSerializer(data=request.POST)
@@ -395,6 +420,38 @@ class EstimacionView(EmblenPermissionsMixin, EmblenView):
         else:
             return {"error": "No se pudo guardar"}
 
+
+class Estimacion2View(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("formulacion.add_estimacion",)}
+    template_name = "formulacion/estimacion.html"
+    json_post = True
+
+    def altget(self, data, pk):
+        acciones = AccionEspecifica.objects.filter(id=pk)
+        partidas = Partida.objects.filter(nivel=2,cuenta__startswith="4").order_by("cuenta")
+        anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=0)
+        estimacion = Estimacion.objects.filter(accion_especifica_id=pk)
+        return {"acciones": acciones, "partidas": partidas, "anio_ejercicio": anio_ejercicio,"estimacion": estimacion}
+
+    def jsonpost(self, request):
+        estimacion = EstimacionSerializer(data=request.POST)
+        if estimacion.is_valid():
+            estimacion.save()
+            return {"estimacion": estimacion.data}
+        else:
+            return {"error": "No se pudo guardar"}
+
+class EstimacionDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_estimacion",)}
+    model = Estimacion
+    success_url = "../../"
+    def get(self, request, *args, **kwargs):
+        if self.model and self.success_url:
+            obj = get_object_or_404(self.model, pk=kwargs["pk"])
+            obj.eliminar()
+            return redirect(self.success_url+str(obj.accion_especifica_id))
+        else:
+            raise ValueError("Model and/or SuccessURL don't set")
 
 # ----- Acción Interna -----
 class AccionInternaListView(EmblenPermissionsMixin, ListView):
@@ -512,3 +569,39 @@ class PlanDesarrolloCreateView(EmblenPermissionsMixin, EmblenFormView):
         plan_desarrollo = form.save(commit=False)
         plan_desarrollo.gen_rest_attrs()
         return super().form_valid(plan_desarrollo)
+
+# ----- Ejercicio Presupuestario -----
+class EjercicioPresupuestarioListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_ejerciciopresupuestario",)}
+    queryset = EjercicioPresupuestario.objects.all().order_by('-anio')
+    template_name = "formulacion/ejercicios_presupuestarios.html"
+    success_url = "formulacion:ejercicios_presupuestarios"
+    paginate_by = 8
+
+class EjercicioPresupuestarioCreateView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.add_ejerciciopresupuestario",)}
+    template_name = "formulacion/crear_ejercicio_presupuestario.html"
+    form_class = EjercicioPresupuestarioForm
+    success_url = "formulacion:ejercicios_presupuestarios"
+
+    def form_valid(self, form):
+        ejercicio_presupuestario = form.save(commit=False)
+        ejercicio_presupuestario.gen_rest_attrs()
+        return super().form_valid(ejercicio_presupuestario)
+
+class EjercicioPresupuestarioView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.change_ejerciciopresupuestario",)}
+    template_name = "formulacion/crear_ejercicio_presupuestario.html"
+    form_class = EjercicioPresupuestarioForm
+    update_form = True
+    success_url = "formulacion:ejercicios_presupuestarios"
+
+    def form_valid(self, form):
+        ejercicio_presupuestario = form.save(commit=False)
+        EjercicioPresupuestario.objects.filter(anio>= (form.anio)-2).update({'condicion':3})
+        return super().form_valid(ejercicio_presupuestario)
+
+class EjercicioPresupuestarioDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_ejerciciopresupuestario",)}
+    model = EjercicioPresupuestario
+    success_url = "formulacion:ejercicios_presupuestarios"

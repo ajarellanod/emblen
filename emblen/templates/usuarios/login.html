@@ -105,7 +105,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" name="username" placeholder="Usuario" type="text">
+                    <input class="form-control" name="username" placeholder="Usuario" type="text" id="username" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -113,14 +113,14 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" name="password" placeholder="Contraseña" type="password">
+                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required>
                   </div>
                 </div>
                 <div class="row my-4">
                   <div class="col-12">
                     <div class="custom-control custom-control-alternative custom-checkbox">
-                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                      <label class="custom-control-label" for="customCheckRegister">
+                      <input class="custom-control-input" id="remember" name="remember" type="checkbox">
+                      <label class="custom-control-label" for="remember">
                         <span class="text-muted">Recordar Contraseña</a></span>
                       </label>
                     </div>
@@ -173,6 +173,27 @@
   <script src="{% static 'global/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'global/js/dashboard.js' %}"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+          $( "#username" ).focus();
+
+          $("#username").keypress(function(e) {
+            if(e.which == 13) {
+              if ($("#password").val().length <= 0){
+                event.preventDefault();
+                $('#password').focus();
+              }
+            }
+          });
+
+          $('#saveForm').on('click', function() {
+            $("#form").submit();
+          });
+
+        });
+    </script>
 </body>
 
 </html>

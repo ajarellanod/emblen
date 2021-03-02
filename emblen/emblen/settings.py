@@ -12,8 +12,10 @@ SECRET_KEY = 'i-x5yt(d*=#=e3gaz%t8h&pzs#=8963zf11!738p5*ap21tg4b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
 # Application definition
 
@@ -137,3 +139,10 @@ DATE_INPUT_FORMATS = [
 # Redirección de solicitudes de inicio de sesión
 
 LOGIN_URL = '/login'
+
+
+# Tiempo de vida de la sesión en segundos
+SESSION_COOKIE_AGE = 300 #300 Segundos = 5 minutos
+
+# Sesión expira al cerrar el navegador
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True 

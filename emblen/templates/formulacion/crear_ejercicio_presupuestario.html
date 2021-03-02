@@ -1,0 +1,103 @@
+{% extends 'formulacion/_base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white!important;
+    }
+  </style>
+{% endblock head %}
+
+
+{% block title %}
+  {% if form.initial %}
+    Ejercicio Presupuestario - {{form.instance.anio}}
+  {% else %}
+    Creación de Ejercicio Presupuestario
+  {% endif %}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:ejercicios_presupuestarios' %}">
+        Ejercicios Presupuestarios
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.anio}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Ejercicio Presupuestario</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">{{form.instance.anio}}</h3>
+          {% else %}
+            <h3 class="mb-0">Crear Nuevo Ejercicio Presupuestario</h3>
+          {% endif %}
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
+            Guardar
+          </a>
+          <button onclick="goBack();" class="btn btn-sm btn-default">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Detalles</h6>
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Año</label>
+                {% render_field form.anio class="form-control" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Condición</label>
+                {% if form.initial %}
+              <!-- <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control"  required="" id="id_nivel"> -->
+                  <input type="text" name="condicion" value="{{form.instance.condiciones}}" readonly="true" class="form-control" id="id_condicion">
+                {% else %}
+                  {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+                {% endif %}                
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript">
+        $('#saveForm').on('click', function() {
+            $("#form").submit();
+        });
+        $(document).ready(function(){
+          // $('#id_condicion').val('4');
+          // $('#id_condicion').trigger('change');
+          //$("#id_condicion").select2({disabled:true});
+        });
+        
+    </script>
+{% endblock script %}

@@ -1,0 +1,139 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Perfil - {{form.instance.username}}
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'usuarios:principal' %}"> Perfil - Editar</a></li>
+{% endblock breadcrumb %}
+
+{% block menu %}
+  {% include 'usuarios/menu.html' %}
+{% endblock menu %}
+
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">Perfil: {{form.instance.get_full_name}}</h3>
+          {% endif %}
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
+            Guardar
+          </a>
+          <button onclick="goBack();" class="btn btn-sm btn-default">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <h6 class="heading-small text-muted mb-4">Datos Personales</h6>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Nombres</label>
+                {% render_field form.first_name class="form-control" required="required" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Apellidos</label>
+                {% render_field form.last_name class="form-control" required="required" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Correo Electrónico</label>
+                {% render_field form.email class="form-control"  %}
+              </div>
+            </div>
+          </div>
+          
+          <hr class="my-4">
+          <h6 class="heading-small text-muted mb-4">Datos de Usuario</h6>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Usuario</label>
+                {% render_field form.username class="form-control" required="required" %}
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Nueva Clave</label>
+                <input type="password" class="form-control" name="password" id="password" >
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Nueva Clave (Nuevamente)</label>
+                <input type="password" class="form-control" name="password_again" id="password_again" >
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript">
+        $.fn.isValid = function(){
+            var validate = true;
+            this.each(function(){
+                if(this.checkValidity()==false){
+                    validate = false;
+                }
+            });
+        };
+
+        $('#saveForm').on('click', function() {
+
+            var pass = $('#password').val();
+            var repass = $('#password_again').val();
+            
+            if(($('#password').val().length == 0) && ($('#password_again').val().length == 0)){
+                // if(!$("#form").isValid()) {
+                //     event.preventDefault();
+                // }
+                // else{
+                    $("#form").submit();
+                // }
+                // if(($('#id_first_name').val().length != 0) && ($('#id_last_name').val().length != 0)){
+                //     $("#form").submit();
+                // }
+            }
+            else if (pass != repass) {
+                alert("Las claves no son iguales - verifique.");
+                event.preventDefault();
+                $('#password').focus();
+            }
+            else {
+                $("#form").submit();
+            }
+        });
+
+        
+        
+
+    </script>
+{% endblock script %}

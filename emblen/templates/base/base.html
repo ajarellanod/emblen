@@ -121,7 +121,7 @@
                     <span class="shortcut-media avatar rounded-circle bg-gradient-info">
                       <i class="ni ni-credit-card"></i>
                     </span>
-                    <small>Payments</small>
+                    <small>Item</small>
                   </a>
                   <a href="#!" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-green">
@@ -133,13 +133,13 @@
                     <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
                       <i class="ni ni-pin-3"></i>
                     </span>
-                    <small>Maps</small>
+                    <small>Item</small>
                   </a>
                   <a href="#!" class="col-4 shortcut-item">
                     <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
                       <i class="ni ni-basket"></i>
                     </span>
-                    <small>Shop</small>
+                    <small>Item</small>
                   </a>
                 </div>
               </div>
@@ -153,15 +153,15 @@
                     <img alt="Image placeholder" src="{% static 'global/images/user.jpg' %}">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold"> {{ request.user.get_full_name }} </span>
+                    <span class="mb-0 text-sm  font-weight-bold"> {{ request.user.get_username }} </span>
                   </div>
                 </div>
               </a>
               <div class="dropdown-menu  dropdown-menu-right ">
                 <div class="dropdown-header noti-title">
-                  <h6 class="text-overflow m-0">Bienvenido!</h6>
+                  <h6 class="text- m-0">Bienvenido <b>{{ request.user.first_name }}</b> </h6>
                 </div>
-                <a href="#!" class="dropdown-item">
+                <a href="{% url 'usuarios:perfil' request.user.id %}" class="dropdown-item">
                   <i class="ni ni-single-02"></i>
                   <span>Perfíl</span>
                 </a>
