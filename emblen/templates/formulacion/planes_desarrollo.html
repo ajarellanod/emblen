@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block title %}
-  Lineas de Programas
+  Planes de Desarrollo
 {% endblock title %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
   <li class="breadcrumb-item"><a href="{% url 'formulacion:programas' %}">Programas</a></li>
-  <li class="breadcrumb-item"><a href="#">Lineas de Programas</a></li>
+  <li class="breadcrumb-item"><a href="#">Planes de Desarrollo</a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -21,12 +21,12 @@
       <div class="card-header border-0">
         <div class="row align-items-center">
           <div class="col-6">
-            <h3 class="mb-0">Lineas de Programa</h3>
+            <h3 class="mb-0">Planes de Desarrollo</h3>
           </div>
           <div class="col-6 text-right">
-            <a id="btn_partidaNew" href="{% url 'formulacion:c_linea_programa' %}" 
+            <a id="btn_partidaNew" href="{% url 'formulacion:c_plan_desarrollo' %}" 
             class="btn btn-sm btn-primary">
-              Crear Linea de Programa
+              Crear Planes de Desarrollo
             </a>
           </div>
         </div>
@@ -38,31 +38,31 @@
             <tr>
               <th scope="col" class="sort text-center">Codigo</th>
               <th scope="col" class="sort text-center" data-sort="programa">Programa</th>
-              {% if perms.formulacion.delete_lineaprograma %}
+              {% if perms.formulacion.delete_plandesarrollo %}
               <th scope="col" class="text-center" style="width:5%;"><i class="fas fa-cogs"></i></th>
               {% endif %}
             </tr>
           </thead>
           <tbody class="list">
-            {% for linea in page_obj %}
+            {% for plan in page_obj %}
               <tr>
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:v_linea_programa' linea.id %}">
-                        <span class="mb-0 text-sm">{{ linea.codigo }}</span>
+                      <a href="{% url 'formulacion:v_plan_desarrollo' plan.id %}">
+                        <span class="mb-0 text-sm">{{ plan.codigo }}</span>
                       </a>
                     </div>
                   </div>
                 </th>
                 <td class="text-center programa">
-                  <a href="{% url 'formulacion:v_programa' linea.programa.id %}">
-                    {{ linea.programa.codigo }}
+                  <a href="{% url 'formulacion:v_programa' plan.programa.id %}">
+                    {{ plan.programa.codigo }}
                   </a>
                 </td>
-                {% if perms.formulacion.delete_lineaespecifica %}
+                {% if perms.formulacion.delete_plandesarrollo %}
                 <td class="text-right">
-                  <a href="{% url 'formulacion:e_linea_programa' linea.id %}"
+                  <a href="{% url 'formulacion:e_plan_desarrollo' plan.id %}"
                   class="btn btn-sm btn-default">
                     Eliminar
                   </a>

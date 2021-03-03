@@ -1029,6 +1029,9 @@ class AccionInterna(EmblenBaseModel):
         self.codigo = f"{cod_tipo}{cod_sector}{cod_aux}"
         self.nivel = 3
 
+    def __str__(self):
+        return self.codigo
+
     class Meta:
         verbose_name_plural = "Acciones Internas"
 

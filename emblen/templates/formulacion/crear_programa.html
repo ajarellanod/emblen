@@ -53,7 +53,7 @@
     {% endif %}
 
     {% if form.instance.plan_desarrollos.get_queryset %}
-      <a href="{% url 'formulacion:plan_desarrollos' %}?programa={{form.instance.id}}" 
+      <a href="{% url 'formulacion:planes_desarrollo' %}?programa={{form.instance.id}}" 
       class="btn btn-sm btn-neutral">
         Planes de Desarrollo
       </a>

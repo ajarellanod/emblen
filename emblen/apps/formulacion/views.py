@@ -42,6 +42,8 @@ from apps.formulacion.models import (
     Estimacion,
     AccionInterna,
     LineaPrograma,
+    PlanDesarrollo,
+    PartidaAccionInterna,
     EjercicioPresupuestario
 )
 
@@ -496,6 +498,7 @@ class AccionInternaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
 
 # ----- PartidaAccionInterna -----
 
+
 class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
     permissions = {"all": ("formulacion.add_partidaaccioninterna",)}
     template_name = "formulacion/partida_accion_interna.html"
@@ -503,7 +506,7 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
 
     def altget(self, request):
         acciones = AccionInterna.objects.all()
-        partidas = Partida.objects.exclude(nivel=1)
+        partidas = Partida.objects.filter(nivel__gte=2,cuenta__startswith="4").order_by("cuenta")
         return {"acciones": acciones, "partidas": partidas}
 
     def jsonpost(self, request):
@@ -513,6 +516,40 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
             return {"part_acc": part_acc.data}
         else:
             return {"error": "No se pudo guardar"}
+
+class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("formulacion.add_partidaaccioninterna",)}
+    template_name = "formulacion/partida_accion_interna.html"
+    json_post = True
+
+    def altget(self, data, pk):
+        acciones = AccionInterna.objects.filter(id=pk)
+        partidas = Partida.objects.filter(nivel__gte=2,cuenta__startswith="4").order_by("cuenta")
+        anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=0)
+        partida_accion = PartidaAccionInterna.objects.filter(accion_interna_id=pk)
+        return {"acciones": acciones, "partidas": partidas, "anio_ejercicio": anio_ejercicio, "partida_accion": partida_accion}
+
+    def jsonpost(self, request):
+        part_acc = PartidaAccionInternaSerializer(data=request.POST)
+        if part_acc.is_valid():
+            part_acc.save(mto_actualizado=part_acc.validated_data["mto_original"])
+            return {"part_acc": part_acc.data}
+        else:
+            return {"error": "No se pudo guardar"}
+
+
+class PartidaAccionInternaDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_partidaaccioninterna",)}
+    model = PartidaAccionInterna
+    success_url = "../../"
+    def get(self, request, *args, **kwargs):
+        if self.model and self.success_url:
+            obj = get_object_or_404(self.model, pk=kwargs["pk"])
+            obj.eliminar()
+            return redirect(self.success_url+str(obj.accion_interna_id))
+        else:
+            raise ValueError("Model and/or SuccessURL don't set")
+
 
 
 # ----- Linea Programa -----
@@ -534,7 +571,7 @@ class LineaProgramaView(EmblenPermissionsMixin, EmblenFormView):
     template_name = "formulacion/crear_linea_programa.html"
     form_class = LineaProgramaForm
     update_form = True
-    success_url = "formulacion:principal"
+    success_url = "formulacion:lineas_programas"
 
     def get_data(self, data, instance):
         new_data = data.copy()
@@ -546,7 +583,7 @@ class LineaProgramaCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_lineaprograma",)}
     template_name = "formulacion/crear_linea_programa.html"
     form_class = LineaProgramaForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:lineas_programas"
 
     def form_valid(self, form):
         linea_programa = form.save(commit=False)
@@ -566,12 +603,44 @@ class PlanDesarrolloCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_plandesarrollo",)}
     template_name = "formulacion/crear_plan_desarrollo.html"
     form_class = PlanDesarrolloForm
-    success_url = "formulacion:principal"
+    success_url = "formulacion:planes_desarrollo"
 
     def form_valid(self, form):
         plan_desarrollo = form.save(commit=False)
         plan_desarrollo.gen_rest_attrs()
         return super().form_valid(plan_desarrollo)
+
+
+class PlanDesarrolloListView(EmblenPermissionsMixin, ListView):
+    permissions = {"all": ("formulacion.view_plandesarrollo",)}
+    template_name = "formulacion/planes_desarrollo.html"
+    paginate_by = 8
+
+    def get_queryset(self):
+        programa = self.request.GET.get('programa')
+        if programa:
+            return PlanDesarrollo.objects.filter(programa=programa).order_by("codigo")
+        return PlanDesarrollo.objects.order_by("codigo")
+
+
+class PlanDesarrolloView(EmblenPermissionsMixin, EmblenFormView):
+    permissions = {"all": ("formulacion.change_plandesarrollo",)}
+    template_name = "formulacion/crear_plan_desarrollo.html"
+    form_class = PlanDesarrolloForm
+    update_form = True
+    success_url = "formulacion:planes_desarrollo"
+
+    def get_data(self, data, instance):
+        new_data = data.copy()
+        new_data.update({"programa": instance.programa})
+        return super().get_data(new_data, instance)
+
+
+class PlanDesarrolloDeleteView(EmblenPermissionsMixin, EmblenDeleteView):
+    permissions = {"all": ("formulacion.delete_plandesarrollo",)}
+    model = PlanDesarrollo
+    success_url = "formulacion:planes_desarrollo"
+
 
 # ----- Ejercicio Presupuestario -----
 class EjercicioPresupuestarioListView(EmblenPermissionsMixin, ListView):

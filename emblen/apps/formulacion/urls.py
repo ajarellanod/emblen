@@ -44,14 +44,22 @@ urlpatterns = [
     path('accion-interna/crear/', views.AccionInternaCreateView.as_view(), name='c_accion_interna'),
     path('accion-interna/<int:pk>/eliminar/', views.AccionInternaDeleteView.as_view(), name='e_accion_interna'),
 
+
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
+    path('partida-accion-interna/<int:pk>', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
+    path('partida-accion-interna/<int:pk>/eliminar/', views.PartidaAccionInternaDeleteView.as_view(), name='e_partida_accion_interna'),
+
 
     path('lineas-programas/', views.LineaProgramaListView.as_view(), name='lineas_programas'),
     path('linea-programa/<int:pk>/', views.LineaProgramaView.as_view(), name='v_linea_programa'),
     path('linea-programa/crear/', views.LineaProgramaCreateView.as_view(), name='c_linea_programa'),
     path('linea-programa/<int:pk>/eliminar/', views.LineaProgramaDeleteView.as_view(), name='e_linea_programa'),
 
+    
+    path('planes-desarrollos/', views.PlanDesarrolloListView.as_view(), name='planes_desarrollo'),
+    path('plan-desarrollo/<int:pk>/', views.PlanDesarrolloView.as_view(), name='v_plan_desarrollo'),
     path('plan-desarrollo/', views.PlanDesarrolloCreateView.as_view(), name='c_plan_desarrollo'),
+    path('plan-desarrollo/<int:pk>/eliminar/', views.PlanDesarrolloDeleteView.as_view(), name='e_plan_desarrollo'),
 
     path('ejercicios-presupuestarios/', views.EjercicioPresupuestarioListView.as_view(), name='ejercicios_presupuestarios'),
     path('ejercicio-presupuestario/<int:pk>/', views.EjercicioPresupuestarioView.as_view(), name='v_ejercicio_presupuestario'),
