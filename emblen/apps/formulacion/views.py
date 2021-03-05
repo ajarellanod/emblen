@@ -507,7 +507,8 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
     def altget(self, request):
         acciones = AccionInterna.objects.all()
         partidas = Partida.objects.filter(nivel__gte=2,cuenta__startswith="4").order_by("cuenta")
-        return {"acciones": acciones, "partidas": partidas}
+        anio_ejercicio = EjercicioPresupuestario.objects.filter(condicion=0)
+        return {"acciones": acciones, "partidas": partidas, "anio_ejercicio": anio_ejercicio}
 
     def jsonpost(self, request):
         part_acc = PartidaAccionInternaSerializer(data=request.POST)
@@ -517,7 +518,7 @@ class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
         else:
             return {"error": "No se pudo guardar"}
 
-class PartidaAccionInternaView(EmblenPermissionsMixin, EmblenView):
+class PartidaAccionInternaEspecificaView(EmblenPermissionsMixin, EmblenView):
     permissions = {"all": ("formulacion.add_partidaaccioninterna",)}
     template_name = "formulacion/partida_accion_interna.html"
     json_post = True

@@ -22,12 +22,12 @@
 {% block right_buttons %}
   {% if form.initial %} 
     {% if form.instance.estimaciones.get_queryset %}
-      <a href="{% url 'formulacion:partida_accion_interna' form.instance.id %}"
+      <a href="{% url 'formulacion:partida_accion_interna_especifica' form.instance.id %}"
       class="btn btn-sm btn-neutral">
       Partidas Relacionadas
       </a>
     {% else %}
-      <a href="{% url 'formulacion:partida_accion_interna' form.instance.id %}" class="btn btn-sm btn-neutral">
+      <a href="{% url 'formulacion:partida_accion_interna_especifica' form.instance.id %}" class="btn btn-sm btn-neutral">
         Relacionar Partidas
       </a>
     {% endif %}

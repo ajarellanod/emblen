@@ -46,7 +46,7 @@ urlpatterns = [
 
 
     path('partida-accion-interna/', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
-    path('partida-accion-interna/<int:pk>', views.PartidaAccionInternaView.as_view(), name='partida_accion_interna'),
+    path('partida-accion-interna/<int:pk>', views.PartidaAccionInternaEspecificaView.as_view(), name='partida_accion_interna_especifica'),
     path('partida-accion-interna/<int:pk>/eliminar/', views.PartidaAccionInternaDeleteView.as_view(), name='e_partida_accion_interna'),
 
 
