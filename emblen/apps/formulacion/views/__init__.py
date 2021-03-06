@@ -2,9 +2,13 @@
 
 from .principal import PrincipalView
 
-from .estimacion import EstimacionView
+from .estimacion import EstimacionView, Estimacion2View, EstimacionDeleteView
 
-from .partida__accion_interna import PartidaAccionInternaView
+from .partida__accion_interna import (
+    PartidaAccionInternaView,
+    PartidaAccionInternaEspecificaView,
+    PartidaAccionInternaDeleteView
+)
 
 from .accion_especifica import (
     AccionEspecificaListView,
@@ -56,6 +60,7 @@ from .partida import (
 )
 
 from .plan_desarrollo import (
+    PlanDesarrolloListView,
     PlanDesarrolloCreateView,
     PlanDesarrolloView,
     PlanDesarrolloDeleteView

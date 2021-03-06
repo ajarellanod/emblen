@@ -31,8 +31,7 @@
 {% block right_buttons %}
   {% if form.initial %} 
     {% if form.instance.estimaciones.get_queryset %}
-      <a href="{% url 'formulacion:estimacion' %}?accion_especifica={{form.instance.id}}"
-      class="btn btn-sm btn-neutral">
+      <a href="{% url 'formulacion:estimacion2' form.instance.id %}" class="btn btn-sm btn-neutral">
         Estimaciones
       </a>
     {% else %}
