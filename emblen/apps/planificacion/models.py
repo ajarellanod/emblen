@@ -79,6 +79,17 @@ class Modificacion(EmblenBaseModel):
         self.saldo = self.monto
         self.numero = self._next_num()
 
+    def afecta_partida(self):
+        pai = self.partida_accioninterna
+        tm = self.tipo_modificacion
+
+        if tm.afectacion == tm.AUMENTO:
+            pai.mto_actualizado += self.monto
+        else:
+            pai.mto_actualizado -= self.monto
+
+        pai.save()
+
     class Meta:
         verbose_name_plural = "Modificaciones"
 

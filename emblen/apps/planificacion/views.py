@@ -33,6 +33,7 @@ class ModificacionView(EmblenPermissionsMixin, EmblenFormView):
 
     def form_valid(self, form):
         modificacion = form.save(commit=False)
+        modificacion.afecta_partida()
         modificacion.gen_rest_attrs()
         return super().form_valid(modificacion)
 
