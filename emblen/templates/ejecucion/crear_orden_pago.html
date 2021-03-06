@@ -46,19 +46,6 @@
       <p class="form-control-label">Detalles de Pago</p>
   </div>
 
-  <div class="stepwizard-step">
-      <a href="#step-3" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
-          <i class="fas fa-poll-h"></i>
-      </a>
-      <p class="form-control-label">Imputación</p>
-  </div>
-
-  <div class="stepwizard-step">
-      <a href="#step-4" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
-          <i class="fas fa-file"></i>
-      </a>
-      <p class="form-control-label">Reten. / Deduc.</p>
-  </div>
  <!--
   <div class="stepwizard-step">
       <a href="#step-5" type="button" class="btn btn-default btn-circle disabled" disabled="disabled">
@@ -97,7 +84,7 @@
       <div class="col">
         <div class="form-group">
           <label class="form-control-label">Nº Orden de Pago</label>
-          {% render_field form.orden_pago class="form-control" value=ordenpago type="text" placeholder="Nº Orden" %}
+          {% render_field form.orden_pago class="form-control" type="text" placeholder="Nº Orden" %}
         </div>
       </div>
 
@@ -138,6 +125,21 @@
           {% render_field form.unidad_origen class="form-control" type="text" placeholder="Clase de OP" data-toggle="select" data-minimum-results-for-search="Infinity"  %}
         </div>
       </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Usuario Elaborador</label>
+            {% render_field form.elaborador class="form-control" type="text" placeholder="Clase de OP" data-toggle="select" data-minimum-results-for-search="Infinity"  %}
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Documento a Pagar</label>
+            {% render_field form.documento_pagar class="form-control" type="text" placeholder="Clase de OP" data-toggle="select" %}
+          </div>
+        </div>
+
       </div>
 
     <!-- <hr class="my-4">
@@ -155,16 +157,6 @@
 </div>
 
 <div class="setup-content" id="step-2">
-  <div class="row">
-
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Beneficiario</label>
-        {% render_field form.beneficiario.razon_social data-toggle="select" class="form-control" %}
-      </div>
-    </div>
-
-  </div>
 
   <div class="row">
     <div class="col">
@@ -179,54 +171,19 @@
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Monto</label>
-        {% render_field form.monto class="form-control" placeholder="Ingrese Monto" %}
+        {% render_field form.monto class="form-control inputCurrency queryInputCurrency" type="text" placeholder="Ingrese Monto" %}
       </div>
     </div>
-
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Monto Imponible</label>
-        {% render_field form.monto_imponible class="form-control" placeholder="0" %}
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Saldo</label>
-        {% render_field form.saldo class="form-control" placeholder="0" %}
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
     <div class="col">
       <div class="form-group">
         <label class="form-control-label">Monto Deducciones</label>
-        {% render_field form.monto_deduciones class="form-control" placeholder="Ingrese Monto de Deducciones" %}
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="form-group">
-        <label class="form-control-label">Saldo Deducciones</label>
-        {% render_field form.saldo_deducciones class="form-control" placeholder="0" %}
+        {% render_field form.monto_deduciones class="form-control inputCurrency queryInputCurrency" type="text" placeholder="Ingrese Monto de Deducciones" %}
       </div>
     </div>
 
   </div>
 
   <div class="row">
-    <div class="col">
-        <div class="form-group">
-          <button class="btn btn-primary nextBtn" type="button">
-            Continuar
-          </button>
-        </div>
-    </div>
-  </div>
-</div>
-
-  <!-- <div class="row">
     <div class="col">
         <div class="form-group">
           <button class="btn btn-primary" type="submit">
@@ -234,7 +191,11 @@
           </button>
         </div>
     </div>
-  </div> -->
+  </div>
+
+</div>
+
+
 
 {% endblock stepform %}
 

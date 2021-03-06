@@ -1,0 +1,237 @@
+{% extends 'ejecucion/_base.html' %}
+
+{% load static %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white!important;
+    }
+  </style>
+{% endblock head %}
+
+{% block title %} Crear Afectacion Presupuestaria {% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'ejecucion:principal' %}">
+      Formulación
+    </a>
+  </li>
+
+  <li class="breadcrumb-item">
+    <a href="#">
+      Afectacion Presupuestaria
+    </a>
+  </li>
+{% endblock breadcrumb %}
+
+{% block body %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Crear Afectación Presupuestaria</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'ejecucion:modificaciones' %}" token="{{ csrf_token }}" callback="true">
+                Crear
+              </a>
+              {% for accion in acciones %}
+              <a href="{% url 'formulacion:principal' %}" class="btn btn-sm btn-default">Cancelar</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h6 class="heading-small text-muted mb-4">Afectación Presupuestaria</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+            </div>
+            <form method="POST" action="." id="form">
+              {% csrf_token %}
+
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    {% for formulado in anio_ejercicio %}
+                      <input type="text" id="id_anio" value="{{formulado.anio}}" readonly maxlength="4" name="anio" class="form-control queryInput" autocomplete="off">
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_documento_referenciado">Documento Referenciado</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_documento_referenciado" name="documento_referenciado">
+                      <option>--------------------</option>
+                      {% for documento_referenciado in documento_referenciado %}
+                        <option value="{{documento_referenciado.id}}">{{documento_referenciado.orden_pago}} - {{documento_referenciado.descripcion}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_partida_accioninterna">Seleccione Partida</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_partida_accioninterna" name="partida_accioninterna">
+                      <option>--------------------</option>
+                      {% for partida_accioninterna in partidas %}
+                        <option value="{{partida_accioninterna.id}}">{{partida_accioninterna.cuenta}} - {{partida_accioninterna.descripcion}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Número Correlativo</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="numero" id="id_numero">
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Tipo Modificación</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="tipo_modificacion" id="id_tipo_modificacion">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Descripción</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="descripcion" id="id_descripcion">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Monto</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="monto" id="id_monto">
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Saldo</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="saldo" id="id_saldo">
+                  </div>
+                </div>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header border-0">
+          <h3 class="mb-0" style="display: inline;">Estimaciones de Acción Especifica </h3>
+ 
+            <a href="javascript:document.location.reload();" title="Recargar Opciones" class="btn btn-sm btn-primary float-right" >
+              <i class="fas fa-redo-alt"></i>
+            </a>
+        </div><!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="text-center">Acción Esp</th>
+                <th scope="col" class="text-center" width="40%">Partida</th>
+                <th scope="col" class="text-center">Año</th>
+                <th scope="col" class="text-center" width="40%">Monto</th>
+                <th scope="col"><i class="fas fa-cogs"></i> </th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% for estimacion in estimacion %}
+                <tr>
+                  <th>{{estimacion.accion_especifica}}</th>
+                  <th><input type="text" readonly value="{{ estimacion.partida }}" class="form-control input-tablas "></th>
+                  <th class="text-center">{{estimacion.anio}}</th>
+                  <th><input type="text" readonly value="{{ estimacion.monto }}" class="form-control input-tablas inputCurrency text-right"> </th>
+                  <td class="text-right">
+                    <a href="{% url 'formulacion:e_estimacion' estimacion.id %}"
+                    class="btn btn-sm btn-default" title="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+
+                  </td>
+                </tr>
+              {% empty %}
+                <tr id="ninguna">
+                  <th colspan="4">
+                    No tiene Estimaciones
+                  </th>
+                </tr>                
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    // HTML Objects
+    // $("#id_anio").datepicker({
+    //   format: "yyyy",
+    //   viewMode: "years", 
+    //   minViewMode: "years"
+    // });
+  </script>
+
+  <script>
+
+    var flag = true;
+    function callbackFunction(response){
+      if(flag){
+        $('#ninguna').hide();
+        flag = false;
+      }
+
+      let mod = response.modificacion;
+      $('table > tbody:last-child').append(`
+        <tr>
+          <th>${mod.orden_pago}</th>
+          <th><input type="text" readonly value="${mod.codigo_partida}" class="form-control input-tablas "></th>
+          <td class="text-center">${mod.anio}</td>
+          <td><input type="text" readonly value="${mod.monto}" class="form-control input-tablas inputCurrency text-right"> </td>
+          <td class="text-right">
+                    <a href="${mod.id}/eliminar"
+                    class="btn btn-sm btn-default" title="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+
+                  </td>
+        </tr>
+      `);
+    }
+  </script>
+{% endblock script %}

@@ -86,11 +86,9 @@ class UserView(LoginRequiredMixin, EmblenFormView):
     update_form = True
     success_url = "usuarios:principal"
     
+
     def get_data(self, data, instance):
     
-        if request.user != instancia.username:
-            return redirect('usuarios:principal')
-
         new_data = data.copy()
         if data['password'] == '':
             new_data.update({
