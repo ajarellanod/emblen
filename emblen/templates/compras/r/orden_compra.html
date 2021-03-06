@@ -1,0 +1,355 @@
+{% extends 'base/reporte-base.html' %}
+
+{% block title %}
+    {% block rtitle %}
+        ORDEN DE COMPRA
+    {% endblock rtitle %}
+{% endblock title %}
+
+{% block subtitle %}
+
+{% endblock subtitle %}
+
+{% block head %}
+    <style type="text/css">
+        .table .project td { 
+            border-top: none;
+            padding: 0.2em 0.5em;
+            page-break-before: auto;
+        }
+        .table>:not(caption)>*>* {
+            padding: 0px;
+            /* border: 1px solid #000000; */
+        }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+<div class="group-report">
+    <!-- Proyecto -->
+    <div class="row">
+        <div class="col">
+
+            <div class="container">
+                <div class="offset-3 col-7">
+                    <table class="table">
+                        <thead>
+                            <!-- <tr>
+                                <th>
+                                    <img src="/Desktop/escudo-gris.png" alt="logo1" width="100px" height="50px" class="float-start">
+                                </th>
+                                <th>
+                                    <img src="/Desktop/invialca.png" alt="logo1" width="100px" height="50px" class="float-end">
+                                </th>
+                            </tr> -->
+                            <tr>
+                                <td class="text-center" style="border: none;">
+                                    <p><b>INSTITUTO AUTÓNOMO PARA LA ADMINISTRACIÓN, MANTENIMIENTO Y CONSERVACIÓN DE LA VIALIDAD.<br>CARABOBO TE QUIERO</b></p>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+
+    
+
+    
+    <div class="row">
+        <div class="col-3">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-center">OC - Nº</th>
+                    <th scope="col" class="text-center">FECHA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="col" class="text-center">2021-{{orden}}</td>
+                    <td class="text-center" >01-01-2020</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <div class=" offset-1 col-8">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-center">REQUISICIÓN</th>
+                    <th scope="col" class="text-center">FECHA</th>
+                    <th scope="col" class="text-center">UNIDAD DE ORIGEN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="col" class="text-center"> </td>
+                    <td scope="col" class="text-center">01-01-2020</td>
+                    <td scope="col" class="text-center">DIRECCIÓN DE COMPRAS</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">PROVEEDOR</th>
+                    <th scope="col"> #N/A</th>
+                    <th scope="col">Nº DE RIF</th>
+                    <th scope="col"> </th>
+                  </tr>
+                  <tr>
+                    <th scope="col">DIRECCIÓN</th>
+                    <th scope="col"> #N/A</th>
+                    <th scope="col">TELÉFONO</th>
+                    <th scope="col"> </th>
+                  </tr>
+                  <tr>
+                    <th scope="col">REPRESENTANTE LEGAL</th>
+                    <th scope="col"> #N/A</th>
+                    <th scope="col">FECHA DE ENTREGA</th>
+                    <th scope="col"> </th>
+                  </tr>                                            
+                </thead>
+              </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr>
+                    <th scope="col" rowspan="2" class="text-center">ESPECIFICACIONES DEL<br>SUMINISTRO O BIEN</th>
+                    <th scope="col" rowspan="2" width="70%"> &nbsp;</th>
+                    <th scope="col" class="text-center">FORMA DE PAGO</th>
+                  </tr>  
+                    <tr>
+                        <th scope="col" class="text-center">CRÉDITO</th>
+                    </tr>                                         
+                </thead>
+              </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr class="bg-light" >
+                    <th scope="col" colspan="6" class="text-center">ESPECIFICACIONES DE LA COMPRA</th>
+                  </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">ITEMS</th>
+                        <th scope="col" class="text-center" width="50%">DESCRIPCIÓN</th>
+                        <th scope="col" class="text-center">UNIDAD</th>
+                        <th scope="col" class="text-center">CANTIDAD</th>
+                        <th scope="col" class="text-center">PRECIO UNITARIO</th>
+                        <th scope="col" class="text-center">MONTO TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="col" class="text-center">1</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="text-center">2</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                    </tr> 
+                    <tr>
+                        <th scope="col" colspan="5"><span style="float:right">MONTO TOTAL</span></th>
+                        <th><span style="float:right"> 90.004.400,00</span></th>
+                    </tr>                                                
+                </tbody>  
+              </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr class="bg-light" >
+                    <th scope="col" colspan="2" class="text-center">CONDICIONES GENERALES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="col" class="text-center">1</th>
+                        <td scope="col">El Proveedor deberá cancelar a EL INSTITUTO por cada día hábil de retraso en el inicio, el Dos por Quinientos (2/500) del monto contratado.</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th scope="col" class="text-center">2</th>
+                        <td scope="col">El Proveedor deberá cumplir con el Compromiso de Responsabilidad Social equivalente al tres por ciento (3%) sobre el monto de la contratación, sin considerar los tributos.</td>
+                    </tr>
+                </tbody>  
+              </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr class="bg-light" >
+                    <th scope="col" colspan="5" class="text-center">CLASIFICACIÓN PRESUPUESTARIA</th>
+                  </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">ACCIÓN<br>CENTRALIZADA</th>
+                        <th scope="col" class="text-center">ACCIÓN<br>ESPECÍFICA</th>
+                        <th scope="col" class="text-center">CÓDIGO DE CUENTA</th>
+                        <th scope="col" class="text-center" width="50%">DENOMINACIÓN</th>
+                        <th scope="col" class="text-center">MONTO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col" class="text-center">07010201</td>
+                        <td scope="col" class="text-center">07010201001</td>
+                        <td scope="col" class="text-center">4.03.04.05.00</th>
+                        <td scope="col">Servicio de comunicaciones</th>
+                        <th><span style="float:right">777.590.000,00</span></th>
+                    </tr> 
+                    <tr>
+                        <td scope="col" class="text-center">07010201</td>
+                        <td scope="col" class="text-center">07010201002</td>
+                        <td scope="col" class="text-center">4.03.04.05.00</th>
+                        <td scope="col">Servicio de comunicaciones</th>
+                        <th><span style="float:right">777.590.000,00</span></th>
+                    </tr>                                                                       
+                </tbody>  
+              </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered border-dark">
+                <thead>
+                <tr class="bg-light" >
+                    <th scope="col" class="text-center" width="60%">NOTA DE CERTIFICACIÓN</th>
+                    <th scope="col" colspan="2" class="text-center">SUB TOTAL</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col" rowspan="6" style="text-align: justify;">
+                            En cumplimiento a lo dispuesto en el artículo 38, numeral 2 de la Ley Orgánica de la Contraloría General de la República y del Sistema Nacional de Control Físcal, publicada en Gaceta Oficial de la República Bolivariana de Venezuela Nº 6.013 Extraordinaria, de fecha 23 de diciembre de 2010, concatenado con el artículo 74 del Decreto con Rango, Valor y Fuerza de Ley de Contrataciones Públicas, publicado en Gaceta Oficial de la República Bolivariana de Venezuela Nº 6.154 Extraordinaria, de fecha 19 de noviembre de 2014 y, artículo 94 del Reglamento de la Ley de Contrataciones Públicas, publicado en Gaceta Oficial de la República Bolivariana de Venezuela Nº 39.181, de fecha 19 de mayo de 2009, se CERTIFICA la existencia y disponibilidad de las partidas detalladas anteriormente.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" >IVA       16%</td>
+                        <td scope="col" ><span style="float:right">777.590.000,00</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col" width="15%" >EXCENTO IVA</td>
+                        <td scope="col" ><span style="float:right">777.590.000,00</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="col" >TOTAL</th>
+                        <th scope="col" ><span style="float:right">777.590.000,00</span></th>
+                    </tr>     
+                    <tr>
+                        <td scope="col" colspan="2"><br><br><br></td>
+                    </tr>         
+                    <tr>
+                        <th scope="col" colspan="2" class="text-center">Jefe de Presupuesto</th>
+                    </tr>                                                          
+                </tbody> 
+            </table>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-7">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr class="bg-light" >
+                    <th scope="col" colspan="5" class="text-center">FIRMAS AUTORIZADAS</th>
+                  </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">UNIDAD DE ORIGEN</th>
+                        <th scope="col" class="text-center">JEFATURA DE ADMINISTRACIÓN</th>
+                        <th scope="col" class="text-center">DIRECTOR DE ADMINISTRACIÓN</th>
+                        <th scope="col" class="text-center">PRESIDENCIA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col"> <br><br><br><br><br> </td>
+                        <td scope="col"> &nbsp; </td>
+                        <td scope="col"> &nbsp; </td>
+                        <td scope="col"> &nbsp; </td>
+                    </tr> 
+                                                                             
+                </tbody>  
+              </table>
+        </div>
+
+        <div class="offset-1 col-4">
+            <table class="table table-bordered border-dark">
+                <thead>
+                  <tr class="bg-light" >
+                    <th scope="col" colspan="5" class="text-center">PROVEEDOR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col"> <br><br><br><br><br><br> </td>
+                        <td scope="col" rowspan="2"> &nbsp; </td>
+                    </tr> 
+                    <tr>
+                        <td scope="col"> <br> </td>
+                    </tr>                                                                                  
+                </tbody>  
+              </table>
+        </div>
+
+    </div>
+
+    <div class="row pt-5">
+        
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <p>
+                <strong>Válido sin enmendaduras</strong>
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+    <hr><!-- Divider -->
+
+{% endblock body %}

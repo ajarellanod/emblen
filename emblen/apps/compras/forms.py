@@ -32,3 +32,10 @@ class CompromisoForm(forms.ModelForm):
     class Meta:
         model = Compromiso
         fields = "__all__"
+
+class DocumentoPagarForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoPagar
+        exclude = ("compromiso",)
+
+        

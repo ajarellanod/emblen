@@ -54,11 +54,19 @@
   <a id="m_cargaLey" class="nav-link" href="#navbar-dashboards2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards2">
     <i class="fas fa-balance-scale text-primary"></i>
     <!-- <i class="fas fa-gavel text-primary"></i> -->
-    <span class="nav-link-text">Carga de ley</span>
+    <span class="nav-link-text">Ley de Presupuesto</span>
   </a>
   <div class="collapse" id="navbar-dashboards2">
     <ul class="nav nav-sm flex-column">
-
+      {% if perms.formulacion.view_ejerciciopresupuestario %}
+      <li class="nav-item">
+        <a href="{% url 'formulacion:ejercicios_presupuestarios' %}" class="nav-link" id="m_partidas_acc_internas">
+          <span class="sidenav-mini-icon"> EJR </span>
+          <span class="sidenav-normal"> Ejercicio Presupuestario</span>
+        </a>
+      </li>
+      {% endif %}
+      
       {% if perms.formulacion.view_programa %}
       <li class="nav-item">
         <a href="{% url 'formulacion:programas' %}" class="nav-link"  id="m_programas">
@@ -77,14 +85,14 @@
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_estimacion %}
+      <!-- {% if perms.formulacion.view_estimacion %}
       <li class="nav-item">
         <a href="{% url 'formulacion:estimacion' %}" class="nav-link" id="m_estimaciones">
           <span class="sidenav-mini-icon"> E </span>
           <span class="sidenav-normal"> Estimaciones </span>
         </a>
       </li>
-      {% endif %}
+      {% endif %} -->
 
       {% if perms.formulacion.view_accioninterna %}
       <li class="nav-item">
@@ -95,14 +103,14 @@
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_partidaaccioninterna %}
+      <!-- {% if perms.formulacion.view_partidaaccioninterna %}
       <li class="nav-item">
         <a href="{% url 'formulacion:partida_accion_interna' %}" class="nav-link" id="m_partidas_acc_internas">
           <span class="sidenav-mini-icon"> PAI </span>
           <span class="sidenav-normal"> Partidas Acc. Internas </span>
         </a>
       </li>
-      {% endif %}
+      {% endif %} -->
 
     </ul>
   </div>
@@ -125,6 +133,7 @@
     </ul>
   </div>
 </li>
+
 <li class="nav-item">
   <a id="m_reportes" class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables">
     <i class="far fa-file text-primary"></i>
@@ -139,37 +148,26 @@
         </a>
       </li>  
       <li class="nav-item">
+        <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link" id="m_r_formulacion">
+          <span class="sidenav-mini-icon"> CPA </span>
+          <span class="sidenav-normal"> Programas </span>
+        </a>
+      </li>  
+      <li class="nav-item">
           <li class="nav-item">
             <a class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">
-              <span class="sidenav-mini-icon"> R4 </span>
-              <span class="sidenav-normal"> Reporte 4 </span>
+              <span class="sidenav-mini-icon"> F </span>
+              <span class="sidenav-normal"> Formatos </span>
             </a>
             <div class="collapse" id="navbar-tables2">
               <ul class="nav nav-sm flex-column">
                 <li class="nav-item">
-                  <a href="{% url 'formulacion:partidas' %}" class="nav-link">
-                    <span class="sidenav-mini-icon"> R4-1 </span>
-                    <span class="sidenav-normal"> Reporte 4-1 </span>
+                  <a data-toggle="modal" data-target="#creditos-presupuestarios-asig" href="#" class="nav-link pl-4" id="m_r_formulacion">
+                    <span class="sidenav-mini-icon"> PI </span>
+                    <span class="sidenav-normal"> Presupuesto de Ingresos </span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="{% url 'formulacion:partidas' %}" class="nav-link">
-                    <span class="sidenav-mini-icon"> R4-2 </span>
-                    <span class="sidenav-normal"> Reporte 4-2 </span>
-                  </a>
-                </li>  
-                <li class="nav-item">
-                  <a href="{% url 'formulacion:partidas' %}" class="nav-link">
-                    <span class="sidenav-mini-icon"> R4-3 </span>
-                    <span class="sidenav-normal"> Reporte 4-3 </span>
-                  </a>
-                </li>    
-                <li class="nav-item">
-                  <a href="{% url 'formulacion:partidas' %}" class="nav-link">
-                    <span class="sidenav-mini-icon"> R4-4 </span>
-                    <span class="sidenav-normal"> Reporte 4 - 4 </span>
-                  </a>
-                </li>            
+                 
               </ul>
             </div>
           </li>

@@ -129,7 +129,8 @@ class Beneficiario(EmblenBaseModel):
     #Sólo aplica para contratistas
 
     def __str__(self):
-        return self.rif
+        # return  self.rif
+        return '%s - %s' %(self.rif,self.razon_social) 
 
     class Meta:
         verbose_name_plural = "Beneficiarios"
@@ -231,11 +232,20 @@ class DocumentoPagar(EmblenBaseModel):
         null=True
     )
 
+    beneficiario = models.ForeignKey(
+        Beneficiario,
+        related_name="documentos_pagar",
+        on_delete=models.PROTECT,
+        null=True
+    )
+
+
     def __str__(self):
         return self.numero
 
     class Meta:
         verbose_name_plural = "Documentos a Pagar"
+        unique_together = (("numero", "anio", "beneficiario"),)
 
 
 class DetalleDocumentoPagar(EmblenBaseModel):
@@ -279,6 +289,7 @@ class DetalleDocumentoPagar(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Detalles de Documentos a Pagar"
+
 
 
 class TipoContrato(EmblenBaseModel):

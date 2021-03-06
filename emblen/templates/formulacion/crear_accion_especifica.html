@@ -12,8 +12,13 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item">
+      <a href="{% url 'formulacion:principal' %}">
+        Formulación
+      </a>
+  </li>
+  <li class="breadcrumb-item">
     <a href="{% url 'formulacion:acciones_especificas' %}">
-      Acciones Especificas a Ejecutar
+      Acciones Específicas
     </a>
   </li>
   {% if form.initial %}
@@ -31,7 +36,7 @@
         Estimaciones
       </a>
     {% else %}
-      <a href="{% url 'formulacion:estimacion' %}" class="btn btn-sm btn-neutral">
+      <a href="{% url 'formulacion:estimacion2' form.instance.id %}" class="btn btn-sm btn-neutral">
         Crear Estimaciones
       </a>
     {% endif %}
@@ -93,7 +98,7 @@
           {% if form.initial %}
             <input type="text" name="programa" value="{{form.instance.programa}}" readonly="true" class="form-control" required="" id="id_programa">
           {% else %}
-            {% render_field form.programa data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              {% render_field form.programa data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
           {% endif %}
         </div>
       </div>

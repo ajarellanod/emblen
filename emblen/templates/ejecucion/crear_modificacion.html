@@ -1,4 +1,4 @@
-{% extends 'formulacion/_base.html' %}
+{% extends 'ejecucion/_base.html' %}
 
 {% load static %}
 
@@ -10,24 +10,18 @@
   </style>
 {% endblock head %}
 
-{% block title %} Crear Estimación {% endblock title %}
+{% block title %} Crear Afectacion Presupuestaria {% endblock title %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item">
-    <a href="{% url 'formulacion:principal' %}">
+    <a href="{% url 'ejecucion:principal' %}">
       Formulación
     </a>
   </li>
-  <li class="breadcrumb-item">
-    {% for accion in acciones %}
-    <a href="{% url 'formulacion:v_accion_especifica' accion.id %}">
-      Acciones Especificas
-    </a>
-    {% endfor %}
-  </li>
+
   <li class="breadcrumb-item">
     <a href="#">
-      Estimaciones
+      Afectacion Presupuestaria
     </a>
   </li>
 {% endblock breadcrumb %}
@@ -39,59 +33,28 @@
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Crear Estimación</h3>
+              <h3 class="mb-0">Crear Afectación Presupuestaria</h3>
             </div>
             <div class="col text-right">
-              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'formulacion:estimacion' %}" token="{{ csrf_token }}" callback="true">
+              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'ejecucion:modificaciones' %}" token="{{ csrf_token }}" callback="true">
                 Crear
               </a>
               {% for accion in acciones %}
-              <a href="{% url 'formulacion:v_accion_especifica' accion.id %}" class="btn btn-sm btn-default">Cancelar</a>
+              <a href="{% url 'formulacion:principal' %}" class="btn btn-sm btn-default">Cancelar</a>
               {% endfor %}
             </div>
           </div>
         </div>
         <div class="card-body">
-          <h6 class="heading-small text-muted mb-4">Estimar</h6>
+          <h6 class="heading-small text-muted mb-4">Afectación Presupuestaria</h6>
           <div class="pl-lg-4">
             <div class="row">
             </div>
             <form method="POST" action="." id="form">
               {% csrf_token %}
-              <div class="row">
-                <div class="col-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_cuenta">Accion Especifica</label>
-                    <select class="form-control queryInput" data-toggle="select" data-minimum-results-for-search="Infinity" id="id_accion_especifica" 
-                    name="accion_especifica">
-                      {% for accion in acciones %}
-                        <option value="{{accion.id}}">{{accion.codigo}}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_cuenta">Seleccione Partida</label>
-                    <select class="form-control queryInput" data-toggle="select" id="id_partida" name="partida">
-                      <option>--------------------</option>
-                      {% for partida in partidas %}
-                        <option value="{{partida.id}}">{{partida.cuenta}} - {{partida.descripcion}}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                
-                <!-- <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_anio">Año</label>
-                    <input type="text" id="id_anio" maxlength="4" name="anio"
-                    class="form-control queryInput" autocomplete="off" placeholder="Ingrese Año...">
-                  </div>
-                </div> -->
 
+
+              <div class="row">
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label" for="id_anio">Año</label>
@@ -100,13 +63,82 @@
                     {% endfor %}
                   </div>
                 </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_documento_referenciado">Documento Referenciado</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_documento_referenciado" name="documento_referenciado">
+                      <option>--------------------</option>
+                      {% for documento_referenciado in documento_referenciado %}
+                        <option value="{{documento_referenciado.id}}">{{documento_referenciado.orden_pago}} - {{documento_referenciado.descripcion}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_partida_accioninterna">Seleccione Partida</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_partida_accioninterna" name="partida_accioninterna">
+                      <option>--------------------</option>
+                      {% for partida_accioninterna in partidas %}
+                        <option value="{{partida_accioninterna.id}}">{{partida_accioninterna.cuenta}} - {{partida_accioninterna.descripcion}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Número Correlativo</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="numero" id="id_numero">
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Tipo Modificación</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="tipo_modificacion" id="id_tipo_modificacion">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_numero">Descripción</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control queryInput" name="descripcion" id="id_descripcion">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label" for="id_monto">Monto</label>
                     <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="monto" id="id_monto">
                   </div>
                 </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Saldo</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="saldo" id="id_saldo">
+                  </div>
+                </div>
+
               </div>
+
             </form>
           </div>
         </div>
@@ -184,15 +216,15 @@
         flag = false;
       }
 
-      let est = response.estimacion;
+      let mod = response.modificacion;
       $('table > tbody:last-child').append(`
         <tr>
-          <th>${est.codigo_accion}</th>
-          <th><input type="text" readonly value="${est.codigo_partida}" class="form-control input-tablas "></th>
-          <td class="text-center">${est.anio}</td>
-          <td><input type="text" readonly value="${est.monto}" class="form-control input-tablas inputCurrency text-right"> </td>
+          <th>${mod.orden_pago}</th>
+          <th><input type="text" readonly value="${mod.codigo_partida}" class="form-control input-tablas "></th>
+          <td class="text-center">${mod.anio}</td>
+          <td><input type="text" readonly value="${mod.monto}" class="form-control input-tablas inputCurrency text-right"> </td>
           <td class="text-right">
-                    <a href="${est.id}/eliminar"
+                    <a href="${mod.id}/eliminar"
                     class="btn btn-sm btn-default" title="Eliminar">
                       <i class="fas fa-trash"></i>
                     </a>

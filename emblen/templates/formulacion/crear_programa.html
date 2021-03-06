@@ -11,11 +11,20 @@
 {% endblock title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="#">Programas a Ejecutar</i></a></li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:principal' %}">
+      Formulación
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+  <a href="{% url 'formulacion:programas' %}">
+    Programas
+  </a>
+  </li>
   {% if form.initial %}
-    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</i></a></li>
+  <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</a></li>
   {% else %}
-    <li class="breadcrumb-item"><a href="#">Creación de Programa</i></a></li>
+  <li class="breadcrumb-item"><a href="#">Creación de Programa</a></li>
   {% endif %}
 {% endblock breadcrumb %}
 
@@ -44,7 +53,7 @@
     {% endif %}
 
     {% if form.instance.plan_desarrollos.get_queryset %}
-      <a href="{% url 'formulacion:plan_desarrollos' %}?programa={{form.instance.id}}" 
+      <a href="{% url 'formulacion:planes_desarrollo' %}?programa={{form.instance.id}}" 
       class="btn btn-sm btn-neutral">
         Planes de Desarrollo
       </a>

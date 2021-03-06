@@ -3,7 +3,9 @@ from django import forms
 from apps.ejecucion.models import (
     TipoOrdenPago,
     ClaseOrdenPago,
-    OrdenPago
+    OrdenPago,
+    DocumentoPagar,
+    Modificacion
 )
 
 
@@ -11,6 +13,11 @@ class TipoOrdenPagoForm(forms.ModelForm):
     class Meta:
         model = TipoOrdenPago
         fields = "__all__"
+
+class DocumentoPagarForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoPagar
+        exclude = ("compromiso",)
 
 
 class OrdenPagoForm(forms.ModelForm):
@@ -22,13 +29,17 @@ class OrdenPagoForm(forms.ModelForm):
             "tipo",
             "fecha",
             "clase",
-            "contador",
             "unidad_origen",
             "fuente_financiamiento",
             "monto",
             "descripcion",
-            "saldo",
             "monto_deduciones",
-            "saldo_deducciones",
-            "estatus"
+            "estatus",
+            "elaborador",
+            "documento_pagar"
         )
+
+class ModificacionForm(forms.ModelForm):
+    class Meta:
+        model = Modificacion
+        exclude = ("descripcion","tipo_modificacion","saldo")

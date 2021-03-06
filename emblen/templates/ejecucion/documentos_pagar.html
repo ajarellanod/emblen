@@ -3,12 +3,12 @@
 {% load static %}
 
 {% block title %}
-  Lista de Acciones Especificas
+  Lista de Documentos a Pagar
 {% endblock title %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'formulacion:acciones_especificas' %}">Acciones Especificas</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'ejecucion:principal' %}">Ejecucion</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'ejecucion:documentos_pagar' %}">Documentos a Pagar</a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -23,11 +23,11 @@
             {% if request.GET.programa %}
               {% for acc in page_obj %}
                 {% if forloop.counter < 2 %}
-                  <h3 class="mb-0">Acciones Especificas del Programa: {{ acc.programa }} </h3>
+                  <h3 class="mb-0">Documentos a Pagar de la Orden: {{ acc.programa }} </h3>
                 {% endif %}
               {% endfor %}
             {% else %}
-              <h3 class="mb-0">Acciones Especificas </h3>
+              <h3 class="mb-0">Documentos a Pagar </h3>
             {% endif %}
 
             
@@ -37,9 +37,9 @@
                 <a id="btn_partidaNew" href="" >
               </a>
             {% else %}
-              <a id="btn_partidaNew" href="{% url 'formulacion:c_accion_especifica' %}" 
+              <a id="btn_partidaNew" href="{% url 'ejecucion:c_documento_pagar' %}" 
               class="btn btn-sm btn-primary">
-                Crear Acción Especifica
+                Crear Documentos a Pagar
               </a>            
             {% endif %}
           </div>
@@ -50,44 +50,52 @@
         <table class="table align-items-center table-hover" >
           <thead class="thead-light">
             <tr>
-              <th scope="col" class="sort text-center">Codigo</th>
-              <th scope="col" class="sort text-center" style="width:40%;">Descripción</th>
-              <th scope="col" class="sort text-center">Departamento Responsable</th>
-              <th scope="col" class="sort text-center ">Fecha de Inicio</th>
-              <th scope="col" class="sort text-center">Fecha de Fin</th>
-              {% if perms.formulacion.delete_accionespecifica %}
+              <th scope="col" class="sort text-center">Número</th>
+              <th scope="col" class="sort text-center">Número control</th>
+              <th scope="col" class="sort text-center">Beneficiario</th>
+              <th scope="col" class="sort text-center" style="width:20%;">Descripción</th>
+              <th scope="col" class="sort text-center">Monto Imponible</th>
+              <th scope="col" class="sort text-center ">Iva</th>
+              <th scope="col" class="sort text-center">Total</th>
+              {% if perms.ejecucion.delete_documentopagar %}
               <th scope="col" class="text-center" style="width:5%;"><i class="fas fa-cogs"></i></th>
               {% endif %}
             </tr>
           </thead>
           <tbody>
-            {% for accion in page_obj %}
+            {% for doc in page_obj %}
               <tr>
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:v_accion_especifica' accion.id %}">
-                        <span class="name mb-0 text-sm">{{ accion.codigo }}</span>
+                      <a href="{% url 'ejecucion:v_documento_pagar' doc.id %}">
+                        <span class="name mb-0 text-sm">{{ doc.numero }}</span>
                       </a>
                     </div>
                   </div>
                 </th>
+                <td class="text-center">
+                  {{ doc.numero_control }}
+                </td>
+                <td class="text-center">
+                  {{ doc.beneficiario.razon_social }}
+                </td>
                 <td class="text-center" >
-                  <input type="text" class="form-control input-tablas" value='{{ accion.descripcion }}' readonly>
-                  <!-- {{ accion.detalle|slice:"0:80" }} -->
+                  <input type="text" class="form-control input-tablas" value='{{ doc.descripcion }}' readonly>
+                  <!-- {{ doc.detalle|slice:"0:80" }} -->
                 </td>                
                 <td class="text-center">
-                  {{ accion.responsable }}
+                  <input type="text" readonly value="{{ doc.monto_imponible }}" class="form-control input-tablas inputCurrency text-right">
                 </td>
                 <td class="text-center">
-                  {{ accion.inicio }}
+                  <input type="text" readonly value="{{ doc.monto_iva }}" class="form-control input-tablas inputCurrency text-right">
                 </td>
                 <td class="text-center"> 
-                  {{ accion.fin }}
+                  <input type="text" readonly value="{{ doc.monto }}" class="form-control input-tablas inputCurrency text-right">
                 </td>
                 {% if perms.formulacion.delete_accionespecifica %}
                 <td class="text-right">
-                  <a href="{% url 'formulacion:e_accion_especifica' accion.id %}"
+                  <a href="{% url 'compras:e_documento_pagar' doc.id %}"
                   class="btn btn-sm btn-default">
                     Eliminar
                   </a>

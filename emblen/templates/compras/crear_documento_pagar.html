@@ -1,0 +1,189 @@
+{% extends 'formulacion/_base.html' %}
+
+{% load widget_tweaks %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white!important;
+    }
+  </style>
+{% endblock head %}
+
+
+{% block title %}
+  {% if form.initial %}
+    Documento a Pagar - {{form.instance.codigo}}
+  {% else %}
+    Creación de Documento a Pagar
+  {% endif %}
+{% endblock title %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+  <a href="{% url 'formulacion:principal' %}">
+    Compras
+  </a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_internas' %}">
+      Documentos a Pagar
+    </a>
+  </li>
+  {% if form.initial %}
+    <li class="breadcrumb-item"><a href="#">{{form.instance.codigo}}</a></li>
+  {% else %}
+    <li class="breadcrumb-item"><a href="#">Creación de Documento a Pagar</a></li>
+  {% endif %}
+{% endblock breadcrumb %}
+
+
+{% block body %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-8">
+          {% if form.initial %}
+            <h3 class="mb-0">Documento a Pagar: {{form.instance.codigo}}</h3>
+          {% else %}
+            <h3 class="mb-0">Crear Nuevo Documento a Pagar</h3>
+          {% endif %}
+        </div>
+        <div class="col-4 text-right">
+          <a href="#" class="btn btn-sm btn-primary" id="saveForm">
+            Guardar
+          </a>
+          <button onclick="goBack();" class="btn btn-sm btn-default">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="heading-small text-muted mb-4">Detalles</h6>
+      <div class="pl-lg-4">
+        {% include 'base/_form_error.html' %}
+        <div class="row">
+        </div>
+        <form method="POST" action="." id="form">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Año</label>
+                {% render_field form.anio class="form-control" class="form-control" %}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Fecha</label>
+                {% render_field form.fecha class="form-control" class="form-control" %}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Forma de Pago </label>
+                {% render_field form.forma_pago data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              </div>
+            </div> 
+
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Beneficiario </label>
+                  {% render_field form.beneficiario data-toggle="select" class="form-control" %}
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Tipo de Documento</label>
+                {% render_field form.tipo_documento data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Número Documento</label>
+                {% render_field form.numero class="form-control" %}
+              </div>
+            </div>
+          
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Número Control</label>
+                {% render_field form.numero_control class="form-control" %}
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Descripción </label>
+                {% render_field form.descripcion class="form-control" %}
+              </div>
+            </div> 
+          </div>
+
+          <div class="row">
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Monto Imponible</label>
+                {% render_field form.monto_imponible class="form-control inputCurrency queryInputCurrency" type="text" %}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Monto Iva</label>
+                {% render_field form.monto_iva class="form-control inputCurrency queryInputCurrency" type="text" %}
+              </div>
+            </div>     
+
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label">Monto Total </label>
+                {% render_field form.monto class="form-control inputCurrency queryInputCurrency" type="text" %}
+              </div>
+            </div>  
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    // HTML Objects
+  $("#id_anio").datepicker({
+    format: "yyyy",
+    viewMode: "years", 
+    minViewMode: "years"
+  }).datepicker("setDate", new Date());
+
+  $("#id_fecha").datepicker({
+	dateFormat: 'dd/mm/yy',
+    }).datepicker("setDate", new Date());
+
+  </script>
+
+    <script type="text/javascript">
+        $('#saveForm').on('click', function() {
+            $("#form").submit();
+        });
+    </script>
+{% endblock script %}

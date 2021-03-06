@@ -1,0 +1,35 @@
+<div class="modal fade" id="re_orden_compra" tabindex="-1" 
+role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+  <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card bg-secondary shadow border-0">
+          <div class="card-header bg-white">
+            <div class="text-muted text-center mb-1">
+              Orden de Compra
+            </div>
+          </div>
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="mb-1">
+              Nº Orden de Compra
+            </div>
+            <form method="post" target="_blank" action="{% url 'compras:re_orden_compra' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <input type="text" id="id_anio_modal" maxlength="6" name="orden"
+                    class="form-control" autocomplete="off" placeholder="EJ: 000092" required>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary my-4">Generar Orden</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

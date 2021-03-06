@@ -917,7 +917,7 @@ class Estimacion(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Estimaciones por Partidas"
-        unique_together = (("accion_especifica", "partida", "anio"),)
+        unique_together = (("accion_especifica", "partida", "anio", "eliminado"),)
 
     def __str__(self):
         return f"{self.accion_especifica} - {self.partida}"
@@ -1029,6 +1029,9 @@ class AccionInterna(EmblenBaseModel):
         self.codigo = f"{cod_tipo}{cod_sector}{cod_aux}"
         self.nivel = 3
 
+    def __str__(self):
+        return self.codigo
+
     class Meta:
         verbose_name_plural = "Acciones Internas"
 
@@ -1067,12 +1070,14 @@ class EjercicioPresupuestario(EmblenBaseModel):
     EJECUCION = 1
     COMPLEMENTARIO = 2
     CERRADO = 3
+    CREADO = 4
 
     CONDICION = (
         (FORMULACION, "Formulación"),
         (EJECUCION, "Ejecución"),
         (COMPLEMENTARIO, "Complementario"),
-        (CERRADO, "Cerrado")
+        (CERRADO, "Cerrado"),
+        (CREADO, "Creado"),
     )
 
     anio = models.CharField(max_length=4)
@@ -1080,13 +1085,30 @@ class EjercicioPresupuestario(EmblenBaseModel):
     condicion = models.IntegerField(
         "Condición de Ejercicio Presupuestario", 
         choices=CONDICION,
-        default=FORMULACION
+
     )
+
+    @property
+    def condiciones(self):
+        return self.get_condicion_display()
 
     def __str__(self):
         return self.anio
+    
+    def gen_rest_attrs(self):
+        """
+        Genera Atributos Restante del Objeto en Instancia.
+        >> 
+        """
+        self.condicion = 2
+
+    def eje_anio(self):
+        """
+        Genera Atributos Restante del Objeto en Instancia.
+        >> 
+        """
+        self.condicion = 4
 
     class Meta:
         verbose_name_plural = "Ejercicios Presupuestarios"
-        unique_together = (("anio"),)
-        
+        unique_together = (("anio","eliminado"),)

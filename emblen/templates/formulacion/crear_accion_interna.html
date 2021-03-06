@@ -19,9 +19,29 @@
   {% endif %}
 {% endblock title %}
 
+{% block right_buttons %}
+  {% if form.initial %} 
+    {% if form.instance.estimaciones.get_queryset %}
+      <a href="{% url 'formulacion:partida_accion_interna_especifica' form.instance.id %}"
+      class="btn btn-sm btn-neutral">
+      Partidas Relacionadas
+      </a>
+    {% else %}
+      <a href="{% url 'formulacion:partida_accion_interna_especifica' form.instance.id %}" class="btn btn-sm btn-neutral">
+        Relacionar Partidas
+      </a>
+    {% endif %}
+  {% endif %}
+{% endblock right_buttons %}
+
 {% block breadcrumb %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'formulacion:acciones_especificas' %}">
+<li class="breadcrumb-item">
+  <a href="{% url 'formulacion:principal' %}">
+    Formulación
+  </a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'formulacion:acciones_internas' %}">
       Acciones Internas
     </a>
   </li>
@@ -39,7 +59,7 @@
       <div class="row align-items-center">
         <div class="col-8">
           {% if form.initial %}
-            <h3 class="mb-0">{{form.instance.nombre}}</h3>
+            <h3 class="mb-0">Acción Interna: {{form.instance.codigo}}</h3>
           {% else %}
             <h3 class="mb-0">Crear Nuevo Acción Interna</h3>
           {% endif %}

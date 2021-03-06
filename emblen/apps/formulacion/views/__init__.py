@@ -67,3 +67,11 @@ from .unidad_ejecutora import (
     UnidadEjecutoraView,
     UnidadEjecutoraDeleteView
 )
+
+
+from .ejercicio_presupuestario import (
+    EjercicioPresupuestarioListView,
+    EjercicioPresupuestarioCreateView,
+    EjercicioPresupuestarioView,
+    EjercicioPresupuestarioDeleteView
+)

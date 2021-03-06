@@ -10,6 +10,37 @@
   </a>
   <div class="collapse" id="navbar-dashboards">
     <ul class="nav nav-sm flex-column">
+
+      {% if perms.formulacion.view_documentopagar %}
+      <li class="nav-item">
+        <a href="{% url 'ejecucion:c_documento_pagar' %}" class="nav-link pl-3" id="m_documento_pagar"> 
+          <span class="sidenav-mini-icon"> DP </span>
+          <span class="sidenav-normal"> Documento a Pagar </span>
+        </a>
+      </li>
+      {% endif %}
+
+
+      {% if perms.formulacion.view_departamento %}
+      <li class="nav-item">
+        <a href="{% url 'ejecucion:c_orden_pago' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+          <span class="sidenav-mini-icon"> DE </span>
+          <span class="sidenav-normal"> Crear Directa Especial </span>
+        </a>
+      </li>
+      {% endif %}
+    
+
+      {% if perms.formulacion.view_documentopagar %}
+      <li class="nav-item">
+        <a href="{% url 'ejecucion:modificaciones' %}" class="nav-link pl-3" id="m_documento_pagar"> 
+          <span class="sidenav-mini-icon"> AFC </span>
+          <span class="sidenav-normal"> Afectación Presupuestaria </span>
+        </a>
+      </li>
+      {% endif %}
+
+
       {% if perms.formulacion.view_departamento %}
         <li class="nav-item">
           <a id="m_crear_OP" class="nav-link" href="#navbar-tables2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-tables2">
@@ -21,7 +52,7 @@
 
               {% if perms.formulacion.view_departamento %}
               <li class="nav-item">
-                <a href="{% url 'ejecucion:ordenes_pagos' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
+                <a href="{% url 'ejecucion:c_orden_pago' %}" class="nav-link pl-3" id="m_unidades_ejecutoras"> 
                   <span class="sidenav-mini-icon"> DE </span>
                   <span class="sidenav-normal"> Directa Especial </span>
                 </a>
@@ -50,6 +81,7 @@
           </div>
         </li>
         {% endif %}
+
 
         {% if perms.formulacion.view_departamento %}
         <li class="nav-item">
