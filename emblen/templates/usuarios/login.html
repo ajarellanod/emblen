@@ -1,20 +1,3 @@
-<!--
-
-=========================================================
-* Impact Design System - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/impact-design-system
-* Copyright 2010 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/impact-design-system/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
--->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -24,155 +7,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
 
-  <title>Inicio de Sesión</title>
+  <title>Inicio de Sesión | Emblen</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="{% static 'global/images/logo.png' %}" type="image/png">
+  <link rel="icon" href="{% static 'global/images/logonegro.ico' %}" type="image/png">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
   <link rel="stylesheet" href="{% static 'global/vendor/nucleo/css/nucleo.css' %}" type="text/css">
   <link rel="stylesheet" href="{% static 'global/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" type="text/css">
-  <!-- Page plugins -->
-  <link rel="stylesheet" href="{% static 'global/vendor/fullcalendar/dist/fullcalendar.min.css' %}">
   <link rel="stylesheet" href="{% static 'global/vendor/sweetalert2/dist/sweetalert2.min.css' %}">
   <!-- Argon CSS -->
   <link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}" type="text/css">
 </head>
 
-
-<body class="bg-white">
-  <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'usuarios:login' %}">
-        <img src="{% static 'global/images/emblen_blanco.png' %}" height="80">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
-        <div class="navbar-collapse-header">
-          <div class="row">
-            <div class="col-6 collapse-brand">
-              <a href="{% url 'usuarios:login' %}">
-                <img src="{% static 'global/images/logo.png' %}" height="80">
-              </a>
-            </div>
-            <div class="col-6 collapse-close">
-              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <hr class="d-lg-none" />
-
-      </div>
-    </div>
-  </nav>
+<body class="bg-white modal-open">
   <!-- Main content -->
   <div class="main-content">
     <!-- Header -->
     <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
       <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+        <svg x="0" y="0" viewBox="0 0 3560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-white" points="3560 0 3560 100 0 100"></polygon>
         </svg>
       </div>
     </div>
     <!-- Page content -->
     <div class="container mt--9 pb-5">
-      <!-- Table -->
-      <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-          <div class="card bg-secondary border border-soft">
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center mb-1 ">
-                <h1 class="text-primary" >
-                  <strong>Inicia Sesión</strong>
-                </h1>
-              </div><br>
-              {% if error %}
-                <div class="alert alert-danger" role="alert">
-                  <strong>Error en Inicio de Sesión</strong> verifica el usuario y contraseña!
-                </div>
-              {% endif %}
-              <form role="form" method="POST" action="."> {% csrf_token %}
-                <div class="form-group">
-                  <div class="input-group input-group-merge input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                    </div>
-                    <input class="form-control" name="username" placeholder="Usuario" type="text">
+      <div class="modal show" style="padding-right: 17px; display: block;">
+          <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+              <div class="modal-content">
+                  <div class="modal-body p-0">
+                      <div class="card bg-secondary shadow border-0">
+                          <div class="card-header bg-white pb-5">
+                              <div class="btn-wrapper text-center mt-3">
+                                  <a class="btn btn-neutral btn-icon">
+                                    <span class="btn-inner--icon"><img style="width:90px;" src="{% static 'global/images/invialca.png' %}"></span>
+                                  </a>
+                                  <a class="btn btn-neutral btn-icon">
+                                    <span class="btn-inner--icon"><img style="width:90px;" src="{% static 'global/images/emblen.png' %}"></span>
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="card-body px-lg-5 py-lg-5">
+                              <div class="text-center text-muted mb-4">
+                                  <small>Usa Credenciales Para Ingresar</small>
+                              </div>
+                              <form role="form" method="POST" action=".">{% csrf_token %}
+                                <div class="form-group">
+                                  <div class="input-group input-group-merge input-group-alternative mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                    </div>
+                                    <input class="form-control" autocomplete="off" name="username" placeholder="Usuario" type="text">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input class="form-control" name="password" placeholder="Contraseña" type="password">
+                                  </div>
+                                </div>
+                                <div class="row my-4">
+                                  <div class="col-12">
+                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
+                                      <label class="custom-control-label" for="customCheckRegister">
+                                        <span class="text-muted">Recordar Contraseña</a></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="text-center">
+                                  <button type="submit" class="btn btn-primary mt-4">Ingresar</button>
+                                </div>
+                              </form>
+                          </div>
+                      </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-merge input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    <input class="form-control" name="password" placeholder="Contraseña" type="password">
-                  </div>
-                </div>
-                <div class="row my-4">
-                  <div class="col-12">
-                    <div class="custom-control custom-control-alternative custom-checkbox">
-                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                      <label class="custom-control-label" for="customCheckRegister">
-                        <span class="text-muted">Recordar Contraseña</a></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary mt-4">Ingresar</button>
-                </div>
-              </form>
-            </div>
-          </div><br><br><br>
-        </div>
+              </div>
+          </div>
       </div>
     </div>
   </div>
-  <!-- Footer -->
-  <footer class="py-5 bg-white" id="footer-main">
-    <div class="container">
-      <div class="row align-items-center justify-content-xl-between">
-        <div class="col-xl-6">
-          <div class="copyright text-center  text-lg-left  text-muted">
-            &copy; 2020
-            <a href="#" class="font-weight-bold ml-1" target="_blank">
-              Emblen Inc.
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Sistema Emblen</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Sobre Nosotros</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" target="_blank">Licencia</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
   <!-- Argon Scripts -->
   <!-- Core -->
   <script src="{% static 'global/vendor/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static 'global/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'global/vendor/js-cookie/js.cookie.js' %}"></script>
-  <script src="{% static 'global/vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
-  <script src="{% static 'global/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'global/js/dashboard.js' %}"></script>
+  <div class="modal-backdrop show"></div>
 </body>
 
 </html>

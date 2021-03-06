@@ -26,7 +26,15 @@ class EstimacionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Estimacion
-        fields = ['id', 'accion_especifica', 'partida', 'anio', 'monto', 'codigo_accion', 'codigo_partida']
+        fields = [
+            'id',
+            'accion_especifica',
+            'partida',
+            'anio',
+            'monto',
+            'codigo_accion',
+            'codigo_partida'
+        ]
 
 
 class PartidaAccionInternaSerializer(serializers.ModelSerializer):
@@ -36,6 +44,11 @@ class PartidaAccionInternaSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartidaAccionInterna
         fields = [
-            'id', 'accion_interna', 'partida',
-            'anio', 'mto_original','codigo_accion', 'codigo_partida'
+            'id',
+            'accion_interna',
+            'partida',
+            'anio',
+            'mto_original',
+            'codigo_accion',
+            'codigo_partida'
         ]

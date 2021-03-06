@@ -2,7 +2,6 @@
 
 {% block options %}
 <!-- Opciones del Menú -->
-<!-- Opciones del Menú -->
 <li class="nav-item">
   <a id="m_partidas" class="nav-link" href="#navbar-dashboards" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-dashboards">
     <i class="fas fa-sitemap text-primary"></i>
@@ -11,16 +10,14 @@
   </a>
   <div class="collapse" id="navbar-dashboards">
     <ul class="nav nav-sm flex-column">
-
-      {% if perms.formulacion.view_departamento %}
+      {% if perms.planificacion.view_modificacion %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:unidades_ejecutoras' %}" class="nav-link" id="m_unidades_ejecutoras"> 
+        <a href="#" class="nav-link" id="m_unidades_ejecutoras"> 
           <span class="sidenav-mini-icon"> CE </span>
           <span class="sidenav-normal"> Crear en Ejercicio </span>
         </a>
       </li>
       {% endif %}
-           
     </ul>
   </div>
 </li>
@@ -33,36 +30,36 @@
   <div class="collapse" id="navbar-dashboards2">
     <ul class="nav nav-sm flex-column">
      
-      {% if perms.formulacion.view_programa %}
+      {% if perms.planificacion.view_modificacion %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:programas' %}" class="nav-link" id="m_programas">
+        <a href="{% url 'planificacion:modificacion' %}" class="nav-link">
           <span class="sidenav-mini-icon"> CA </span>
           <span class="sidenav-normal"> Crédito Adicional </span>
         </a>
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_accionespecifica %}
+      {% if perms.planificacion.view_modificacion %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link" id="m_acc_especificas">
+        <a href="{% url 'planificacion:modificacion' %}" class="nav-link">
           <span class="sidenav-mini-icon"> D </span>
           <span class="sidenav-normal"> Disminución </span>
         </a>
       </li>
       {% endif %}      
 
-      {% if perms.formulacion.view_programa %}
+      {% if perms.planificacion.view_modificacion %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:programas' %}" class="nav-link" id="m_programas">
+        <a href="#" class="nav-link">
           <span class="sidenav-mini-icon"> T </span>
           <span class="sidenav-normal"> Traspasos </span>
         </a>
       </li>
       {% endif %}
 
-      {% if perms.formulacion.view_accionespecifica %}
+      {% if perms.planificacion.view_modificacion %}
       <li class="nav-item">
-        <a href="{% url 'formulacion:acciones_especificas' %}" class="nav-link" id="m_acc_especificas">
+        <a href="#" class="nav-link">
           <span class="sidenav-mini-icon"> R </span>
           <span class="sidenav-normal"> Reversos </span>
         </a>

@@ -5,7 +5,6 @@ from django.db.models.functions import Substr
 from django.db.models import Max
 
 from apps.base.models import EmblenBaseModel
-from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class Sector(EmblenBaseModel):
@@ -833,7 +832,7 @@ class Publicacion(EmblenBaseModel):
         verbose_name_plural = "Publicaciones"
 
     def __str__(self):
-        return self.codigo
+        return str(self.codigo)
 
 
 class Partida(EmblenBaseModel):
@@ -866,7 +865,8 @@ class Partida(EmblenBaseModel):
     publicacion = models.ForeignKey(
         Publicacion,
         related_name="partidas",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        default=0
     )
 
     def sin_ceros(self):
@@ -887,7 +887,7 @@ class Partida(EmblenBaseModel):
         return queryset
         
     def __str__(self):
-        return '%s - %s' %(self.cuenta,self.descripcion)
+        return self.cuenta
 
     class Meta:
         ordering = ('-creado',)
@@ -1053,6 +1053,9 @@ class PartidaAccionInterna(EmblenBaseModel):
 
     mto_actualizado = models.DecimalField(max_digits=22,decimal_places=2)
 
+    def __str__(self):
+        return self.partida.cuenta
+
     class Meta:
         verbose_name_plural = "Cuentas - Acciones Internas"
         unique_together = (("accion_interna", "partida", "anio"),)
@@ -1086,3 +1089,4 @@ class EjercicioPresupuestario(EmblenBaseModel):
     class Meta:
         verbose_name_plural = "Ejercicios Presupuestarios"
         unique_together = (("anio"),)
+        

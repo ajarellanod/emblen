@@ -7,9 +7,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.base.models import EmblenBaseModel
 
-from apps.formulacion.models import (
-    PartidaAccionInterna
-)
+from apps.formulacion.models import PartidaAccionInterna
 
 
 class TipoModificacion(EmblenBaseModel):
@@ -44,7 +42,7 @@ class Modificacion(EmblenBaseModel):
     """
     anio = models.CharField(max_length=4)
 
-    numero = models.CharField(max_length=10)
+    numero = models.IntegerField()
 
     partida_accioninterna = models.ForeignKey(
         PartidaAccionInterna,
@@ -69,8 +67,17 @@ class Modificacion(EmblenBaseModel):
     def __str__(self):
         return self.numero
 
+    def _next_num(self):
+        result = Modificacion.objects.all().aggregate(Max('numero'))
+        result = result["numero__max"]
+
+        if result is not None:
+            return result + 1
+        return 1
+
     def gen_rest_attrs(self):
-        pass
+        self.saldo = self.monto
+        self.numero = self._next_num()
 
     class Meta:
         verbose_name_plural = "Modificaciones"

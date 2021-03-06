@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, TemplateView
-from django.http import JsonResponse, Http404
-from django.db.models.functions import Substr
 from braces.views import LoginRequiredMixin
 
 from apps.base.views import (
@@ -23,16 +21,26 @@ from apps.planificacion.forms import (
 
 class PrincipalView(LoginRequiredMixin, TemplateView):
     template_name = "planificacion/principal.html"
-    
+
+
+# ----- Modificacion -----
 
 class ModificacionView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("planificacion.add_modificacion",)}
     template_name = "planificacion/crear_modificacion.html"
     form_class = ModificacionForm
-    success_url = "formulacion:programas"
+    success_url = "planificacion:principal"
 
     def form_valid(self, form):
         modificacion = form.save(commit=False)
         modificacion.gen_rest_attrs()
         return super().form_valid(modificacion)
-    
+
+
+class ModificacionTraspasoView(EmblenPermissionsMixin, EmblenView):
+    permissions = {"all": ("planificacion.add_modificacion",)}
+    template_name = "planificacion/crear_traspaso.html"
+    json_post = True
+
+    def jsonpost(self, request):
+        pass
