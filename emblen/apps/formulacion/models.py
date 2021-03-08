@@ -1201,7 +1201,8 @@ class ModificacionIngreso(EmblenBaseModel):
     elaborador = models.ForeignKey(
         User,
         related_name="e_modificaciones_ingresos",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        null=True
     )
 
     verificador = models.ForeignKey(
