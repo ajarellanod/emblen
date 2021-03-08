@@ -7,7 +7,7 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.base.models import EmblenBaseModel
 
-from apps.formulacion.models import PartidaAccionInterna
+from apps.formulacion.models import PartidaAccionInterna, ModificacionIngreso
 
 
 class TipoModificacion(EmblenBaseModel):
@@ -40,6 +40,16 @@ class Modificacion(EmblenBaseModel):
     En este modelo se deben guardar los afectaciones
     que se le vayan haciendo al presupuesto
     """
+    ELABORADA = 0
+    VERIFICADA = 1
+    ANULADA = 2
+
+    ESTATUS_MODIFICACION = (
+        (ELABORADA, "Elaborado"),
+        (VERIFICADA, "Verificado"),
+        (ANULADA, "Anulado"),
+    )
+
     anio = models.CharField(max_length=4)
 
     numero = models.IntegerField()
@@ -56,6 +66,14 @@ class Modificacion(EmblenBaseModel):
         on_delete=models.PROTECT
     )
 
+    modificacion_ingreso = models.ForeignKey(
+        ModificacionIngreso,
+        related_name="modificaciones",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
     documento_referenciado = models.IntegerField(null=True, blank=True) 
     
     monto = models.DecimalField(max_digits=22,decimal_places=2)
@@ -63,6 +81,34 @@ class Modificacion(EmblenBaseModel):
     saldo = models.DecimalField(max_digits=22,decimal_places=2, null=True, blank=True)
 
     descripcion = models.CharField(max_length=300)
+
+    estatus = models.IntegerField(
+        "Estatus Modificación de Egreso", 
+        choices=ESTATUS_MODIFICACION,
+        default=ELABORADA
+    )
+
+    elaborador = models.ForeignKey(
+        User,
+        related_name="e_modificaciones_egreso",
+        on_delete=models.PROTECT
+    )
+
+    verificador = models.ForeignKey(
+        User,
+        related_name="v_modificaciones_egreso",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    anulador = models.ForeignKey(
+        User,
+        related_name="a_modificaciones_egreso",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    ) 
 
     def __str__(self):
         return self.numero

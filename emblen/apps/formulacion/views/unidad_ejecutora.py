@@ -14,7 +14,7 @@ class UnidadEjecutoraListView(EmblenPermissionsMixin, ListView):
     permissions = {"all": ("formulacion.view_unidadejecutora",)}
     template_name = "formulacion/unidades_ejecutoras.html"
     success_url = "formulacion:unidades_ejecutoras"
-    queryset = UnidadEjecutora.objects.all().order_by("codigo")
+    queryset = UnidadEjecutora.objects.all().order_by("codigo_ente")
     paginate_by = 8
 
 

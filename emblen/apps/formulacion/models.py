@@ -178,7 +178,9 @@ class UnidadEjecutora(EmblenBaseModel):
         blank=True,
     )
 
-    codigo = models.CharField(max_length=10)
+    codigo_ente = models.CharField(max_length=10)
+
+    codigo_secundario = models.CharField(max_length=10)
 
     nombre = models.CharField(max_length=100)
 
@@ -882,7 +884,7 @@ class Partida(EmblenBaseModel):
         queryset = Partida.objects.filter(
             nivel=siguiente_nivel,
             cuenta__startswith=debe_comenzar,
-        )
+        ).order_by("cuenta")
 
         return queryset
         
@@ -1112,3 +1114,114 @@ class EjercicioPresupuestario(EmblenBaseModel):
     class Meta:
         verbose_name_plural = "Ejercicios Presupuestarios"
         unique_together = (("anio","eliminado"),)
+
+
+class ClaseIngreso(EmblenBaseModel):
+
+    DISMINUCION = 'D'
+    AUMENTO = 'A'
+    
+    TIPO_AFECTACION = (
+        (DISMINUCION, 'Disminucion'),
+        (AUMENTO, 'Aumento'),
+    )
+    
+    codigo = models.CharField(max_length=2)
+
+    nombre = models.CharField(max_length=100)
+
+    descripcion = models.CharField(max_length=200)
+    
+    afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural = "Clases de Ingresos"
+
+
+class ModificacionIngreso(EmblenBaseModel):
+
+    GACETA = 0
+    ACTA = 1
+
+    TIPO_DOCUMENTO = (
+        (GACETA, "Gaceta"),
+        (ACTA, "Acta"),
+    ) #Acta de junta Directiva
+
+    ELABORADO = 0
+    VERIFICADO = 1
+    ANULADO = 2
+
+    ESTATUS_INGRESO = (
+        (ELABORADO, "Elaborado"),
+        (VERIFICADO, "Verificado"),
+        (ANULADO, "Anulado"),
+    )
+
+    anio = models.CharField(max_length=4)
+    
+    fecha = models.DateField()
+    
+    periodo = models.CharField(max_length=2)
+
+    numero = models.IntegerField()
+
+    tipo_documento = models.IntegerField(
+        "Tipo de Documento del Ingreso", 
+        choices=TIPO_DOCUMENTO,
+    )
+
+    numero_documento = models.CharField(max_length=10)
+
+    fecha_documento = models.DateField()
+
+    numero_decreto = models.CharField(max_length=10)
+
+    fecha_decreto = models.DateField()
+
+    descripcion = models.CharField(max_length=300)
+
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
+
+    partida = models.ForeignKey(
+        Partida,
+        related_name="modificaciones_ingresos",
+        on_delete=models.PROTECT
+    )
+
+    estatus = models.IntegerField(
+        "Estatus Modificacón de Ingreso", 
+        choices=ESTATUS_INGRESO,
+        default=ELABORADO
+    )
+
+    elaborador = models.ForeignKey(
+        User,
+        related_name="e_modificaciones_ingresos",
+        on_delete=models.PROTECT
+    )
+
+    verificador = models.ForeignKey(
+        User,
+        related_name="v_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    anulador = models.ForeignKey(
+        User,
+        related_name="a_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    ) 
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural = "Modificaciones de Ingresos"

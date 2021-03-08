@@ -228,12 +228,12 @@ var Charts = (function() {
 		},
 		theme: {
 			'default': '#172b4d',
-			'primary': '#5e72e4',
+			'primary': '#00185c',
 			'secondary': '#f4f5f7',
 			'info': '#11cdef',
 			'success': '#2dce89',
 			'danger': '#f5365c',
-			'warning': '#fb6340'
+			'warning': '#600114'
 		},
 		black: '#12263F',
 		white: '#FFFFFF',
@@ -454,10 +454,10 @@ var Charts = (function() {
 				var content = '';
 
 				if (data.datasets.length > 1) {
-					content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+					content += 'Bs.' + label +' k';
 				}
 
-				content += '<span class="popover-body-value">' + prefix + yLabel + suffix + '</span>';
+				content += prefix + yLabel + suffix ;
 				return content;
 			}
 
@@ -944,7 +944,7 @@ var BarStackedChart = (function() {
 
 	// Variables
 
-	var $chart = $('#chart-bar-stacked');
+	var $chart = $('#bar-chart-grouped');
 
 
 	// Methods
@@ -960,45 +960,19 @@ var BarStackedChart = (function() {
 		// Chart data
 
 		var data = {
-			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-			datasets: [{
-				label: 'Dataset 1',
-				backgroundColor: Charts.colors.theme['danger'],
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				]
-			}, {
-				label: 'Dataset 2',
-				backgroundColor: Charts.colors.theme['primary'],
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				]
-			}, {
-				label: 'Dataset 3',
-				backgroundColor: Charts.colors.theme['success'],
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				]
-			}]
-
+			labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
+			datasets: 
+			[
+				{
+				  label: "Ingresos",
+				  backgroundColor: "#3e95cd",
+				  data: [133,221,783,2478]
+				}, {
+				  label: "Egresos",
+				  backgroundColor: "#8e5ea2",
+				  data: [408,547,675,734]
+				}
+			  ]
 		};
 
 
@@ -1017,9 +991,12 @@ var BarStackedChart = (function() {
 				yAxes: [{
 					stacked: true
 				}]
-			}
+			},
+			title: {
+				display: true,
+				text: ''
+			  }
 		}
-
 
 		// Init chart
 
@@ -1058,7 +1035,7 @@ var DoughnutChart = (function() {
 
 	// Variables
 
-	var $chart = $('#chart-doughnut');
+	var $chart = $('#doughnut-chart');
 
 
 	// Methods
@@ -1072,19 +1049,19 @@ var DoughnutChart = (function() {
 			type: 'doughnut',
 			data: {
 				labels: [
-					'Danger',
-					'Warning',
-					'Success',
-					'Primary',
-					'Info'
+					'Recaudado',
+					'Excedente',
+					'Asigando',
+					'Pases',
+					'Otros'
 				],
 				datasets: [{
 					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
+						60,
+						20,
+						10,
+						7,
+						3
 					],
 					backgroundColor: [
 						Charts.colors.theme['danger'],
@@ -1104,6 +1081,10 @@ var DoughnutChart = (function() {
 				animation: {
 					animateScale: true,
 					animateRotate: true
+				},
+				title: {
+					display: true,
+					text: ''
 				}
 			}
 		});
@@ -1238,9 +1219,9 @@ var PointsChart = (function() {
 				}
 			},
 			data: {
-				labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				datasets: [{
-					label: 'Performance',
+					label: 'Aumento',
 					data: [10, 18, 28, 23, 28, 40, 36, 46, 52],
 					pointRadius: 10,
 					pointHoverRadius: 15,
@@ -1300,9 +1281,9 @@ var SalesChart = (function() {
 				}
 			},
 			data: {
-				labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				datasets: [{
-					label: 'Performance',
+					label: 'Aumento',
 					data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
 				}]
 			}
@@ -1359,9 +1340,9 @@ var SalesChart = (function() {
 				}
 			},
 			data: {
-				labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				datasets: [{
-					label: 'Performance',
+					label: 'Aumento',
 					data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
 				}]
 			}
@@ -1406,9 +1387,9 @@ var BarsChart = (function() {
 		var ordersChart = new Chart($chart, {
 			type: 'bar',
 			data: {
-				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				datasets: [{
-					label: 'Sales',
+					label: 'Ingresos ',
 					data: [25, 20, 30, 22, 17, 29]
 				}]
 			}
@@ -1462,9 +1443,9 @@ var LineChart = (function() {
 				}
 			},
 			data: {
-				labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 				datasets: [{
-					label: 'Performance',
+					label: 'Aumento',
 					data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
 				}]
 			}
@@ -1765,6 +1746,7 @@ var Dropzones = (function() {
 
 
 })();
+
 
 //
 // Bootstrap Datepicker

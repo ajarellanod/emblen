@@ -36,7 +36,7 @@
                   <option class="form-control">-------</option>
                   {% for partida in partidas %}
                     <option class="form-control" value="{{ partida.id }}">
-                      {{ partida.option }}
+                      {{ partida.option }} - {{ partida.descripcion }}
                     </option>
                   {% endfor %}
                 </select>
@@ -90,12 +90,12 @@
                 <input type="text" id="id_cuenta" name="cuenta" readonly="" class="form-control">
               </div>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <div class="form-group">
                 <label class="form-control-label" for="id_saldo">Saldo de la Partida</label>
                 <input type="text" placeholder="Ingresar Saldo" class="form-control" required="" id="id_saldo">
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="row">
             <div class="col-lg-12">
@@ -169,7 +169,7 @@
         nextSelect.append(
           $('<option />', 
           {
-            text: object.cuenta.slice(inicio, fin),
+            text: object.cuenta.slice(inicio, fin)+ ' - ' +object.descripcion,
             value: object.id,
           }
         ));
@@ -203,8 +203,8 @@
       });
 
       $('#saveForm').on('click', function() {
-        let saldo = parseFloat($("#id_saldo").inputmask('unmaskedvalue').replace(",", "."))
-        $("#saldoSinPuntos").val(saldo);
+        // let saldo = parseFloat($("#id_saldo").inputmask('unmaskedvalue').replace(",", "."))
+        // $("#saldoSinPuntos").val(saldo);
         $("#form").submit();
       });
 

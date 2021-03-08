@@ -38,7 +38,7 @@ class PartidaView(EmblenPermissionsMixin, EmblenView):
 
 class PartidaListView(EmblenPermissionsMixin, ListView):
     permissions = {"all": ("formulacion.view_partida",)}
-    queryset = Partida.objects.all()
+    queryset = Partida.objects.all().order_by("cuenta")
     paginate_by = 8
     template_name = "formulacion/partidas.html"
     success_url = "formulacion:partidas"
@@ -60,7 +60,7 @@ class PartidaCreateView(EmblenPermissionsMixin, EmblenView):
     json_post = True
 
     # Variables de Ayuda
-    partidas = Partida.objects.filter(nivel=1).annotate(option=Substr('cuenta', 1, 1))
+    partidas = Partida.objects.filter(nivel=1).annotate(option=Substr('cuenta', 1, 1)).order_by("cuenta")
     
     def altget(self, request):
         return {'partidas': self.partidas}

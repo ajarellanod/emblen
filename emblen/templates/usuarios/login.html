@@ -59,7 +59,7 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                     </div>
-                                    <input class="form-control" autocomplete="off" name="username" placeholder="Usuario" type="text">
+                                    <input class="form-control" autocomplete="off" name="username" id="username" placeholder="Usuario" type="text">
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -67,21 +67,21 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input class="form-control" name="password" placeholder="Contraseña" type="password">
+                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password">
                                   </div>
                                 </div>
                                 <div class="row my-4">
                                   <div class="col-12">
                                     <div class="custom-control custom-control-alternative custom-checkbox">
-                                      <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                                      <label class="custom-control-label" for="customCheckRegister">
+                                      <input class="custom-control-input" id="remember" name="remember" type="checkbox">
+                                      <label class="custom-control-label" for="remember">
                                         <span class="text-muted">Recordar Contraseña</a></span>
                                       </label>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="text-center">
-                                  <button type="submit" class="btn btn-primary mt-4">Ingresar</button>
+                                  <button type="submit" id="saveForm" class="btn btn-primary mt-4">Ingresar</button>
                                 </div>
                               </form>
                           </div>
@@ -100,6 +100,49 @@
   <!-- Argon JS -->
   <script src="{% static 'global/js/dashboard.js' %}"></script>
   <div class="modal-backdrop show"></div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $( "#username" ).focus();
+
+      $("#username").keypress(function(e) {
+        if(e.which == 13) {
+          if ($("#password").val().length <= 0){
+            event.preventDefault();
+            $('#password').focus();
+          }
+          else if ($("#username").val().length <= 0){
+            event.preventDefault();
+            $('#username').focus();
+          }
+          else {
+            $("#form").submit();
+          }
+        }
+      });
+
+      $("#password").keypress(function(e) {
+        if(e.which == 13) {
+          if ($("#username").val().length <= 0){
+            event.preventDefault();
+            $('#username').focus();
+          }
+          else if ($("#password").val().length <= 0){
+            event.preventDefault();
+            $('#password').focus();
+          }
+          else {
+            $("#form").submit();
+          }
+        }
+      });
+
+      $('#saveForm').on('click', function() {
+        $("#form").submit();
+      });
+
+    });
+  </script>
 </body>
 
 </html>
