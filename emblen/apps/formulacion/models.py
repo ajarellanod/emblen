@@ -1039,6 +1039,14 @@ class AccionInterna(EmblenBaseModel):
 
 
 class PartidaAccionInterna(EmblenBaseModel):
+    
+    FORMULACION = 0
+    EJECUCION = 1
+
+    CONDICION_EJERCICIO = (
+        (FORMULACION, "Formulación"),
+        (EJECUCION, "Ejecución"),
+    )
 
     accion_interna = models.ForeignKey(
         AccionInterna,
@@ -1058,6 +1066,12 @@ class PartidaAccionInterna(EmblenBaseModel):
 
     mto_actualizado = models.DecimalField(max_digits=22,decimal_places=2)
 
+    condicion_ejercicio = models.IntegerField(
+        "Condición del Ejercicio", 
+        choices=CONDICION_EJERCICIO,
+        default=FORMULACION
+    )
+    
     def __str__(self):
         return self.partida.cuenta
 

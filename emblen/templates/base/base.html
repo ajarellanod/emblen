@@ -153,7 +153,7 @@
                     <img alt="Image placeholder" src="{% static 'global/images/user.jpg' %}">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold"> {{ request.user.get_username }} </span>
+                    <span class="mb-0 text-sm  font-weight-bold"> {{ request.user.get_username|upper }} </span>
                   </div>
                 </div>
               </a>
