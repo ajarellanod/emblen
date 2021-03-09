@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block title %}
-  Lista de Programas
+  Lista de Categorías Programáticas
 {% endblock title %}
 
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
-  <li class="breadcrumb-item"><a href="#">Programas</a></li>
+  <li class="breadcrumb-item"><a href="#">Categorías Programáticas</a></li>
 {% endblock breadcrumb %}
 
 {% block body %}
@@ -21,12 +21,12 @@
       <div class="card-header border-0">
         <div class="row align-items-center">
           <div class="col-6">
-            <h3 class="mb-0">Programas</h3>
+            <h3 class="mb-0">Categorías Programáticas</h3>
           </div>
           <div class="col-6 text-right">
             <a id="btn_partidaNew" href="{% url 'formulacion:c_programa' %}" 
             class="btn btn-sm btn-primary">
-              Crear Programa
+              Crear Categoría Programática
             </a>
           </div>
         </div>

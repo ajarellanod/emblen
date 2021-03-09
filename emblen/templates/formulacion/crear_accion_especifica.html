@@ -93,7 +93,7 @@
     <div class="row">
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Programa</label>
+          <label class="form-control-label">Categorías Programáticas</label>
           {% if form.initial %}
             <input type="text" name="programa" value="{{form.instance.programa}}" readonly="true" class="form-control" required="" id="id_programa">
           {% else %}
@@ -103,7 +103,7 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <label class="form-control-label">Condición de Programa</label>
+          <label class="form-control-label">Condición de la Categoría Programática</label>
           {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
         </div>
       </div>
@@ -395,7 +395,7 @@
 </div>
 
 <div class="setup-content" id="step-4">
-  <h6 class="heading-small text-muted mb-4">Resultados esperados del Programa</h6>
+  <h6 class="heading-small text-muted mb-4">Resultados esperados de la Acción Específica</h6>
   <hr class="my-4">
   <h6 class="heading-small text-muted mb-4">Metas Fisicas</h6>
   <div class="row">

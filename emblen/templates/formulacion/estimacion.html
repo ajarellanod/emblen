@@ -34,7 +34,7 @@
 
 {% block body %}
   <div class="row">
-    <div class="col">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
       <div class="card">
         <div class="card-header">
           <div class="row align-items-center">
@@ -52,14 +52,23 @@
           </div>
         </div>
         <div class="card-body">
-          <h6 class="heading-small text-muted mb-4">Estimar</h6>
+          <!-- <h6 class="heading-small text-muted mb-4">Estimar</h6> -->
           <div class="pl-lg-4">
             <div class="row">
             </div>
             <form method="POST" action="." id="form">
               {% csrf_token %}
               <div class="row">
-                <div class="col-4">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    {% for formulado in anio_ejercicio %}
+                      <input type="text" id="id_anio" value="{{formulado.anio}}" readonly maxlength="4" name="anio" class="form-control queryInput" autocomplete="off">
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col">
                   <div class="form-group">
                     <label class="form-control-label" for="id_cuenta">Accion Especifica</label>
                     <select class="form-control queryInput" data-toggle="select" data-minimum-results-for-search="Infinity" id="id_accion_especifica" 
@@ -70,6 +79,11 @@
                     </select>
                   </div>
                 </div>
+
+              </div>
+
+              <div class="row">
+                
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label" for="id_cuenta">Seleccione Partida</label>
@@ -81,31 +95,18 @@
                     </select>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                
-                <!-- <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_anio">Año</label>
-                    <input type="text" id="id_anio" maxlength="4" name="anio"
-                    class="form-control queryInput" autocomplete="off" placeholder="Ingrese Año...">
-                  </div>
-                </div> -->
 
-                <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_anio">Año</label>
-                    {% for formulado in anio_ejercicio %}
-                      <input type="text" id="id_anio" value="{{formulado.anio}}" readonly maxlength="4" name="anio" class="form-control queryInput" autocomplete="off">
-                    {% endfor %}
-                  </div>
-                </div>
+              </div>
+
+              <div class="row">
+
                 <div class="col">
                   <div class="form-group">
                     <label class="form-control-label" for="id_monto">Monto</label>
                     <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="monto" id="id_monto">
                   </div>
                 </div>
+
               </div>
             </form>
           </div>
@@ -115,7 +116,11 @@
     <div class="col">
       <div class="card">
         <div class="card-header border-0">
-          <h3 class="mb-0" style="display: inline;">Estimaciones de Acción Especifica </h3>
+          <h3 class="mb-0" style="display: inline;">Estimaciones de Acción Especifica:
+            {% for accion in acciones %}
+              {{accion.codigo}}
+            {% endfor %}
+         </h3>
  
             <a href="javascript:document.location.reload();" title="Recargar Opciones" class="btn btn-sm btn-primary float-right" >
               <i class="fas fa-redo-alt"></i>
@@ -125,9 +130,7 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="text-center">Acción Esp</th>
-                <th scope="col" class="text-center" width="40%">Partida</th>
-                <th scope="col" class="text-center">Año</th>
+                <th scope="col" class="text-center" width="50%">Partida</th>
                 <th scope="col" class="text-center" width="40%">Monto</th>
                 <th scope="col"><i class="fas fa-cogs"></i> </th>
               </tr>
@@ -135,9 +138,7 @@
             <tbody class="list">
               {% for estimacion in estimacion %}
                 <tr>
-                  <th>{{estimacion.accion_especifica}}</th>
                   <th><input type="text" readonly value="{{ estimacion.partida }}" class="form-control input-tablas "></th>
-                  <th class="text-center">{{estimacion.anio}}</th>
                   <th><input type="text" readonly value="{{ estimacion.monto }}" class="form-control input-tablas inputCurrency text-right"> </th>
                   <td class="text-right">
                     <a href="{% url 'formulacion:e_estimacion' estimacion.id %}"
@@ -187,9 +188,7 @@
       let est = response.estimacion;
       $('table > tbody:last-child').append(`
         <tr>
-          <th>${est.codigo_accion}</th>
           <th><input type="text" readonly value="${est.codigo_partida}" class="form-control input-tablas "></th>
-          <td class="text-center">${est.anio}</td>
           <td><input type="text" readonly value="${est.monto}" class="form-control input-tablas inputCurrency text-right"> </td>
           <td class="text-right">
                     <a href="${est.id}/eliminar"

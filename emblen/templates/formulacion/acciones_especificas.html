@@ -23,7 +23,7 @@
             {% if request.GET.programa %}
               {% for acc in page_obj %}
                 {% if forloop.counter < 2 %}
-                  <h3 class="mb-0">Acciones Especificas del Programa: {{ acc.programa }} </h3>
+                  <h3 class="mb-0">Acciones Especificas de la Categoría Programática: {{ acc.programa }} </h3>
                 {% endif %}
               {% endfor %}
             {% else %}

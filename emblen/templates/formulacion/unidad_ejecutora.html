@@ -75,6 +75,12 @@
                 {% render_field form.adscrito data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
               </div>
             </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="form-control-label" for="id_saldo">Código del Ente</label>
+                {% render_field form.codigo_ente class="form-control" placeholder="Ingrese Codigo" %}
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col">
@@ -85,8 +91,8 @@
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="form-control-label" for="id_saldo">Codigo de la Unidad</label>
-                {% render_field form.codigo class="form-control" placeholder="Ingrese Codigo" %}
+                <label class="form-control-label" for="id_saldo">Código Secundario</label>
+                {% render_field form.codigo_secundario class="form-control" placeholder="Ingrese Codigo" %}
               </div>
             </div>
           </div>
