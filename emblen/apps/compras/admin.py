@@ -7,8 +7,6 @@ admin.site.register(models.TipoBeneficiario)
 
 admin.site.register(models.Beneficiario)
 
-admin.site.register(models.CuentaBeneficiario)
-
 admin.site.register(models.TipoDocumento)
 
 admin.site.register(models.DocumentoPagar)

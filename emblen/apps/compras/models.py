@@ -9,19 +9,16 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 
 from apps.formulacion.models import (
-    Parroquia,
     PartidaAccionInterna
-)
-
-from apps.tesoreria.models import (
-    Banco,
-    TipoCuenta
 )
 
 from apps.contabilidad.models import (
     CuentaContable
 )
 
+from apps.ejecucion.models import (
+    OrdenPago
+)
 
 class TipoBeneficiario(EmblenBaseModel):
     """ se guardarán los Tipos de Beneficiarios """
@@ -71,12 +68,6 @@ class Beneficiario(EmblenBaseModel):
     telefono = models.CharField(max_length=13) #Teléfono del ente ej: 0414-419-6314
 
     correo = models.EmailField(max_length=254)
-
-    parroquia = models.ForeignKey(
-        Parroquia,
-        related_name="beneficiarios",
-        on_delete=models.PROTECT
-    )
 
     tipo_beneficiario = models.ForeignKey(
         TipoBeneficiario,
@@ -136,45 +127,13 @@ class Beneficiario(EmblenBaseModel):
         verbose_name_plural = "Beneficiarios"
 
 
-class CuentaBeneficiario(EmblenBaseModel):
-    """
-    Este modelo debería ir en otro Módulo,
-    que debería ser donde se vayan a gestionar los proveedores
-    """
-
-    beneficiario = models.ForeignKey(
-        Beneficiario,
-        related_name="cuenta_beneficiarios",
-        on_delete=models.PROTECT
-    )
-
-    banco = models.ForeignKey(
-        Banco,
-        related_name="cuenta_beneficiarios",
-        on_delete=models.PROTECT
-    )
-
-    numero = models.CharField(max_length=20)
-
-    tipo =  models.ForeignKey(
-        TipoCuenta,
-        related_name="cuenta_beneficiarios",
-        on_delete=models.PROTECT
-    )
-
-    def __str__(self):
-        return self.numero
-
-    class Meta:
-        verbose_name_plural = "Cuentas Bancarias de Beneficiarios"
-
-
 class TipoDocumento(EmblenBaseModel):
     
     codigo = models.CharField(max_length=4)
 
     nombre = models.CharField(max_length=100)
     # 1 debe ser FACTURA codigo FACT
+    # 2 debe ser RECIBO codigo RECB
 
     descripcion = models.CharField(max_length=200)
 
@@ -186,7 +145,7 @@ class TipoDocumento(EmblenBaseModel):
 
 
 class DocumentoPagar(EmblenBaseModel):
-    """Documentos a Pagar """
+    """Documentos a Pagar en las ordenes de pago *FACTURAS* - *RECIBOS* - *ETC* """
 
     CREDITO = 1
     CONTADO = 2
@@ -198,7 +157,7 @@ class DocumentoPagar(EmblenBaseModel):
         (EFECTIVO, "Efectivo")
     )
 
-    anio = models.CharField(max_length=4)
+    anio = models.CharField(max_length=4) #AÑO EN EJERCICIO
         
     tipo_documento = models.ForeignKey(
         TipoDocumento,
@@ -249,7 +208,7 @@ class DocumentoPagar(EmblenBaseModel):
 
 
 class DetalleDocumentoPagar(EmblenBaseModel):
-    """Detalles de Documentos a Pagar """
+    """Detalles de Documentos a Pagar - por ejemplos los item de una factura """
      
     documento_pagar = models.ForeignKey(
         DocumentoPagar,
@@ -289,7 +248,6 @@ class DetalleDocumentoPagar(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Detalles de Documentos a Pagar"
-
 
 
 class TipoContrato(EmblenBaseModel):
@@ -430,9 +388,10 @@ class PartidaContrato(EmblenBaseModel):
 
  
 class TipoCompromiso(EmblenBaseModel):
-    """ se guardarán los Tipos de contratos """
+    """ se guardarán los Tipos de compromisos """
     #Orden de Compra = COC
     #Orden de Servicio = COS
+    #Orden de Materiales y Suministros =  COM
     #Orden de Pago Directa Especial = CDE
 
     codigo = models.CharField(max_length=3)
@@ -460,6 +419,14 @@ class Compromiso(EmblenBaseModel):
     )
 
     fecha = models.DateField() #Fecha Creación del Compromiso
+
+
+    orden_pago = models.ForeignKey(
+        OrdenPago,
+        related_name="compromisos",
+        on_delete=models.PROTECT,
+        null=True
+    ) # id del beneficiario sacamos aqui tambien al resposable
 
     beneficiario = models.ForeignKey(
         Beneficiario,

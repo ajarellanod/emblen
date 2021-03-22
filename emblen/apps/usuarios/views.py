@@ -88,7 +88,6 @@ class UserView(LoginRequiredMixin, EmblenFormView):
     
 
     def get_data(self, data, instance):
-    
         new_data = data.copy()
         if data['password'] == '':
             new_data.update({

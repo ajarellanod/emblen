@@ -24,6 +24,10 @@ from apps.ejecucion.models import (
     OrdenPago
 )
 
+from apps.compras.models import (
+    Beneficiario
+)
+
 class Banco(EmblenBaseModel):
     """Este modelo debería ir en otro Módulo, que debería ser donde se vayan a gestionar los Bancos - Tesorería"""
     
@@ -136,8 +140,44 @@ class Cuenta(EmblenBaseModel):
         verbose_name_plural = "Cuentas Bancarias"
 
 
+class CuentaBeneficiario(EmblenBaseModel):
+    """
+    Este modelo debería ir en otro Módulo,
+    que debería ser donde se vayan a gestionar los proveedores
+    """
+
+    beneficiario = models.ForeignKey(
+        Beneficiario,
+        related_name="cuenta_beneficiarios",
+        on_delete=models.PROTECT
+    )
+
+    banco = models.ForeignKey(
+        Banco,
+        related_name="cuenta_beneficiarios",
+        on_delete=models.PROTECT
+    )
+
+    numero = models.CharField(max_length=20)
+
+    tipo =  models.ForeignKey(
+        TipoCuenta,
+        related_name="cuenta_beneficiarios",
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.numero
+
+    class Meta:
+        verbose_name_plural = "Cuentas Bancarias de Beneficiarios"
+
+
+
 class TipoImpuesto(EmblenBaseModel):
     """ Se guardarán los Tipos de Impuestos"""
+
+    siglas = models.CharField(max_length=6,null=True)
 
     cuenta_contable = models.ForeignKey(
         CuentaContable,
@@ -157,6 +197,30 @@ class TipoImpuesto(EmblenBaseModel):
     class Meta:
         verbose_name_plural = "Tipos de Impuestos"
 
+
+class ImpuestoBeneficiario(EmblenBaseModel):
+    """ se guardarán las retenciones y sus porcentajes de cada beneficiario creado"""
+
+    beneficiario = models.ForeignKey(
+        Beneficiario,
+        related_name="impuestos_beneficiarios",
+        on_delete=models.PROTECT
+    )
+
+    tipo_impuesto = models.ForeignKey(
+        TipoImpuesto,
+        related_name="impuestos_beneficiarios",
+        on_delete=models.PROTECT
+    )
+
+    porcentaje = models.DecimalField(max_digits=22,decimal_places=4)
+
+    def __str__(self):
+        # return  self.rif
+        return '%s - %s' %(self.rif,self.razon_social) 
+
+    class Meta:
+        verbose_name_plural = "Beneficiarios"
 
 class Pago(EmblenBaseModel):
     """ Se guardarán los Pagos realizados"""

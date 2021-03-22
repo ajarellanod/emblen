@@ -84,3 +84,15 @@
   </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+<script type="module">
+  import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+  $(document).ready(function(){
+    let modulo="m_formulacion";
+    let menu="m_organizacion";
+    let opcion="m_despartamentos";
+    activeMenu(modulo, menu, opcion);
+  });
+</script>
+{% endblock script %}

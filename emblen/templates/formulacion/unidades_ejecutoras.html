@@ -67,7 +67,7 @@
                   {% endif %}
                 </td>
                 <td class="text-center"> 
-                  {{ unidad.codigo }}
+                  {{ unidad.codigo_ente }}
                 </td>
                 {% if perms.formulacion.delete_unidadejecutora %}
                 <td class="text-right">
@@ -88,3 +88,15 @@
   </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+  <script type="module">
+    import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+    $(document).ready(function(){
+      let modulo="m_formulacion";
+      let menu="m_organizacion";
+      let opcion="m_unidades_ejecutoras";
+      activeMenu(modulo, menu, opcion);
+    });
+  </script>
+{% endblock script %}

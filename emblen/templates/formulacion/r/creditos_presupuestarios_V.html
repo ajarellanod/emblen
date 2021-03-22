@@ -18,8 +18,16 @@ role="dialog" aria-labelledby="modal-form" aria-hidden="true">
               <div class="row">
                 <div class="col">
                   <div class="form-group">
+                    
+                    <select class="form-control queryInput" data-toggle="select" data-minimum-results-for-search="Infinity" id="id_anio_modal" 
+                    name="anio">
+                      {% for anio in anios %}
+                        <option value="{{anio.anio}}">{{anio.anio}}</option>
+                      {% endfor %}
+                    </select>
+<!-- 
                     <input type="text" id="id_anio_modal" maxlength="4" name="anio"
-                    class="form-control" autocomplete="off" placeholder="Ingrese Año...">
+                    class="form-control" autocomplete="off" placeholder="Ingrese Año..."> -->
                   </div>
                 </div>
               </div>

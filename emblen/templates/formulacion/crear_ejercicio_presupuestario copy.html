@@ -39,18 +39,14 @@
       <div class="row align-items-center">
         <div class="col-8">
           {% if form.initial %}
-            <h3 class="mb-0">¿Desea pasar a Ejecución el año {{form.instance.anio}}?</h3>
+            <h3 class="mb-0">{{form.instance.anio}}</h3>
           {% else %}
             <h3 class="mb-0">Crear Nuevo Ejercicio Presupuestario</h3>
           {% endif %}
         </div>
         <div class="col-4 text-right">
           <a href="#" class="btn btn-sm btn-primary" id="saveForm">
-            {% if form.initial %}
-              Sí, Ejecutar
-            {% else %}
-              Guardar
-            {% endif %}     
+            Guardar
           </a>
           <button onclick="goBack();" class="btn btn-sm btn-default">
             Cancelar
@@ -78,15 +74,13 @@
                 <label class="form-control-label">Condición</label>
                 {% if form.initial %}
               <!-- <input type="text" name="nivel" value="{{form.instance.get_nivel_display}}" readonly="true" class="form-control"  required="" id="id_nivel"> -->
-                  <input type="text" name="condicion" value="{{form.instance.condiciones}}" readonly="true" class="form-control" id="id_condicion_unica">
+                  <input type="text" name="condicion" value="{{form.instance.condiciones}}" readonly="true" class="form-control" id="id_condicion">
                 {% else %}
-                  <!-- <input type="text" name="condicion" value="CREADO" readonly="true" class="form-control" id="id_condicion"> -->
                   {% render_field form.condicion data-toggle="select" class="form-control" data-minimum-results-for-search="Infinity" %}
                 {% endif %}                
 
               </div>
             </div>
-            
           </div>
         </form>
       </div>
@@ -100,15 +94,9 @@
             $("#form").submit();
         });
         $(document).ready(function(){
-          $('#id_condicion').val('4');
-          $('#id_condicion').trigger('change');
-          $("#id_condicion option[value]").attr("disabled", true);
-          // $("#id_condicion option[value=0]").attr("disabled", true);
-          // $("#id_condicion option[value=1]").attr("disabled", true);
-          // $("#id_condicion option[value=2]").attr("disabled", true);
-          // $("#id_condicion option[value=3]").attr("disabled", true);
-          $("#id_condicion option[value=4]").removeAttr("disabled");
-          // $("#id_condicion option[]").select2({disabled:true});
+          // $('#id_condicion').val('4');
+          // $('#id_condicion').trigger('change');
+          //$("#id_condicion").select2({disabled:true});
         });
         
     </script>

@@ -3,7 +3,6 @@ from django import forms
 from apps.compras.models import (
     TipoBeneficiario,
     Beneficiario,
-    CuentaBeneficiario,
     TipoDocumento,
     DocumentoPagar,
     DetalleDocumentoPagar,

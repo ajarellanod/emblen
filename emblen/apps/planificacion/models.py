@@ -7,19 +7,29 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.base.models import EmblenBaseModel
 
-from apps.formulacion.models import PartidaAccionInterna, ModificacionIngreso
+from apps.formulacion.models import PartidaAccionInterna,Partida
 
 
 class TipoModificacion(EmblenBaseModel):
     
     DISMINUCION = 'D'
     AUMENTO = 'A'
+    TRASPASO = 'T'
     
     TIPO_AFECTACION = (
         (DISMINUCION, 'Disminucion'),
         (AUMENTO, 'Aumento'),
+        (TRASPASO, 'Traspaso'),
     )
-    
+
+    INGRESOS = 'I'
+    GASTOS = 'G'
+
+    TIPO_MODIFICACION = (
+        (INGRESOS, 'Ingresos'),
+        (GASTOS, 'Gastos'),
+    )
+
     codigo = models.CharField(max_length=2)
 
     nombre = models.CharField(max_length=100)
@@ -27,6 +37,8 @@ class TipoModificacion(EmblenBaseModel):
     descripcion = models.CharField(max_length=200)
     
     afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
+    
+    tipo_modificacion = models.CharField(max_length=1, choices=TIPO_MODIFICACION, null=True)
 
     def __str__(self):
         return self.nombre
@@ -35,7 +47,99 @@ class TipoModificacion(EmblenBaseModel):
         verbose_name_plural = "Tipos de Modificaciones"
 
 
-class Modificacion(EmblenBaseModel):
+class ModificacionIngreso(EmblenBaseModel):
+
+    GACETA = 0
+    ACTA = 1
+
+    TIPO_DOCUMENTO = (
+        (GACETA, "Gaceta"),
+        (ACTA, "Acta"),
+    ) #Acta de Junta Directiva
+
+    ELABORADO = 0
+    VERIFICADO = 1
+    ANULADO = 2
+
+    ESTATUS_INGRESO = (
+        (ELABORADO, "Elaborado"),
+        (VERIFICADO, "Verificado"),
+        (ANULADO, "Anulado"),
+    )
+
+    anio = models.CharField(max_length=4)
+    
+    fecha = models.DateField()
+    
+    periodo = models.CharField(max_length=2)
+
+    numero = models.IntegerField()
+
+    tipo_modificacion = models.ForeignKey(
+        TipoModificacion,
+        related_name="modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True
+    )
+
+    tipo_documento = models.IntegerField(
+        "Tipo de Documento del Ingreso", 
+        choices=TIPO_DOCUMENTO,
+    )
+
+    numero_documento = models.CharField(max_length=10)
+
+    fecha_documento = models.DateField()
+
+    numero_decreto = models.CharField(max_length=10, null=True) #Si es una acta no lleva decreto
+
+    descripcion = models.TextField(max_length=300)
+
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
+
+    partida = models.ForeignKey(
+        Partida,
+        related_name="modificaciones_ingresos",
+        on_delete=models.PROTECT
+    )
+
+    estatus = models.IntegerField(
+        "Estatus Modificacón de Ingreso", 
+        choices=ESTATUS_INGRESO,
+        default=ELABORADO
+    )
+
+    elaborador = models.ForeignKey(
+        User,
+        related_name="e_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True
+    )
+
+    verificador = models.ForeignKey(
+        User,
+        related_name="v_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    anulador = models.ForeignKey(
+        User,
+        related_name="a_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    ) 
+
+    def __str__(self):
+        return self.numero
+
+    class Meta:
+        verbose_name_plural = "Modificaciones de Ingresos"
+
+
+class ModificacionGasto(EmblenBaseModel):
     """ 
     En este modelo se deben guardar los afectaciones
     que se le vayan haciendo al presupuesto
@@ -44,60 +148,64 @@ class Modificacion(EmblenBaseModel):
     VERIFICADA = 1
     ANULADA = 2
 
-    ESTATUS_MODIFICACION = (
-        (ELABORADA, "Elaborado"),
-        (VERIFICADA, "Verificado"),
-        (ANULADA, "Anulado"),
+    ESTATUS_GASTO = (
+        (ELABORADA, "Elaborada"),
+        (VERIFICADA, "Verificada"),
+        (ANULADA, "Anulada"),
     )
 
     anio = models.CharField(max_length=4)
 
-    numero = models.IntegerField()
+    fecha = models.DateField()
+    
+    periodo = models.CharField(max_length=2)
 
-    partida_accioninterna = models.ForeignKey(
-        PartidaAccionInterna,
-        related_name="modificaciones",
-        on_delete=models.PROTECT
-    )
+    numero = models.IntegerField()
 
     tipo_modificacion = models.ForeignKey(
         TipoModificacion,
-        related_name="modificaciones",
+        related_name="modificaciones_gastos",
         on_delete=models.PROTECT
     )
 
     modificacion_ingreso = models.ForeignKey(
         ModificacionIngreso,
-        related_name="modificaciones",
+        related_name="modificaciones_gastos",
         on_delete=models.PROTECT,
         null=True,
         blank=True
     )
 
-    documento_referenciado = models.IntegerField(null=True, blank=True) 
+    partida_accioninterna = models.ForeignKey(
+        PartidaAccionInterna,
+        related_name="modificaciones_gastos",
+        on_delete=models.PROTECT
+    )
+
+    documento_referenciado = models.IntegerField(null=True, blank=True) #Sólo si viene de una orden de pago
     
     monto = models.DecimalField(max_digits=22,decimal_places=2)
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=2, null=True, blank=True)
+    saldo = models.DecimalField(max_digits=22,decimal_places=2, null=True, blank=True)#Sólo si viene de una orden de pago
 
     descripcion = models.CharField(max_length=300)
 
     estatus = models.IntegerField(
-        "Estatus Modificación de Egreso", 
-        choices=ESTATUS_MODIFICACION,
+        "Estatus Modificación de Gasto", 
+        choices=ESTATUS_GASTO,
         default=ELABORADA
     )
 
     elaborador = models.ForeignKey(
         User,
-        related_name="e_modificaciones_egreso",
+        related_name="e_modificaciones_gastos",
         on_delete=models.PROTECT,
         null=True
     )
 
     verificador = models.ForeignKey(
         User,
-        related_name="v_modificaciones_egreso",
+        related_name="v_modificaciones_gastos",
         on_delete=models.PROTECT,
         null=True,
         blank=True
@@ -105,7 +213,7 @@ class Modificacion(EmblenBaseModel):
 
     anulador = models.ForeignKey(
         User,
-        related_name="a_modificaciones_egreso",
+        related_name="a_modificaciones_gastos",
         on_delete=models.PROTECT,
         null=True,
         blank=True
@@ -115,7 +223,7 @@ class Modificacion(EmblenBaseModel):
         return self.numero
 
     def _next_num(self):
-        result = Modificacion.objects.all().aggregate(Max('numero'))
+        result = ModificacionGasto.objects.all().aggregate(Max('numero'))
         result = result["numero__max"]
 
         if result is not None:
@@ -138,7 +246,7 @@ class Modificacion(EmblenBaseModel):
         pai.save()
 
     class Meta:
-        verbose_name_plural = "Modificaciones"
+        verbose_name_plural = "Modificaciones de Gastos"
 
 
 class AcumuladosPresupuestario(EmblenBaseModel):

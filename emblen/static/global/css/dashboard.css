@@ -26430,3 +26430,11 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget tab
     background-color: transparent!important;
     box-shadow:none!important;
 }
+
+.bg-gradient-vinotinto {
+    background: linear-gradient(87deg, #f5365c 0, #600114 100%) !important;
+}
+
+.bg-gradient-azul {
+    background: linear-gradient(87deg, #1171ef 0, #00003e 100%) !important;
+}

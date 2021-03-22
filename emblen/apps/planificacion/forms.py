@@ -1,11 +1,12 @@
 from django import forms
 
 from apps.planificacion.models import (
-    Modificacion
+    ModificacionGasto,
+    ModificacionIngreso,
 )
 
 
-class ModificacionForm(forms.ModelForm):
+class ModificacionGastoForm(forms.ModelForm):
     class Meta:
-        model = Modificacion
+        model = ModificacionGasto
         fields = ("partida_accioninterna", "descripcion", "monto", "tipo_modificacion")

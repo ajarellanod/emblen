@@ -77,8 +77,16 @@
         window.location.replace("{% url 'formulacion:centros_costos' %}");
       })
     }
+
+  </script>
+
+  <script type="module">
+    import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
     $(document).ready(function(){
-      $('#m_centros_costos').attr('class','nav-link active-option-menu');
+      let modulo="m_formulacion";
+      let menu="m_organizacion";
+      let opcion="m_centros_costos";
+      activeMenu(modulo, menu, opcion);
     });
   </script>
 {% endblock script %}

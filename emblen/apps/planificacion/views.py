@@ -10,11 +10,12 @@ from apps.base.views import (
 )
 
 from apps.planificacion.models import (
-    Modificacion
+    ModificacionIngreso,
+    ModificacionGasto
 )
 
 from apps.planificacion.forms import (
-    ModificacionForm
+    ModificacionGastoForm
 )
 
 # ----- Planificación -----
@@ -28,7 +29,7 @@ class PrincipalView(LoginRequiredMixin, TemplateView):
 class ModificacionView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("planificacion.add_modificacion",)}
     template_name = "planificacion/crear_modificacion.html"
-    form_class = ModificacionForm
+    form_class = ModificacionGastoForm
     success_url = "planificacion:principal"
 
     def form_valid(self, form):

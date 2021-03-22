@@ -103,9 +103,19 @@
 {% endblock body %}
 
 {% block script %}
-    <script type="text/javascript">
-        $('#saveForm').on('click', function() {
-            $("#form").submit();
-        });
-    </script>
+  <script type="text/javascript">
+      $('#saveForm').on('click', function() {
+          $("#form").submit();
+      });
+  </script>
+
+  <script type="module">
+    import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+    $(document).ready(function(){
+      let modulo="m_formulacion";
+      let menu="m_organizacion";
+      let opcion="m_unidades_ejecutoras";
+      activeMenu(modulo, menu, opcion);
+    });
+  </script>
 {% endblock script %}

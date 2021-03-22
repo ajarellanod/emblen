@@ -46,6 +46,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             let sumas = {};
+            let total_general = 0;
             $('.suma-monto').each(function(){
                 if (sumas[$(this).attr("suma-id")]) {
                     sumas[$(this).attr("suma-id")] = Math.round(((sumas[$(this).attr("suma-id")] + parseFloat($(this).text())) + Number.EPSILON) * 100) / 100;
@@ -55,12 +56,18 @@
             });
 
             for (let key in sumas) {
-              $(`#suma-id-${key}`).text(sumas[key])
+              total_general = total_general + sumas[key];
+              $(`#suma-id-${key}`).text(sumas[key]);
+              $(`#suma-id-${key}`).text( parseFloat($(`#suma-id-${key}`).text()).toFixed(2)  );
             }
 
             $('.monto').each(function(){
-                $(this).text(textToCurrency($(this).text()));
+                $(this).text(textToCurrency($(this).text().replace(",", ".")));
             });
+
+            $(`#total-general`).text(total_general);
+            $(`#total-general`).text( textToCurrency( parseFloat($(`#total-general`).text()).toFixed(2) ) );
+            
         });
     </script>
     {% block script %}{% endblock script %}

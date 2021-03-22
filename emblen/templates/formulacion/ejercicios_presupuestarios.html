@@ -31,6 +31,8 @@
         </div>
       </div>
       <!-- Light table -->
+      <input type="hidden" value="{{ opcion }}">
+
       <div class="table-responsive" id="tablaPartidas">
         <table class="table align-items-center table-hover" >
           <thead class="thead-light">
@@ -49,9 +51,13 @@
                 <th scope="row" class="nivel text-center">
                   <div class="media align-items-center">
                     <div class="media-body">
-                      <a href="{% url 'formulacion:v_ejercicio_presupuestario' ejercicio.id %}">
+                      {% if ejercicio.condicion == 0 %}
+                        <a href="{% url 'formulacion:v_ejercicio_presupuestario' ejercicio.id %}">
+                          <span class="name mb-0 text-sm">{{ ejercicio.anio }}</span>
+                        </a>
+                      {% else %}
                         <span class="name mb-0 text-sm">{{ ejercicio.anio }}</span>
-                      </a>
+                      {% endif %}
                     </div>
                   </div>
                 </th>
@@ -63,12 +69,21 @@
                 </td>                
 
                 {% if perms.formulacion.delete_ejerciciopresupuestario %}
+
+
                 <td class="text-right">
-                  <a href="{% url 'formulacion:e_ejercicio_presupuestario' ejercicio.id %}"
+                  {% if ejercicio.condicion == 0 %}
+                    <a href="{% url 'formulacion:v_ejercicio_presupuestario' ejercicio.id %}" class="btn btn-sm btn-default">
+                      <span class="name mb-0 text-sm">Ejecutar</span>
+                    </a>
+                  {% endif %}
+
+                  <!-- <a href="{% url 'formulacion:e_ejercicio_presupuestario' ejercicio.id %}"
                   class="btn btn-sm btn-default">
                     Eliminar
-                  </a>
+                  </a> -->
                 </td>
+
                 {% endif %}
               </tr>
             {% endfor %}
@@ -81,3 +96,15 @@
   </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+<script type="module">
+  import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+  $(document).ready(function(){
+    let modulo="m_formulacion";
+    let menu="m_Ejercicio";
+    let opcion="m_anio_ejercicios";
+    activeMenu(modulo, menu, opcion);
+  });
+</script>
+{% endblock script %}

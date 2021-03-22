@@ -18,6 +18,7 @@ class EjercicioPresupuestarioListView(EmblenPermissionsMixin, ListView):
     paginate_by = 8
 
 
+
 class EjercicioPresupuestarioCreateView(EmblenPermissionsMixin, EmblenFormView):
     permissions = {"all": ("formulacion.add_ejerciciopresupuestario",)}
     template_name = "formulacion/crear_ejercicio_presupuestario.html"
@@ -37,10 +38,15 @@ class EjercicioPresupuestarioView(EmblenPermissionsMixin, EmblenFormView):
     update_form = True
     success_url = "formulacion:ejercicios_presupuestarios"
 
-    def form_valid(self, form):
-        ejercicio_presupuestario = form.save(commit=False)
-        EjercicioPresupuestario.objects.filter(anio>= (form.anio)-2).update({'condicion':3})
-        return super().form_valid(ejercicio_presupuestario)
+
+    def get_data(self, data, instance):
+        new_data = data.copy()
+        new_data.update({"condicion": 1})     
+        return super().get_data(new_data, instance)
+
+    # def form_valid(self, form):
+    #     ejercicio_presupuestario = form.save(commit=False)
+    #     return super().form_valid(ejercicio_presupuestario)
 
 
 class EjercicioPresupuestarioDeleteView(EmblenPermissionsMixin, EmblenDeleteView):

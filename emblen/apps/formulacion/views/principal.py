@@ -34,4 +34,8 @@ class PrincipalView(LoginRequiredMixin, EmblenView):
             ).aggregate(Max('id'))
 
         max_especifica = Programa.objects.filter(id = max_especifica1['id__max'])
-        return {'anio_ejercicio': anio_ejercicio, 'anio_formulacion': anio_formulacion, 'proyectos': proyectos, 'acc_centralizadas': acc_centralizadas, 'acc_esp_proyectos': acc_esp_proyectos, 'acc_esp_acc_centralizadas': acc_esp_acc_centralizadas, 'max_proyecto': max_proyecto, 'max_especifica': max_especifica}
+
+        anios = EjercicioPresupuestario.objects.filter(condicion__in=[0,1,2]).order_by("-anio")
+
+        
+        return {"anios": anios, 'anio_ejercicio': anio_ejercicio, 'anio_formulacion': anio_formulacion, 'proyectos': proyectos, 'acc_centralizadas': acc_centralizadas, 'acc_esp_proyectos': acc_esp_proyectos, 'acc_esp_acc_centralizadas': acc_esp_acc_centralizadas, 'max_proyecto': max_proyecto, 'max_especifica': max_especifica}

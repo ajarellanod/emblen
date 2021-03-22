@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col">
                     <table class="table">
-                        <tbody class="project">
+                        <thead class="project">
                             <tr>
                                 <td><strong>Sector</strong></td>
                                 <td>
@@ -96,7 +96,7 @@
                                     {{ especifica.centro_costo.nombre }}
                                 </td>
                             </tr>
-                        </tbody>
+                        </thead>
                     </table>
                 </div>
             </div>
@@ -148,4 +148,19 @@
         </div>
         <hr><!-- Divider -->
     {% endfor %}
+            <table class="table">
+               
+                <tbody>
+                    <tr>
+                        <td colspan="9" class="text-right" width="70%">&nbsp;</td>
+                        <td class="text-right">
+                            <strong>
+                                Monto Total General:
+                            </strong>
+                        </td>
+                        <td class="text-right monto" id="total-general"></td>
+                    </tr>
+                </tbody>
+            </table>
+
 {% endblock body %}

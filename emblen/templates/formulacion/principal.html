@@ -1,5 +1,7 @@
 {% extends 'formulacion/_base.html' %}
 
+{% load static %}
+
 {% load widget_tweaks %}
 
 {% block title %}
@@ -97,8 +99,10 @@
       <div class="card-body">
         <div class="row">
           <div class="col">
-            <h5 class="card-title text-uppercase text-muted mb-0">Ingresos</h5>
-            <span class="h2 font-weight-bold mb-0">1.000.000,00</span>
+            <h5 class="card-title text-uppercase text-muted mb-0">A Ejecutar</h5>
+            <span class="h2 font-weight-bold mb-0">
+              11111111111
+            </span>
           </div>
           <div class="col-auto">
             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -106,9 +110,13 @@
             </div>
           </div>
         </div>
-        <p class="mt-3 mb-0 text-sm">
-          <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 12%</span>
-          <span class="text-nowrap">Ejecutado</span>
+        <p class="mt-2 mb-0 text-sm">
+          <span class="text-success mr-2"><i class="fa fa-arrow-right"></i> Ejercicio a Ejecutar</span>
+          <span class="h3">
+            {% for formulado in anio_formulacion %}
+              {{ formulado.anio }}
+            {% endfor %}
+          </span>
         </p>
       </div>
     </div>
@@ -217,3 +225,15 @@
     </div>
   </div>
 {% endblock body %}
+
+{% block script %}
+  <script type="module">
+    import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+    $(document).ready(function(){
+      let modulo="m_formulacion";
+      let menu="";
+      let opcion="";
+      activeMenu(modulo, menu, opcion);
+    });
+  </script>
+{% endblock script %}

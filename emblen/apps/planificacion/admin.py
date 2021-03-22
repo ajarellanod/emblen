@@ -2,11 +2,13 @@ from django.contrib import admin
 
 from .models import (
     TipoModificacion,
-    Modificacion,
+    ModificacionIngreso,
+    ModificacionGasto,
     AcumuladosPresupuestario
 )
 
 # Register your models here.
 admin.site.register(TipoModificacion)
-admin.site.register(Modificacion)
+admin.site.register(ModificacionIngreso)
+admin.site.register(ModificacionGasto)
 admin.site.register(AcumuladosPresupuestario)
