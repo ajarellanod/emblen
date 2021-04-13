@@ -7,7 +7,9 @@ from django.core.exceptions import NON_FIELD_ERRORS
 
 from apps.base.models import EmblenBaseModel
 
-from apps.formulacion.models import PartidaAccionInterna,Partida
+from apps.formulacion.models import PartidaAccionInterna, IngresoPresupuestario
+
+from apps.nucleo.models import MovimientoGasto
 
 
 class TipoModificacion(EmblenBaseModel):
@@ -38,7 +40,7 @@ class TipoModificacion(EmblenBaseModel):
     
     afectacion = models.CharField(max_length=1, choices=TIPO_AFECTACION)
     
-    tipo_modificacion = models.CharField(max_length=1, choices=TIPO_MODIFICACION, null=True)
+    tipo_modificacion = models.CharField(max_length=1, choices=TIPO_MODIFICACION)
 
     def __str__(self):
         return self.nombre
@@ -60,11 +62,13 @@ class ModificacionIngreso(EmblenBaseModel):
     ELABORADO = 0
     VERIFICADO = 1
     ANULADO = 2
+    REVERSADO = 3
 
     ESTATUS_INGRESO = (
         (ELABORADO, "Elaborado"),
         (VERIFICADO, "Verificado"),
-        (ANULADO, "Anulado"),
+        (ANULADO, "Anulado"),  
+        (REVERSADO, "Reversado"),  
     )
 
     anio = models.CharField(max_length=4)
@@ -97,8 +101,8 @@ class ModificacionIngreso(EmblenBaseModel):
 
     monto = models.DecimalField(max_digits=22,decimal_places=2)
 
-    partida = models.ForeignKey(
-        Partida,
+    ingreso_presupuestario = models.ForeignKey(
+        IngresoPresupuestario,
         related_name="modificaciones_ingresos",
         on_delete=models.PROTECT
     )
@@ -132,6 +136,14 @@ class ModificacionIngreso(EmblenBaseModel):
         blank=True
     ) 
 
+    reversor = models.ForeignKey(
+        User,
+        related_name="r_modificaciones_ingresos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    ) 
+
     def __str__(self):
         return self.numero
 
@@ -147,18 +159,16 @@ class ModificacionGasto(EmblenBaseModel):
     ELABORADA = 0
     VERIFICADA = 1
     ANULADA = 2
+    REVERSADA = 3
 
     ESTATUS_GASTO = (
         (ELABORADA, "Elaborada"),
         (VERIFICADA, "Verificada"),
-        (ANULADA, "Anulada"),
+        (ANULADA, "Anulada"), 
+        (REVERSADA, "Reversada"), 
     )
 
-    anio = models.CharField(max_length=4)
-
     fecha = models.DateField()
-    
-    periodo = models.CharField(max_length=2)
 
     numero = models.IntegerField()
 
@@ -176,17 +186,11 @@ class ModificacionGasto(EmblenBaseModel):
         blank=True
     )
 
-    partida_accioninterna = models.ForeignKey(
-        PartidaAccionInterna,
+    movimiento_gasto = models.ForeignKey(
+        MovimientoGasto,
         related_name="modificaciones_gastos",
         on_delete=models.PROTECT
     )
-
-    documento_referenciado = models.IntegerField(null=True, blank=True) #Sólo si viene de una orden de pago
-    
-    monto = models.DecimalField(max_digits=22,decimal_places=2)
-
-    saldo = models.DecimalField(max_digits=22,decimal_places=2, null=True, blank=True)#Sólo si viene de una orden de pago
 
     descripcion = models.CharField(max_length=300)
 
@@ -214,6 +218,14 @@ class ModificacionGasto(EmblenBaseModel):
     anulador = models.ForeignKey(
         User,
         related_name="a_modificaciones_gastos",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    ) 
+
+    reversor = models.ForeignKey(
+        User,
+        related_name="r_modificaciones_gastos",
         on_delete=models.PROTECT,
         null=True,
         blank=True

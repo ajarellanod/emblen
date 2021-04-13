@@ -59,8 +59,8 @@ admin.site.register(models.TipoOrganismo)
 
 admin.site.register(models.AccionInterna)
 
-admin.site.register(models.PartidaAccionInterna)
+admin.site.register(models.IngresoPresupuestario)
 
-admin.site.register(models.Publicacion)
+admin.site.register(models.PartidaAccionInterna)
 
 admin.site.register(models.EjercicioPresupuestario)

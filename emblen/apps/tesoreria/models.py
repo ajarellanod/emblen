@@ -17,7 +17,8 @@ from apps.formulacion.models import (
 )
 
 from apps.contabilidad.models import (
-    CuentaContable
+    CuentaContable,
+    AsientoContable
 )
 
 from apps.ejecucion.models import (
@@ -25,7 +26,8 @@ from apps.ejecucion.models import (
 )
 
 from apps.compras.models import (
-    Beneficiario
+    Beneficiario,
+    Contrato
 )
 
 class Banco(EmblenBaseModel):
@@ -173,7 +175,6 @@ class CuentaBeneficiario(EmblenBaseModel):
         verbose_name_plural = "Cuentas Bancarias de Beneficiarios"
 
 
-
 class TipoImpuesto(EmblenBaseModel):
     """ Se guardarán los Tipos de Impuestos"""
 
@@ -217,10 +218,35 @@ class ImpuestoBeneficiario(EmblenBaseModel):
 
     def __str__(self):
         # return  self.rif
-        return '%s - %s' %(self.rif,self.razon_social) 
+        return '%s - %s' %(self.beneficiario,self.tipo_impuesto) 
 
     class Meta:
-        verbose_name_plural = "Beneficiarios"
+        verbose_name_plural = "Impuestos de Beneficiarios"
+
+
+class ImpuestoContrato(EmblenBaseModel):
+    """Impuestos de Contratos """
+
+    contrato = models.ForeignKey(
+        Contrato,
+        related_name="impuestos_contratos",
+        on_delete=models.PROTECT
+    )
+
+    tipo_impuesto = models.ForeignKey(
+        TipoImpuesto,
+        related_name="impuestos_contratos",
+        on_delete=models.PROTECT
+    )
+
+    porcentaje = models.DecimalField(max_digits=22,decimal_places=4)
+
+    def __str__(self):
+        return '%s - %s' %(self.contrato,self.tipo_impuesto) 
+
+    class Meta:
+        verbose_name_plural = "Retenciones de Contratos"
+
 
 class Pago(EmblenBaseModel):
     """ Se guardarán los Pagos realizados"""
@@ -247,6 +273,12 @@ class RetencionDeduccion(EmblenBaseModel):
     #NO LA TOMES EN CUENTA
     #NO ES TAN NECESARIA HASTA EL MOMENTO, PODEMOS DADOP EL CASO QUE SE NECESITE PARA ALGO MÁS SE PUEDE CREAR UNA VISTA
     #CON LA CONSULTA REQUERIDA DE LA TABLA DE DETALLES DE ORDENES DE PAGO 
+
+    asiento_contable = models.ForeignKey(
+        AsientoContable,
+        related_name="retenciones_deducciones",
+        on_delete=models.PROTECT
+    ) 
 
     orden_pago = models.ForeignKey(
         OrdenPago,

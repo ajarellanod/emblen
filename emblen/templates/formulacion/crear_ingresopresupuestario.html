@@ -1,0 +1,204 @@
+{% extends 'formulacion/_base.html' %}
+
+{% load static %}
+
+{% block head %}
+  <style type="text/css">
+    .form-control[readonly] {
+      background-color: white!important;
+    }
+  </style>
+{% endblock head %}
+
+{% block title %} Crear Estimación {% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'formulacion:principal' %}">
+      Formulación
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    {% for accion in acciones %}
+    <a href="{% url 'formulacion:v_accion_especifica' accion.id %}">
+      Acciones Especificas
+    </a>
+    {% endfor %}
+  </li>
+  <li class="breadcrumb-item">
+    <a href="#">
+      Estimaciones
+    </a>
+  </li>
+{% endblock breadcrumb %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Crear Estimación</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#" class="btn btn-sm btn-primary" id="queryButton" url="{% url 'formulacion:estimacion' %}" token="{{ csrf_token }}" callback="true">
+                Crear
+              </a>
+              {% for accion in acciones %}
+              <a href="{% url 'formulacion:v_accion_especifica' accion.id %}" class="btn btn-sm btn-default">Cancelar</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- <h6 class="heading-small text-muted mb-4">Estimar</h6> -->
+          <div class="pl-lg-4">
+            <div class="row">
+            </div>
+            <form method="POST" action="." id="form">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_anio">Año</label>
+                    {% for formulado in anio_ejercicio %}
+                      <input type="text" id="id_anio" value="{{formulado.anio}}" readonly maxlength="4" name="anio" class="form-control queryInput" autocomplete="off">
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Accion Especifica</label>
+                    <select class="form-control queryInput" data-toggle="select" data-minimum-results-for-search="Infinity" id="id_accion_especifica" 
+                    name="accion_especifica">
+                      {% for accion in acciones %}
+                        <option value="{{accion.id}}">{{accion.codigo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_cuenta">Seleccione Partida</label>
+                    <select class="form-control queryInput" data-toggle="select" id="id_partida" name="partida">
+                      <option>--------------------</option>
+                      {% for partida in partidas %}
+                        <option value="{{partida.id}}">{{partida.cuenta}} - {{partida.descripcion}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_monto">Monto</label>
+                    <input type="text" placeholder="Ingrese Saldo" class="form-control inputCurrency queryInputCurrency" name="monto" id="id_monto">
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header border-0">
+          <h3 class="mb-0" style="display: inline;">Estimaciones de Acción Especifica:
+            {% for accion in acciones %}
+              {{accion.codigo}}
+            {% endfor %}
+         </h3>
+ 
+            <a href="javascript:document.location.reload();" title="Recargar Opciones" class="btn btn-sm btn-primary float-right" >
+              <i class="fas fa-redo-alt"></i>
+            </a>
+        </div><!-- Light table -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="text-center" width="50%">Partida</th>
+                <th scope="col" class="text-center" width="40%">Monto</th>
+                <th scope="col"><i class="fas fa-cogs"></i> </th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              {% for estimacion in estimacion %}
+                <tr>
+                  <th><input type="text" readonly value="{{ estimacion.partida }}" class="form-control input-tablas "></th>
+                  <th><input type="text" readonly value="{{ estimacion.monto }}" class="form-control input-tablas inputCurrency text-right"> </th>
+                  <td class="text-right">
+                    <a href="{% url 'formulacion:e_estimacion' estimacion.id %}"
+                    class="btn btn-sm btn-default" title="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+
+                  </td>
+                </tr>
+              {% empty %}
+                <tr id="ninguna">
+                  <th colspan="4">
+                    No tiene Estimaciones
+                  </th>
+                </tr>                
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="card-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+{% block script %}
+  <script type="text/javascript">
+    // HTML Objects
+    // $("#id_anio").datepicker({
+    //   format: "yyyy",
+    //   viewMode: "years", 
+    //   minViewMode: "years"
+    // });
+  </script>
+
+  <script>
+
+    var flag = true;
+    function callbackFunction(response){
+      if(flag){
+        $('#ninguna').hide();
+        flag = false;
+      }
+
+      let est = response.estimacion;
+      $('table > tbody:last-child').append(`
+        <tr>
+          <th><input type="text" readonly value="${est.codigo_partida}" class="form-control input-tablas "></th>
+          <td><input type="text" readonly value="${est.monto}" class="form-control input-tablas inputCurrency text-right"> </td>
+          <td class="text-right">
+                    <a href="${est.id}/eliminar"
+                    class="btn btn-sm btn-default" title="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+
+                  </td>
+        </tr>
+      `);
+    }
+  </script>
+{% endblock script %}

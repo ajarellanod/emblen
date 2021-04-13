@@ -1,0 +1,110 @@
+{% extends 'formulacion/_base.html' %}
+
+{% load static %}
+
+{% block title %}
+  Lista de Ingresos Presupuestarios
+{% endblock title %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'formulacion:principal' %}">Formulación</a></li>
+  <li class="breadcrumb-item"><a href="#">Ingresos Presupuestarios</a></li>
+{% endblock breadcrumb %}
+
+{% block body %}
+<div class="row">
+  <!-- Light table -->
+  <div class="col">
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col-6">
+            <h3 class="mb-0">Ingresos Presupuestarios</h3>
+          </div>
+          <div class="col-6 text-right">
+            <a id="btn_partidaNew" href="{% url 'formulacion:c_ingreso' %}" 
+            class="btn btn-sm btn-primary">
+              Crear Ingreso
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Light table -->
+      <input type="hidden" value="{{ opcion }}">
+
+      <div class="table-responsive" id="tablaPartidas">
+        <table class="table align-items-center table-hover" >
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class="sort text-center">Año</th>
+              <th scope="col" class="sort text-center">Condición</th>
+              <th scope="col" class="sort text-center">Creación</th>
+              {% if perms.formulacion.delete_ejerciciopresupuestario %}
+              <th scope="col" class="text-center" style="width:5%;"><i class="fas fa-cogs"></i></th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for ejercicio in page_obj %}
+              <tr>
+                <th scope="row" class="nivel text-center">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      {% if ejercicio.condicion == 0 %}
+                        <a href="{% url 'formulacion:v_ingreso' ejercicio.id %}">
+                          <span class="name mb-0 text-sm">{{ ejercicio.anio }}</span>
+                        </a>
+                      {% else %}
+                        <span class="name mb-0 text-sm">{{ ejercicio.anio }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </th>
+                <td class="text-center">
+                    {{ ejercicio.condiciones }}
+                  </td>
+                <td class="text-center" >
+                    {{ ejercicio.creado }}
+                </td>                
+
+                {% if perms.formulacion.delete_ingresopresupuestario %}
+
+
+                <td class="text-right">
+                  {% if ejercicio.condicion == 0 %}
+                    <a href="{% url 'formulacion:v_ingreso' ejercicio.id %}" class="btn btn-sm btn-default">
+                      <span class="name mb-0 text-sm">Ejecutar</span>
+                    </a>
+                  {% endif %}
+
+                  <!-- <a href="{% url 'formulacion:e_ejercicio_presupuestario' ejercicio.id %}"
+                  class="btn btn-sm btn-default">
+                    Eliminar
+                  </a> -->
+                </td>
+
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- Card footer -->
+      {% include 'base/_paginador.html' %}  
+    </div>
+  </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script type="module">
+  import { activeMenu } from "{% static 'global/js/activeMenu.js' %}";
+  $(document).ready(function(){
+    let modulo="m_formulacion";
+    let menu="m_Ingreso";
+    let opcion="m_ingreso_carga";
+    activeMenu(modulo, menu, opcion);
+  });
+</script>
+{% endblock script %}

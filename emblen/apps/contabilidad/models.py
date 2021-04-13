@@ -7,18 +7,7 @@ from django.db.models import Max
 from apps.base.models import EmblenBaseModel
 from django.core.exceptions import NON_FIELD_ERRORS
 
-from apps.formulacion.models import (
-    Publicacion,
-    PartidaAccionInterna
-)
-
-from apps.ejecucion.models import (
-    OrdenPago
-)
-
-# from apps.tesoreria.models import (
-#     Pago
-# )
+from apps.nucleo.models import Publicacion
 
 
 class CuentaContable(EmblenBaseModel):
@@ -79,7 +68,7 @@ class CuentaContable(EmblenBaseModel):
         return self.cuenta
 
 
-class Comprobante(EmblenBaseModel):
+# class Comprobante(EmblenBaseModel):
     """ se guardarán todos los Comprobantes - es como una tabla resumen con comprobante y monto por mes"""
     periodo = models.CharField(max_length=2)
 
@@ -105,6 +94,17 @@ class AsientoContable(EmblenBaseModel):
     """  Aquí va todo lo de la orden, partida a las cuales afecte (comienzan por 4)
     cuentas contables (comienzan con 2) del beneficiario que va a recibir (que es la contraparte de la partidas de gasto)
      y las deducciones (que son las contrapartes de partida de gasto de Impuesto al valor agregado)"""
+    
+
+    AFECTACION = 1        #ejecucion.AfectacionPresupuestaria
+    RETENCIONDEDUCCION = 2       #tesoreria.RetencionDeduccion
+    LIBROS = 3       #tesoreria.LIBROS 
+
+    TIPO_ASIENTO = (
+        (AFECTACION, "Afectacion"),
+        (RETENCIONDEDUCCION, "Retención / Deducción"),
+        (LIBROS, "Libros")
+    )
 
     DEBITO = 'D'
     CREDITO = 'C'
@@ -114,20 +114,16 @@ class AsientoContable(EmblenBaseModel):
         (CREDITO, "Crédito")
     )
 
-    orden_pago = models.ForeignKey(
-        OrdenPago,
-        related_name="asientos_contables",
-        on_delete=models.PROTECT
+    anio = models.CharField(max_length=4)
+
+    fecha = models.DateField()
+
+    tipo_asiento = models.IntegerField(
+        choices=TIPO_ASIENTO
     )
 
     cuenta_contable = models.ForeignKey(
         CuentaContable,
-        related_name="asientos_contables",
-        on_delete=models.PROTECT
-    )
-
-    partida = models.ForeignKey(
-        PartidaAccionInterna,
         related_name="asientos_contables",
         on_delete=models.PROTECT
     )
@@ -147,18 +143,6 @@ class AsientoContable(EmblenBaseModel):
     ) # D = Debido o C = Credito
 
     monto = models.DecimalField(max_digits=22,decimal_places=4) #Monto por la partida o cuenta
-    
-    saldo = models.DecimalField(max_digits=22,decimal_places=4) #Monto pendiente por pagar de la deducción
-    #el saldo queda en 0 posteriormente que en Tesorería realizan el pago
-
-    # pago = models.ForeignKey(
-    #     Pago,
-    #     related_name="asientos_contables",
-    #     on_delete=models.PROTECT,
-    #     null=True
-    # )# Id del pago
-
-    fecha = models.DateField()
 
     def __str__(self):
         return self.descripcion

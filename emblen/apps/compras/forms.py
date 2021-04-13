@@ -9,9 +9,9 @@ from apps.compras.models import (
     TipoContrato,
     Contrato,
     BeneficiarioContrato,
-    PartidaContrato,
-    TipoCompromiso,
-    Compromiso
+    ContratoPartida,
+    TipoOrden,
+    Orden
 )
 
 
@@ -27,9 +27,9 @@ class BeneficiarioForm(forms.ModelForm):
         fields = "__all__"
 
 
-class CompromisoForm(forms.ModelForm):
+class OrdenForm(forms.ModelForm):
     class Meta:
-        model = Compromiso
+        model = Orden
         fields = "__all__"
 
 class DocumentoPagarForm(forms.ModelForm):

@@ -6,6 +6,8 @@ from django.db.models import Max
 
 from apps.base.models import EmblenBaseModel
 
+from apps.nucleo.models import Publicacion
+
 
 class Sector(EmblenBaseModel):
 
@@ -826,23 +828,6 @@ class AccionEspecifica(EmblenBaseModel):
         verbose_name_plural = "Acciones Especificas"
 
 
-class Publicacion(EmblenBaseModel):
-    """ 
-    Almanecena las Publicaciones de Ley
-    """
-    codigo = models.IntegerField()
-
-    descripcion = models.CharField(max_length=100)
-
-    anio = models.CharField(max_length=4)
-
-    class Meta:
-        verbose_name_plural = "Publicaciones"
-
-    def __str__(self):
-        return str(self.codigo)
-
-
 class Partida(EmblenBaseModel):
     """ 
     Almanecena las partidas presupuestarias de Recursos y Egresos.
@@ -862,13 +847,6 @@ class Partida(EmblenBaseModel):
     descripcion = models.TextField(max_length=100)
 
     nivel = models.IntegerField()
-
-    saldo = models.DecimalField(
-        max_digits=22,
-        decimal_places=2,
-        null=True,
-        blank=True
-    )
 
     publicacion = models.ForeignKey(
         Publicacion,
@@ -900,9 +878,7 @@ class Partida(EmblenBaseModel):
     class Meta:
         ordering = ('-creado',)
         verbose_name_plural = "Partidas"
-
-
-       
+     
 
 class Estimacion(EmblenBaseModel):
 
@@ -1042,6 +1018,33 @@ class AccionInterna(EmblenBaseModel):
 
     class Meta:
         verbose_name_plural = "Acciones Internas"
+
+
+class IngresoPresupuestario(EmblenBaseModel):
+    
+    # Sólo partidas de Ingresos (3)
+    partida = models.ForeignKey(
+        Partida,
+        related_name="ingresos_presupuestarios",
+        on_delete=models.PROTECT
+    )
+
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
+    
+    anio = models.CharField(max_length=4) #Oño en formulación
+
+    class Meta:
+        verbose_name_plural = "Ingresos Presupuestarios"
+        unique_together = (("partida", "anio"),)
+
+    def __str__(self):
+        return partida
+        
+    def save(self, *args, **kwargs):
+        if self.partida.cuenta[0:1] == 3:
+            super(IngresoPresupuestario, self).save(*args, **kwargs)
+        else:
+            raise ValueError("La Partida debe ser una cuenta de INGRESOS (3.00.00.00.00.000)")
 
 
 class PartidaAccionInterna(EmblenBaseModel):

@@ -8,9 +8,7 @@ from apps.base.models import EmblenBaseModel
 from django.core.exceptions import NON_FIELD_ERRORS
 
 
-from apps.formulacion.models import (
-    PartidaAccionInterna
-)
+from apps.nucleo.models import MovimientoGasto
 
 from apps.contabilidad.models import (
     CuentaContable
@@ -33,12 +31,6 @@ class TipoBeneficiario(EmblenBaseModel):
     abreviacion = models.CharField(max_length=3)
 
     descripcion = models.CharField(max_length=100)
-
-    # tipo_orden_pago = models.ForeignKey(
-    #     TiposOrdenPago,
-    #     related_name="tipo_beneficiario",
-    #     on_delete=models.PROTECT
-    # )
 
     cuenta_contable = models.ForeignKey(
         CuentaContable,
@@ -134,6 +126,9 @@ class TipoDocumento(EmblenBaseModel):
     nombre = models.CharField(max_length=100)
     # 1 debe ser FACTURA codigo FACT
     # 2 debe ser RECIBO codigo RECB
+    # 3 debe ser ORDEN DIRECTA ESPECIAL codigo ORDE
+    # 4 debe ser ANTICIPIO codigo ANTI
+    # 5 debe ser VALUACION codigo VALU
 
     descripcion = models.CharField(max_length=200)
 
@@ -184,8 +179,8 @@ class DocumentoPagar(EmblenBaseModel):
         default=CREDITO
     )
 
-    compromiso = models.ForeignKey(
-        "Compromiso",
+    orden = models.ForeignKey(
+        "Orden",
         related_name="documentos_pagar",
         on_delete=models.PROTECT,
         null=True
@@ -325,6 +320,14 @@ class Contrato(EmblenBaseModel):
         blank=True,
     ) #Sólo se llena si es un addemdum ya que tendría que referenciar al contrato al que va a incrementar
 
+    anticipo = models.BooleanField(default=False)
+
+    porcentaje_anticipo = models.FloatField(null=True)
+
+    valuacion = models.BooleanField(default=False)
+
+    cantidad_valuacion = models.IntegerField(null=True)
+
     #Hay que crear la estructura para llevar el historial de cada ejecución dentro del sistema 
     # Por ejemplo aquí hay que saber cual usuario elabora, verifica, cuando lo hace. 
 
@@ -358,7 +361,7 @@ class BeneficiarioContrato(EmblenBaseModel):
         verbose_name_plural = "Beneficiarios de Contratos"
 
 
-class PartidaContrato(EmblenBaseModel):
+class ContratoPartida(EmblenBaseModel):
     """Partidas de Contratos """
 
     #Pueden existir 2 diferentes contratos, con las mismas partidas y en el mismo año
@@ -369,13 +372,13 @@ class PartidaContrato(EmblenBaseModel):
 
     contrato = models.ForeignKey(
         Contrato,
-        related_name="partidas_contratos",
+        related_name="contratos_partidas",
         on_delete=models.PROTECT
     )
 
-    partida_accioninterna = models.ForeignKey(
-        PartidaAccionInterna,
-        related_name="partidas_contratos",
+    movimiento_gasto = models.ForeignKey(
+        MovimientoGasto,
+        related_name="contratos_partidas",
         on_delete=models.PROTECT
     )
 
@@ -383,12 +386,66 @@ class PartidaContrato(EmblenBaseModel):
         return self.contrato
 
     class Meta:
-        verbose_name_plural = "Beneficiarios de Contratos"
-        unique_together = (("partida_accioninterna", "anio"),)
+        verbose_name_plural = "Partidas de Contratos"
+
+
+class AnticipoContrato(EmblenBaseModel):
+    """Anticipos de Contratos """
+
+    anio = models.CharField(max_length=4)
+
+    contrato = models.ForeignKey(
+        Contrato,
+        related_name="anticipos_contratos",
+        on_delete=models.PROTECT
+    )
+
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
+
+    orden_pago = models.ForeignKey(
+        OrdenPago,
+        related_name="anticipos_contratos",
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.contrato
+
+    class Meta:
+        verbose_name_plural = "Anticipos de Contratos"
+
+
+class ValuacionContrato(EmblenBaseModel):
+    """Valuaciones de Contratos """
+
+    anio = models.CharField(max_length=4)
+
+    contrato = models.ForeignKey(
+        Contrato,
+        related_name="valuaciones_contratos",
+        on_delete=models.PROTECT
+    )
+
+    numero = models.IntegerField()
+
+    monto = models.DecimalField(max_digits=22,decimal_places=2)
+
+    orden_pago = models.ForeignKey(
+        OrdenPago,
+        related_name="valuaciones_contratos",
+        on_delete=models.PROTECT,
+        null=True
+    )
+    
+    def __str__(self):
+        return self.contrato
+
+    class Meta:
+        verbose_name_plural = "Valuaciones de Contratos"
 
  
-class TipoCompromiso(EmblenBaseModel):
-    """ se guardarán los Tipos de compromisos """
+class TipoOrden(EmblenBaseModel):
+    """ se guardarán los Tipos de ordenes """
     #Orden de Compra = COC
     #Orden de Servicio = COS
     #Orden de Materiales y Suministros =  COM
@@ -402,45 +459,94 @@ class TipoCompromiso(EmblenBaseModel):
         return self.descripcion
 
     class Meta:
-        verbose_name_plural = "Tipos de Compromisos"
+        verbose_name_plural = "Tipos de Ordenes"
 
 
-class Compromiso(EmblenBaseModel):
+class Orden(EmblenBaseModel):
     """ se guardarán los compromisos o llmadas ordenes de (compras, servicios y de Pago *Directa Especial*)  creados"""
+    
+    ELABORADA = 0
+    VERIFICADA = 1
+    ANULADA = 2
+    PAGADA = 3
+    REVERSADA = 4
+
+    ESTATUS_ORDEN = (
+        (ELABORADA, "Elaborada"),
+        (VERIFICADA, "Verificada"),
+        (ANULADA, "Anulada"),
+        (PAGADA, "Pagada"),
+        (REVERSADA, "Reversada")
+    )
 
     anio = models.CharField(max_length=4)
 
-    codigo = models.CharField(max_length=6) # correlativo POR TIPO de compromiso - Reinicia por año
+    codigo = models.CharField(max_length=6) # correlativo POR TIPO de orden - Reinicia por año
 
-    tipo_compromiso = models.ForeignKey(
-        TipoCompromiso,
-        related_name="compromisos",
+    tipo_orden = models.ForeignKey(
+        TipoOrden,
+        related_name="ordenes",
         on_delete=models.PROTECT
     )
 
-    fecha = models.DateField() #Fecha Creación del Compromiso
-
+    fecha = models.DateField() #Fecha Creación de la orden
 
     orden_pago = models.ForeignKey(
         OrdenPago,
-        related_name="compromisos",
+        related_name="ordenes",
         on_delete=models.PROTECT,
         null=True
-    ) # id del beneficiario sacamos aqui tambien al resposable
+    )
 
     beneficiario = models.ForeignKey(
         Beneficiario,
-        related_name="compromisos",
+        related_name="ordenes",
         on_delete=models.PROTECT
     ) # id del beneficiario sacamos aqui tambien al resposable
 
-    descripcion = models.CharField(max_length=300) #del compromiso
+    descripcion = models.CharField(max_length=300) #de la orden
 
-    monto = models.DecimalField(max_digits=22,decimal_places=4) #monto total del compromiso
+    monto = models.DecimalField(max_digits=22,decimal_places=4) #monto total de la orden
 
-    saldo = models.DecimalField(max_digits=22,decimal_places=4) #Monto que queda pendiente del compromiso
+    saldo = models.DecimalField(max_digits=22,decimal_places=4) #Monto que queda pendiente de la orden
 
-    monto_transito = models.DecimalField(max_digits=22,decimal_places=4) #Monto que queda en transito del compromiso
+    monto_transito = models.DecimalField(max_digits=22,decimal_places=4) #Monto que queda en transito de la orden
+
+    estatus = models.IntegerField(
+        "Estatus Orden", 
+        choices=ESTATUS_ORDEN,
+        default=ELABORADA
+    )
+
+    elaborador = models.ForeignKey(
+        User,
+        related_name="elaborador_ordenes",
+        on_delete=models.PROTECT
+    )
+
+    verificador = models.ForeignKey(
+        User,
+        related_name="verificador_ordenes",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    anulador = models.ForeignKey(
+        User,
+        related_name="anulador_ordenes",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )  
+
+    reversor = models.ForeignKey(
+        User,
+        related_name="revisor_ordenes",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )    
 
     #Hay que crear la estructura para llevar el historial de cada ejecución dentro del sistema 
     # Por ejemplo aquí hay que saber cual usuario elabora, verifica, cuando lo hace. 
@@ -449,4 +555,37 @@ class Compromiso(EmblenBaseModel):
         return self.codigo
 
     class Meta:
-        verbose_name_plural = "Compromisos"
+        verbose_name_plural = "Ordenes"
+
+
+class Compromiso(EmblenBaseModel):
+    """ 
+    En este modelo se deben guardar los afectaciones
+    que se le vayan haciendo al presupuesto con las OP
+    """
+
+    anio = models.CharField(max_length=4)
+
+    fecha = models.DateField()
+    
+    periodo = models.CharField(max_length=2)
+
+    numero = models.CharField(max_length=10)
+
+    movimiento_gasto = models.ForeignKey(
+        MovimientoGasto,
+        related_name="compromisos",
+        on_delete=models.PROTECT
+    )
+
+    orden = models.ForeignKey(
+        Orden,
+        related_name="compromisos",
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return self.numero
+
+    class Meta:
+        verbose_name_plural = "Afectaciones Presupuestarias"

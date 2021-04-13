@@ -9,6 +9,9 @@ from .models import (
 
 # Register your models here.
 admin.site.register(TipoModificacion)
+
 admin.site.register(ModificacionIngreso)
+
 admin.site.register(ModificacionGasto)
+
 admin.site.register(AcumuladosPresupuestario)

@@ -10,14 +10,15 @@ from apps.formulacion.models import (
     AccionInterna,
     LineaPrograma,
     PlanDesarrollo,
-    EjercicioPresupuestario
+    EjercicioPresupuestario,
+    IngresoPresupuestario
 )
 
 
 class PartidaForm(forms.ModelForm):
     class Meta:
         model = Partida
-        fields = ("cuenta","descripcion", "saldo")
+        fields = ("cuenta","descripcion")
 
 
 class DepartamentoForm(forms.ModelForm):
@@ -30,7 +31,6 @@ class UnidadEjecutoraForm(forms.ModelForm):
     class Meta:
         model = UnidadEjecutora
         fields = "__all__"
-
 
 class CentroCostoForm(forms.ModelForm):
     class Meta:
@@ -67,7 +67,14 @@ class PlanDesarrolloForm(forms.ModelForm):
         model = PlanDesarrollo
         exclude = ("codigo", "auxiliar")
 
+
 class EjercicioPresupuestarioForm(forms.ModelForm):
     class Meta:
         model = EjercicioPresupuestario
         fields = ("anio","condicion")
+
+
+class IngresoPresupuestarioForm(forms.ModelForm):
+    class Meta:
+        model = IngresoPresupuestario
+        fields = "__all__"

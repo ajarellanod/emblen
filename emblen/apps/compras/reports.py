@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from apps.base.views import EmblenReport
 
-from apps.compras.models import Compromiso
+from apps.compras.models import Orden
 
 
 class OrdenCompraReport(LoginRequiredMixin, EmblenReport):

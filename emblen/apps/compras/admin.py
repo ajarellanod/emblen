@@ -19,8 +19,14 @@ admin.site.register(models.Contrato)
 
 admin.site.register(models.BeneficiarioContrato)
 
-admin.site.register(models.PartidaContrato)
+admin.site.register(models.ContratoPartida)
 
-admin.site.register(models.TipoCompromiso)
+admin.site.register(models.AnticipoContrato)
+
+admin.site.register(models.ValuacionContrato)
+
+admin.site.register(models.TipoOrden)
+
+admin.site.register(models.Orden)
 
 admin.site.register(models.Compromiso)
